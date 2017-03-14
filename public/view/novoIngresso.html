@@ -1,0 +1,77 @@
+
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Novo Ingresso</h4>
+                    </div>
+
+                    <div class="content">
+                        <form name="formIngresso" ng-controller="IngressoCadastroController as ingressoCtrl" ng-submit="submit()">
+                            
+                            <div class="form-group" ng-show="ingressoCtrl.msg" >
+                                    <pre>{{ingressoCtrl.msg}}</pre>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nome evento</label>
+                                        <input type="text" class="form-control border-input" disabled value="{{ingressoCtrl.novoIngresso.nomeEvento}}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificador cliente</label>
+                                        <input type="text" name="inputIdCliente" id="inputIdCliente" class="form-control border-input"  
+                                        ng-model="ingressoCtrl.novoIngresso.idCliente" required>
+                                        <span class="help-block has-error">
+                                            <span ng-show="formIngresso.inputIdCliente.$error.required">Id do cliente é obrigatório</span>
+
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Nome cliente</label>
+                                        <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input" placeholder="ex.: Samuel" ng-model="ingressoCtrl.novoIngresso.nomeCliente" required>
+                                        <span class="help-block has-error">
+                                            <span ng-show="formIngresso.inputNomeCliente.$error.required">Nome do cliente é obrigatório</span>
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Ingresso para acompanhante? Digite o nome do mesmo</label>
+                                        <input type="text" name="inputNomeAcompanhante" id="inputNomeAcompanhante" class="form-control border-input" placeholder="ex.: Maria" ng-model="ingressoCtrl.novoIngresso.acompanhante" >
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                            <div class="text-center">
+                                <button type="submit" ng-disabled="formIngresso.$invalid"  class="btn btn-info btn-fill btn-wd">Salvar</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+      
