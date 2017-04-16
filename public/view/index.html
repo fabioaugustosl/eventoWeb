@@ -15,7 +15,10 @@
 
     <!-- bower:css -->
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/lib/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="/lib/angularjs-datepicker/dist/angular-datepicker.css" />
     <!-- endbower -->
+
 
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/animate.min.css">
@@ -30,6 +33,7 @@
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
+    
 </head>
 <body>
 
@@ -41,36 +45,45 @@
 		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
 	-->
 
-    	<div class="sidebar-wrapper">
-            <div class="logo">
-                <a href="#" ng-click="goToDashboard()" class="simple-text">
-                    Meu Evento
-                </a>
+    	<div id="menuLateral" class="sidebar-wrapper" ng-show="evento">
+            <div class="logo" >
+                    <span  class="simple-text">Meu Evento</span>
+            </div>
+
+            <div class="logo" >
+                <a href="#" ng-show="evento" ng-click="goToDashboard()" style="margin: 5px; font-weight: bold;">{{evento.titulo}}</a>
             </div>
 
             <ul class="nav">
                 <li class="active">
                     <a href="#" ng-click="goToDashboard()">
-                        <i class="ti-panel"></i>
+                        <i class="glyphicon glyphicon-stats"></i>
+
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
                     <a href="#" ng-click="goToUser()">
-                        <i class="ti-user"></i>
+                        <i class="glyphicon glyphicon-user"></i>
                         <p>Pessoas</p>
                     </a>
                 </li>
                 <li>
                     <a href="#" ng-click="irParaIngressos()">
-                        <i class="ti-view-list-alt"></i>
+                        <i class="glyphicon glyphicon-tags"></i>
                         <p>Ingressos</p>
                     </a>
                 </li>
                 <li>
                     <a href="#" ng-click="irParaNovoIngresso()">
-                        <i class="ti-view-list-alt"></i>
+                        <i class="glyphicon glyphicon-tag"></i>
                         <p>Novo ingresso</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" ng-click="irParaConfigurarEvento()">
+                        <i class="glyphicon glyphicon-wrench"></i>
+                        <p>Configuração</p>
                     </a>
                 </li>
                 
@@ -78,26 +91,19 @@
     	</div>
     </div>
 
-    <div class="main-panel">
+    <div class="main-panel" id="painelPrincipal"  ng-show="evento">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
+
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle">
-                        <span class="sr-only">Navegação</span>
-                        <span class="icon-bar bar1"></span>
-                        <span class="icon-bar bar2"></span>
-                        <span class="icon-bar bar3"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">{{tituloPagina}}</a>
+                    
+                    <div class="navbar-brand" >{{tituloPagina}}  </div>  
+                    
                 </div>
+                
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="ti-panel"></i>
-								<p>Estatísticas</p>
-                            </a>
-                        </li>
+                        
                         <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="ti-bell"></i>
@@ -127,17 +133,10 @@
        <ng-view></ng-view>
 
 
-        <footer class="footer">
+        <footer class="footer" style="margin-top: 10px;">
             <div class="container-fluid">
                 <nav class="pull-left">
-                    <ul>
-
-                        <li>
-                            <a href="#">
-                                Home
-                            </a>
-                        </li>
-                    </ul>
+                   
                 </nav>
                 <div class="copyright pull-right">
                     &copy; <script>document.write(new Date().getFullYear())</script>, <i class="fa fa-heart heart"></i> by <a href="http://www.virtz.com.br">Virtz - Solucionar Web</a>
@@ -157,8 +156,20 @@
     <script src="/lib/jquery/dist/jquery.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="/lib/angular-route/angular-route.js"></script>
+    <script src="/lib/ngstorage/ngStorage.js"></script>
+    <script src="/lib/angular-animate/angular-animate.js"></script>
+    <script src="/lib/angular-aria/angular-aria.js"></script>
+    <script src="/lib/angular-messages/angular-messages.js"></script>
+    <script src="/lib/angular-material/angular-material.js"></script>
+    <script src="/lib/moment/moment.js"></script>
+    <script src="/lib/ngDatepicker/src/js/ngDatepicker.js"></script>
+    <script src="/lib/angular-moment/angular-moment.js"></script>
+    <script src="/lib/angularjs-datepicker/dist/angular-datepicker.js"></script>
     <!-- endbower -->
-
+    
+    <!--custons -->
+    <script src="/lib/moment/locale/pt-br.js"></script>
+    <script src="/lib/angular-i18n/angular-locale_pt-br.js"></script>
 
     <!-- inject:js -->
     <script src="/js-lib/bootstrap-checkbox-radio.js"></script>
@@ -169,10 +180,12 @@
     <script src="/js/app.js"></script>
     <script src="/js/directives.js"></script>
     <script src="/js/filters.js"></script>
+    <script src="/js/services/EventoService.js"></script>
     <script src="/js/services/IngressoService.js"></script>
     <script src="/js/services/StatsService.js"></script>
     <script src="/js/services/UserService.js"></script>
     <script src="/js/controllers/DashboardController.js"></script>
+    <script src="/js/controllers/EventoCadastroController.js"></script>
     <script src="/js/controllers/IngressoCadastroController.js"></script>
     <script src="/js/controllers/IngressoController.js"></script>
     <script src="/js/controllers/PrincipalController.js"></script>
@@ -181,21 +194,21 @@
 
 	
     <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <!--script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script -->
 
     <script type="text/javascript">
     	$(document).ready(function(){
 
         	demo.initChartist();
 
-        	$.notify({
-            	icon: 'ti-gift',
-            	message: "Bem vindo ao sistema de <b>Controle de Evento</b> - Produminas"
+        	//$.notify({
+            //	icon: 'ti-gift',
+            //	message: "Bem vindo ao sistema de <b>Controle de Evento</b> - Produminas"
 
-            },{
-                type: 'success',
-                timer: 4000
-            });
+            //},{
+            //    type: 'success',
+            //    timer: 4000
+            //});
 
     	});
 	</script>

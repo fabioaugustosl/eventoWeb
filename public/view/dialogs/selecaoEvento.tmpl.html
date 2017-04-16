@@ -1,0 +1,39 @@
+<md-dialog aria-label="teste">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Qual evento você está trabalhando?</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content  style="max-width:800px;max-height:810px; ">
+      <div class="md-dialog-content"  >
+        
+
+        <div class="bs-callout bs-callout-warning" id="callout-btn-group-tooltips" ng-repeat="ev in eventos"> 
+          <h4>{{ev.titulo}}   
+              <button type="button" class="btn btn-default" aria-label="Selecionar" ng-click="selecionarEvento(ev)">
+                  <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true">  Selecionar</span>
+              </button>
+          </h4> 
+          <p>{{ev.descricao}}</p> 
+      </div>
+
+
+        <div class="text-center" ng-hide="eventos">
+          Ainda não existem eventos cadastrados.
+        </div>
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="novoEvento()">
+       Cadastrar novo evento
+      </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>

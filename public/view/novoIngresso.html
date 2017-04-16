@@ -11,17 +11,18 @@
                     </div>
 
                     <div class="content">
-                        <form name="formIngresso" ng-controller="IngressoCadastroController as ingressoCtrl" ng-submit="submit()">
+                        <form name="formIngresso" ng-controller="IngressoCadastroController as ingressoCtrl" >
                             
-                            <div class="form-group" ng-show="ingressoCtrl.msg" >
-                                    <pre>{{ingressoCtrl.msg}}</pre>
-                            </div>
+                            <div class="alert alert-success" style="margin: 10px;" role="alert" ng-show="ingressoCtrl.msg">{{ingressoCtrl.msg}}</div>
+            
+                            <div class="alert alert-danger" style="margin: 10px;" role="alert" ng-show="ingressoCtrl.msgErro">{{ingressoCtrl.msgErro}}</div>
 
+                           
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Nome evento</label>
-                                        <input type="text" class="form-control border-input" disabled value="{{ingressoCtrl.novoIngresso.nomeEvento}}">
+                                        <label>Ingresso para o evento:</label>
+                                        <input type="text" class="form-control border-input" disabled value="{{ingressoCtrl.evento.titulo}}">
                                     </div>
                                 </div>
                             </div>
@@ -29,41 +30,54 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Identificador cliente</label>
-                                        <input type="text" name="inputIdCliente" id="inputIdCliente" class="form-control border-input"  
-                                        ng-model="ingressoCtrl.novoIngresso.idCliente" required>
-                                        <span class="help-block has-error">
-                                            <span ng-show="formIngresso.inputIdCliente.$error.required">Id do cliente é obrigatório</span>
-
-                                        </span>
+                                        <label for="inputIdCliente">Documento (apenas números)</label>
+                                        <input type="number" name="inputIdCliente" id="inputIdCliente" class="form-control border-input"  
+                                        ng-model="ingressoCtrl.idCliente" required>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label>Nome cliente</label>
-                                        <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input" placeholder="ex.: Samuel" ng-model="ingressoCtrl.novoIngresso.nomeCliente" required>
-                                        <span class="help-block has-error">
-                                            <span ng-show="formIngresso.inputNomeCliente.$error.required">Nome do cliente é obrigatório</span>
-
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Ingresso para acompanhante? Digite o nome do mesmo</label>
-                                        <input type="text" name="inputNomeAcompanhante" id="inputNomeAcompanhante" class="form-control border-input" placeholder="ex.: Maria" ng-model="ingressoCtrl.novoIngresso.acompanhante" >
+                                        <label for="inputNomeCliente">Nome cliente</label>
+                                        <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input" placeholder="ex.: Samuel" ng-model="ingressoCtrl.nomeCliente" required>
+                                       
                                     </div>
                                 </div>
                             </div>
 
                            
                             <div class="text-center">
-                                <button type="submit" ng-disabled="formIngresso.$invalid"  class="btn btn-info btn-fill btn-wd">Salvar</button>
+                                <button type="button" ng-disabled="formIngresso.$invalid"  class="btn btn-default btn-lg" ng-click="adicionarIngresso()">
+                                    <span class="glyphicon glyphicon-tag" aria-hidden="true"> Adicionar ingresso
+                                </button>
                             </div>
                             <div class="clearfix"></div>
+
+
+
+
+                            <table class="table table-striped" ng-show="ingressoCtrl.ingressos">
+                            
+                                <tbody>
+
+                                    <tr ng-repeat="ing in ingressoCtrl.ingressos | orderBy : 'dataGeracao':true" style="border: 1px solid #D3D3D3">
+                                    <td style="width: 30%"> <img ng-src="{{ing.qrcodeImg}}" title="Código de identificação do ingresso" /></td>
+                                    <td style="width: 70%">
+                                        <h4>{{ ing.nomeEvento }} </h4>
+                                        <h3 ng-show="ing.nomeCliente">Ingresso destinado a {{ing.nomeCliente}} </h3>
+                                        <p ng-show="{{ing.acompanhante != null}}"> Ingresso destinado a acompanhante</p>
+                                        <br />
+
+                                        <p>Ingresso gerado em {{ ing.dataGeracao | date: 'dd/MM/yyyy'}}</p>
+                                        
+                                        <button type="button" class="btn btn-danger btn-lg" ng-click="removerIngresso(ing._id)">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"> Remover
+                                        </button>
+                                        
+                                    </td>
+                                </tbody>
+                            </table>
+
                         </form>
                     </div>
                 </div>

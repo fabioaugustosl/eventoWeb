@@ -1,14 +1,35 @@
 
-var eventoApp = angular.module('eventoApp', ['ngRoute'])
-		.config(function($routeProvider, $locationProvider) {
-			$routeProvider.when('/dashboard', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
+var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial','angularMoment', '720kb.datepicker'])
+		.config(function($routeProvider, $locationProvider, $logProvider) {
+			$routeProvider.when('/index', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
+						  .when('/dashboard', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
 						  .when('/user', {templateUrl:'/view/user.html', controller: 'UserController'})
 						  .when('/ingressos', {templateUrl:'/view/table.html', controller: 'IngressoController'})
 						  .when('/novoIngresso', {templateUrl:'/view/novoIngresso.html', controller: 'IngressoCadastroController'})
-						  .otherwise({redirectTo:'/dashboard'});
+						  .when('/configurarEvento', {templateUrl:'/view/eventoCadastro.html', controller: 'EventoCadastroController'})
+						  .otherwise({redirectTo:'/index'});
 
 			$locationProvider.html5Mode(true);
-		});
+
+			$logProvider.debugEnabled(true);
+		}).directive('focus',
+			function($timeout) {
+				return {
+					scope : {
+						trigger : '@focus'
+					},
+					link : function(scope, element) {
+						scope.$watch('trigger', function(value) {
+							if (value === "true") {
+								$timeout(function() {
+									element[0].focus();
+								});
+							}
+						});
+					}
+				};
+			}
+		);
 
 
 

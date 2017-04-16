@@ -1,0 +1,39 @@
+<md-dialog aria-label="ingresso">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Novo Ingresso</h2>
+        <span flex></span>
+
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content  style="max-width:800px;max-height:810px; ">
+      <div class="md-dialog-content"  >
+        
+
+        <label>Identificador do ingresso</label>
+        <input type="text" name="inputCodigoIngresso" id="inputCodigoIngresso" class="form-control border-input" ng-model="codigoIngresso" focus="true">
+
+        <div ng-show="selecionarTipoIngresso"> 
+            <select name="tipoIngresso" id="tipoIngresso" class="form-control border-input" ng-model="idConfiguracao" ng-disabled="desabilitar" style="width: 100%">
+                <option value="">Selecione ...</option> 
+                <option ng-repeat="tipo in tiposDeIngressos" value="{{tipo.id}}">{{tipo.nome}}</option>
+            </select>
+        </div>
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+    <md-button  ng-click="cancelar()">
+          Cancelar
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="adicionar()">
+          Adicionar
+      </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>

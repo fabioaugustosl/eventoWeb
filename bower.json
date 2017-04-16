@@ -15,7 +15,12 @@
   "dependencies": {
     "angular": "1.5.8",
     "bootstrap": "^3.3.7",
-    "angular-route": "^1.5.8"
+    "angular-route": "^1.5.8",
+    "ngstorage": "^0.3.11",
+    "angular-material": "^1.1.3",
+    "ngDatepicker": "*",
+    "angular-moment": "^1.0.1",
+    "angularjs-datepicker": "^2.1.17"
   },
   "overrides": {
     "bootstrap": {
