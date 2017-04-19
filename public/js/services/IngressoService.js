@@ -22,6 +22,21 @@ eventoApp.factory('ingressoService', function($http, $log){
 	};
 
 
+	var getIngressosEntrada = function(dataReferencia, fcCallback){
+		$http({method:'GET', url:urlIngresso+'?dataBaixa='+dataReferencia})
+			.then(
+					function(data, status, headers, config){
+						console.log('voltou para o callback service ',data);
+						fcCallback(data.data);
+					},
+					function(data, status, headers, config){
+						
+					}
+				);
+
+	};
+
+
 
 	var novoIngresso = function(novoIngresso, fcCallback){
 		console.log("Ingresso novo: ", novoIngresso);
@@ -125,6 +140,7 @@ eventoApp.factory('ingressoService', function($http, $log){
 		removerConfiguracao : removerConfiguracao,
 		getConfiguracoes : getConfiguracoes,
 		getIngressos : getIngressos,
+		getIngressosEntrada : getIngressosEntrada,
 		novoIngresso : novoIngresso,
 		removerIngresso :removerIngresso
 	};

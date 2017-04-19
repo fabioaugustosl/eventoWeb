@@ -1,9 +1,10 @@
 
 
 eventoApp.controller('DashboardController',
-	function ($scope, $http, $log, $sessionStorage, moment, ingressoService){
+	function ($scope, $http, $log, $sessionStorage, moment, ingressoService, relatorioIngressoService){
 		
 		$scope.namePage = 'Dashboard';
+		$scope.atualizacaoGraficoDistribuicaoDia = null;
 
 		var dono = $sessionStorage.dono;
 		var eventoSelecionado = $sessionStorage.eventoSelecionado;
@@ -110,12 +111,73 @@ eventoApp.controller('DashboardController',
 
 
 
+
+		// funções graficos
+		var callbackGraficoDistrubuicaoIngressos = function(dados){
+
+		 	console.log('chegou no callback ',dados);
+
+		 	if(dados && dados.length > 0){
+				$scope.atualizacaoGraficoDistribuicaoDia =  moment().format('D MMMM YYYY, hh:mm');
+
+			 	var rotulos = [];
+		        var serieX = [];
+
+		        for (i = 0; i < dados.length; i++) { 
+		        	var dado = dados[i];
+		        	
+		        	rotulos.push(dado._id.day+'/'+dado._id.month);
+
+		        	serieX.push(dado.count);
+		        }
+
+		        var dadoDistribuicao = {
+		          labels: rotulos,
+		          series: [serieX]
+		        };
+
+		        console.log('obj grafico: ', dadoDistribuicao);
+
+
+		        var options = {
+				  seriesBarDistance: 10
+				};
+
+				var responsiveOptions = [
+				  ['screen and (max-width: 640px)', {
+				    seriesBarDistance: 5,
+				    axisX: {
+				      labelInterpolationFnc: function (value) {
+				        return value[0];
+				      }
+				    }
+				  }]
+				];
+
+		        Chartist.Bar('#graficoDistribuicaoDia', dadoDistribuicao, options, responsiveOptions);
+		    }
+
+	    };
+
+
+	    var loadGraficoDistrubuicaoIngressos = function(){
+	    	
+	    	relatorioIngressoService.getDistribuicaoIngressosPorDia(callbackGraficoDistrubuicaoIngressos);
+
+	    };
+
+
+
+
+		// init
 		if(eventoSelecionado){
 			if(configuracoes){
 				gerarEstatisticasConfiguracao(configuracoes);
 			} else {
 				recuperarConfiguracaoEvento(eventoSelecionado._id);
 			}
+
+			loadGraficoDistrubuicaoIngressos();
 			
 			recuperarQtdIngressos(eventoSelecionado._id);
 		}

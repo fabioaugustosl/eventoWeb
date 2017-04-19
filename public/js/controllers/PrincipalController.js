@@ -41,6 +41,13 @@ eventoApp.controller('PrincipalController',
 			$scope.tituloPagina = 'Configuração do evento';
 		};
 
+		$scope.irParaTempoReal = function(){
+			$location.replace();
+			$location.url('/tempoReal');
+			$scope.tituloPagina = 'Tempo Real';
+		};
+
+
 		$scope.selecionarEvento = function() {
 
 			$mdDialog.show({

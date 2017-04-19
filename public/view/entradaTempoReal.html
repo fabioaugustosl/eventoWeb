@@ -1,0 +1,82 @@
+<div class="content" ng-controller="EntradaTempoRealController as entradaCtrl">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" >
+                    <div class="header">
+                        <h4 class="title">Entrada</h4>
+                        <p class="category">Acompanhamento de entrada</p>
+
+                        <a href="#" onclick="modoTelaCheia()"  style="border:0px; float: right;">on/off tela cheia</a>  
+                    </div>
+
+                    <div class="content table-responsive table-full-width" >
+                   
+
+                        <div class="row">
+                            
+                            <div class="col-xs-6 col-md-4">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Últimos acessos</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                       
+                                       <div class="panel panel-default" ng-repeat="ult in entradaCtrl.ultimasEntradas | orderBy : 'dataBaixa':true">
+                                          <div class="panel-body">
+                                            {{nomeCliente}}
+                                          </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+
+                            <div class="col-xs-12 col-md-8">
+
+                                <div class="panel panel-success" >
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Entradas</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                    
+                                        <div class="well well-lg" ng-repeat="ent in entradaCtrl.entradas | orderBy : 'dataBaixa':true">
+                                          <h1>{{ent.nomeCliente}} </h1>
+                                          <p>{{ent.dataBaixa | date: 'dd/MM/yyyy hh:mm'}}</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                          
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    var modoTelaCheia = function(){
+            alert(1);
+            alert($(".sidebar").is(":visible"));
+           /* if($(".sidebar").is(":visible")){
+                $('.sidebar').hide();
+                $('#painelPrincipal').attr('width':'100%'); 
+            } else {
+                $('.sidebar').show();
+                $('#painelPrincipal').attr('width':'auto'); 
+            }*/
+                    
+        };
+
+
+</script>
+      

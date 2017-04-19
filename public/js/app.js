@@ -7,6 +7,7 @@ var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial
 						  .when('/ingressos', {templateUrl:'/view/table.html', controller: 'IngressoController'})
 						  .when('/novoIngresso', {templateUrl:'/view/novoIngresso.html', controller: 'IngressoCadastroController'})
 						  .when('/configurarEvento', {templateUrl:'/view/eventoCadastro.html', controller: 'EventoCadastroController'})
+						  .when('/tempoReal', {templateUrl:'/view/entradaTempoReal.html', controller: 'EntradaTempoRealController'})
 						  .otherwise({redirectTo:'/index'});
 
 			$locationProvider.html5Mode(true);
