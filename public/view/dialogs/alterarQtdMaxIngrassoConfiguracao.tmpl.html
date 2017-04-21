@@ -1,0 +1,33 @@
+<md-dialog aria-label="ingresso">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Quantidade máxima de ingressos</h2>
+        <span flex></span>
+
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content  style="max-width:800px;max-height:810px; ">
+      <div class="md-dialog-content"  >
+          <div class="alert alert-danger" style="margin: 10px;" role="alert" ng-show="msgErro">{{msgErro}}</div>
+
+
+          <label>Alterar a quantidade máxima de ingressos</label>
+          <input type="text" name="inputQtdMaxIngresso" id="inputQtdMaxIngresso" class="form-control border-input" ng-model="qtdMaximoIngresso" focus="true"  >
+          <label>Quantidade mínima permitida: {{qtdMinino}}</label>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+    <md-button  ng-click="cancelar()">
+          Cancelar
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="alterar()">
+          Alterar
+      </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>

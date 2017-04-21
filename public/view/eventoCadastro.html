@@ -5,15 +5,15 @@
     .noBorderInput input{ border: 0px; }
     .inputDataPadrao { width: 200px; }
 
-    .colTitulo {height: 40px; background: #F6F6F6; border: 1px solid #F3F3F3; text-align: center; font-size: 1.2em;}
-    .colConteudo {height: 30px;border: 1px solid #F3F3F3;}
+    .colTitulo {height: 40px; padding-top: 10px; background :#8FBC8F; border: 1px solid #F3F3F3; text-align: center; font-size: 1.2em;}
+    .colConteudo {height: 30px;border: 1px solid #556B2F; padding-top: 5px;}
 
 </style>
 
 <div class="content">
-    <div class="container-fluid">
+    <div class="container-fluid" ng-controller="EventoCadastroController as eventoCtrl" >
 
-        <form name="formEvento" ng-controller="EventoCadastroController as eventoCtrl" >
+        <form name="formEvento" >
                     
             <div class="alert alert-success" style="margin: 10px;" role="alert" ng-show="eventoCtrl.msg">{{eventoCtrl.msg}}</div>
             <div class="alert alert-success" style="margin: 10px;" role="alert" ng-show="eventoCtrl.msgEnd">{{eventoCtrl.msgEnd}}</div>
@@ -34,7 +34,6 @@
                         
 
                         <div class="content">
-                            
                         
                             <div class="row">
                                 <div class="col-md-12">
@@ -165,10 +164,20 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
+
+
+            <div class="row text-center" ng-hide="desabilitar" style="margin-bottom: 20px;">
+                <button type="submit" class="btn btn-success" ng-click="submit()" >Salvar</button>
+            </div>
+            <div class="clearfix"></div>
+
+        </form>
+
+
+
+        <form name="formConfiguracao"  id="formConfiguracao" ng-show="eventoCtrl.evento._id" >
 
 
             <div class="col-lg-12 col-md-12">
@@ -183,15 +192,16 @@
                             </div>
 
 
-                             <div class="content">
+                            <div class="content">
                             
                             
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="tipoIngresso">Tipo de ingresso</label>
+                                            <label for="tipoIngresso">Tipo de ingresso *</label>
                                             <br />
-                                            <select name="tipoIngresso" id="tipoIngresso" class="form-control border-input" ng-model="eventoCtrl.configuracao.tipoIngresso" ng-disabled="desabilitar" style="width: 100%">
+                                            <select name="tipoIngresso" id="tipoIngresso" class="form-control border-input" 
+                                            ng-class="{ 'has-error' : formConfiguracao.tipoIngresso.$invalid && !formConfiguracao.tipoIngresso.$pristine }" ng-model="eventoCtrl.configuracao.tipoIngresso"  style="width: 100%" required>
                                                 <option value="">Selecione ...</option> 
                                                 <option ng-repeat="tipo in tiposDeIngressos" value="{{tipo.id}}">{{tipo.nome}}</option>
                                             </select>
@@ -199,7 +209,55 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Data início das vendas</label>
+                                            <datepicker date-format="dd/MM/yyyy" ng-model="eventoCtrl.configuracao.dataInicioVendas" selector="form-control" >
+                                                <div class="input-group">
+                                                    <input class="form-control  border-input" placeholder="Selecione uma data" ng-model="eventoCtrl.configuracao.dataInicioVendas"  />
+                                                    <span class="input-group-addon border-input" style="cursor: pointer; border-left: 1px solid;">
+                                                    <i class="fa fa-lg fa-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </datepicker>
+                                        </div>
+                                    </div>
+
+                                     <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Data término das vendas</label>
+                                            
+                                            <datepicker date-format="dd/MM/yyyy" ng-model="eventoCtrl.configuracao.dataTerminoVendas" selector="form-control" >
+                                                <div class="input-group">
+                                                    <input class="form-control  border-input" ng-model="eventoCtrl.configuracao.dataTerminoVendas" placeholder="Selecione uma data"/>
+                                                    <span class="input-group-addon border-input" style="cursor: pointer; border-left: 1px solid;">
+                                                    <i class="fa fa-lg fa-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </datepicker>
+
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="qtdTotalIngressos">Total de ingressos *</label>
+                                            <input id="qtdTotalIngressos" type="number" class="form-control border-input" ng-model="eventoCtrl.configuracao.quantidadeTotal"  ng-class="{ 'has-error' : formConfiguracao.qtdTotalIngressos.$invalid && !formConfiguracao.qtdTotalIngressos.$pristine }"  required />
+                                          
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="qtdMaxPessoaIngressos">Máximo de ingressos por pessoas * </label>
+                                            <input id="qtdMaxPessoaIngressos" type="number" ng-class="{ 'has-error' : formConfiguracao.qtdMaxPessoaIngressos.$invalid && !formConfiguracao.qtdMaxPessoaIngressos.$pristine }"  class="form-control border-input" ng-model="eventoCtrl.configuracao.quantidadeMaxPorPessoa" />
+                                        </div>
+                                    </div>
+
+                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="precoIngresso">Preço</label>
                                             <input id="precoIngresso" type="number" class="form-control border-input" ng-model="eventoCtrl.configuracao.preco" disabled />
@@ -210,61 +268,6 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="qtdTotalIngressos">Total de ingressos</label>
-                                            <input id="qtdTotalIngressos" type="number" class="form-control border-input" ng-model="eventoCtrl.configuracao.quantidadeTotal" ng-disabled="desabilitar" />
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="qtdMaxPessoaIngressos">Máximo de ingressos por pessoas</label>
-                                            <input id="qtdMaxPessoaIngressos" type="number" class="form-control border-input" ng-model="eventoCtrl.configuracao.quantidadeMaxPorPessoa" ng-disabled="desabilitar" />
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Data início das vendas</label>
-      
-                                       
-
-                                         <datepicker date-format="dd/MM/yyyy" ng-model="eventoCtrl.configuracao.dataInicioVendas" selector="form-control" ng-disabled="desabilitar">
-                                                <div class="input-group">
-                                                    <input class="form-control  border-input" placeholder="Selecione uma data" ng-model="eventoCtrl.configuracao.dataInicioVendas" ng-disabled="desabilitar" />
-                                                    <span class="input-group-addon border-input" style="cursor: pointer; border-left: 1px solid;">
-                                                    <i class="fa fa-lg fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </datepicker>
-
-                                           
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                             <label>Data término das vendas</label>
-                                             
-                                            <datepicker date-format="dd/MM/yyyy" ng-model="eventoCtrl.configuracao.dataTerminoVendas" selector="form-control" ng-disabled="desabilitar">
-                                                <div class="input-group">
-                                                    <input class="form-control  border-input" ng-disabled="desabilitar" ng-model="eventoCtrl.configuracao.dataTerminoVendas" placeholder="Selecione uma data"/>
-                                                    <span class="input-group-addon border-input" style="cursor: pointer; border-left: 1px solid;">
-                                                    <i class="fa fa-lg fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </datepicker>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row" ng-hide="disabilitar">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-success" ng-click="adicionarConfig()" >Adicionar configuração</button>
@@ -279,33 +282,33 @@
                                         <div class="col-md-2 colTitulo">Total</div>
                                         <div class="col-md-2 colTitulo">Início vendas</div>
                                         <div class="col-md-2 colTitulo">Término vendas</div>
-                                        <div class="col-md-1 colTitulo"X</div>
+                                        <div class="col-md-1 colTitulo">X</div>
                                     </div>
-                                    <div class="row"  ng-repeat="config in eventoCtrl.configuracoes">
-                                        <div class="col-md-5 colConteudo">{{config.tipoIngresso}}</div>
-                                        <div class="col-md-2 colConteudo">{{config.quantidadeTotal}}</div>
-                                        <div class="col-md-2 colConteudo">{{config.dataInicioVendas | date: 'dd/MM/yyyy'}}</div>
-                                        <div class="col-md-2 colConteudo">{{config.dataTerminoVendas | date: 'dd/MM/yyyy'}}</div>
+                                    <div class="row"  ng-repeat="c in eventoCtrl.configuracoes">
+                                        <div class="col-md-5 colConteudo">{{c.tipoIngresso}}</div>
+                                        <div class="col-md-2 colConteudo">{{c.quantidadeTotal}}  
+
+                                             <button ng-click="alterarQtdIngresso(c._id)" type="button" class="btn-default" aria-label="Right Align" style="border:0px; float: right; margin-right: 5px;">
+                                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                            </button>  
+
+                                        </div>
+                                        <div class="col-md-2 colConteudo">{{c.dataInicioVendas | date: 'dd/MM/yyyy'}}</div>
+                                        <div class="col-md-2 colConteudo">{{c.dataTerminoVendas | date: 'dd/MM/yyyy'}}</div>
                                         
-                                        <div class="col-md-1 colConteudo" style="text-align: center;" ng-hide="desabilitar"> 
-                                            <button ng-click="removerConfig(config)" type="button" class="btn-default" aria-label="Left Align" style="border:0px;">
+                                        <div class="col-md-1 colConteudo" style="text-align: center;" > 
+                                            <button ng-click="removerConfig(c)" type="button" class="btn-default" aria-label="Left Align" style="border:0px;">
                                                 <span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span>
                                             </button>  
                                         </div>
                                     </div>
                                 </div>
-
                         </div>
                     </div>
+
+                </div>
+
             </div>
-
-
-            <div class="row text-center" ng-hide="disabilitar">
-                <button type="submit" class="btn btn-success" ng-click="submit()" >Salvar</button>
-            </div>
-            <div class="clearfix"></div>
-
-
 
         </form>
 

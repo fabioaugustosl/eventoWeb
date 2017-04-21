@@ -60,7 +60,7 @@ eventoApp.controller('PrincipalController',
 	    	})
 	    	.then(function(evento) {
 	    		$sessionStorage.eventoSelecionado = evento;
-	    		$scope.goToDashboard();
+	    		//$scope.goToDashboard();
 	    		
 	    		$.notify({
 	            	icon: 'ti-gift',
@@ -70,6 +70,7 @@ eventoApp.controller('PrincipalController',
 	                timer: 4000
 	            });
 
+	    		$location.url('/');
 	    		$("#menuLateral").show();
 	    		$("#painelPrincipal").show();
 	    		

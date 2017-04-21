@@ -1,7 +1,8 @@
 
 
 eventoApp.controller('EventoCadastroController',
-	function ($scope, $http, $log, $sessionStorage, eventoService, ingressoService){
+	function ($scope, $http, $log, $sessionStorage, $mdDialog, moment,  eventoService, ingressoService, relatorioIngressoService){
+		
 		var eventoCtrl = this;
 		eventoCtrl.msg = '';
 		eventoCtrl.msgErro = '';
@@ -21,10 +22,15 @@ eventoApp.controller('EventoCadastroController',
 		var dono = $sessionStorage.dono;
 		var eventoSelecionado = $sessionStorage.eventoSelecionado;
 
+		eventoCtrl.ingressosDistribuidosPorConfig = null;
+		eventoCtrl.idConfiguracaoAlterarQtd = null;
+
 		$scope.tiposDeIngressos =  [
 	      {id: 'Único', nome: 'Único'},
 	      {id: 'Meia entrada', nome: 'Meia entrada'},
 	      {id: 'VIP', nome: 'VIP'},
+	      {id: 'Cortesia', nome: 'Cortesia'},
+	      {id: 'Principal', nome: 'Principal'},
 	      {id: 'Lote 1', nome: 'Lote 1'},
 	      {id: 'Lote 2', nome: 'Lote 2'},
 	      {id: 'Outro', nome: 'Outro'}
@@ -64,15 +70,16 @@ eventoApp.controller('EventoCadastroController',
 
 
 		
-		$scope.adicionarConfig = function() {
-			
-			eventoCtrl.configuracao.idEvento = eventoSelecionado._id;
+		var callbackAdicionarConfiguracao = function(configSalva){
+			console.log('config persistida: ',configSalva);
 
 			if(!eventoCtrl.configuracoes){
 				eventoCtrl.configuracoes = [];
 			}
 
-			eventoCtrl.configuracoes.push(eventoCtrl.configuracao);
+			console.log('Configuracoes apos salvar: ', eventoCtrl.configuracoes);
+			eventoCtrl.configuracoes.push(configSalva);
+			$sessionStorage.configuracoesEvento = eventoCtrl.configuracoes;
 
 			$.notify({message: "Configuração adicionada com sucesso. "  },{type: 'success',timer: 4000});
 
@@ -82,15 +89,58 @@ eventoApp.controller('EventoCadastroController',
 		};
 
 
-		$scope.removerConfig = function(config) {
+		var callbackErroConfiguracao = function(retorno){
+			console.log('erro callback configuracao: ',retorno);
+			$.notify({message: retorno  },{type: 'error',timer: 4000});
+		};
 
+
+		$scope.adicionarConfig = function() {
+			console.log('vai add config');
+			var configuracaoSalvar = eventoCtrl.configuracao;
+		 	if(eventoCtrl.configuracao.dataInicioVendas){
+				var d = moment(eventoCtrl.configuracao.dataInicioVendas, "DD/MM/YYY");
+		 		configuracaoSalvar.dataInicioVendas = d.format("YYYY-MM-DD");
+		 	}
+
+		 	if(eventoCtrl.configuracao.dataTerminoVendas){
+				var d1 = moment(eventoCtrl.configuracao.dataTerminoVendas, "DD/MM/YYY");
+		 		configuracaoSalvar.dataTerminoVendas = d1.format("YYYY-MM-DD");
+		 	}
+
+		 	console.log(configuracaoSalvar);
+
+		 	//if(eventoCtrl.quantidadeTotal > 0){
+				configuracaoSalvar.idEvento = eventoSelecionado._id;
+				ingressoService.salvarConfiguracao(configuracaoSalvar, callbackAdicionarConfiguracao, callbackErroConfiguracao);
+			//}
+		};
+
+
+		var callbackRemoverConfiguracao = function(config){
+			console.log('callback remover config: ',config);
 			var i = eventoCtrl.configuracoes.indexOf(config);
-			if(i != -1) {
+			if(i != -1) {	
 
 				eventoCtrl.configuracoes.splice(i, 1);
+				$sessionStorage.configuracoesEvento = eventoCtrl.configuracoes;
 
 				$.notify({message: "Configuração removida com sucesso. " },{type: 'success',timer: 4000});
 			}
+		};
+
+
+		$scope.removerConfig = function(config) {
+			console.log('vai remover: ', config);
+			var qtd = eventoCtrl.ingressosDistribuidosPorConfig[config._id];
+			console.log(' ha: ',qtd);
+			if(qtd > 0){
+				$.notify({message: "Não permitido a exclusão! Já foram distribuidos ingresso."  },{type: 'error',timer: 4000});
+			} else {
+				ingressoService.removerConfiguracao(config, callbackRemoverConfiguracao, callbackErroConfiguracao);
+			}
+
+			
 		};
 
 
@@ -134,12 +184,12 @@ eventoApp.controller('EventoCadastroController',
 					eventoService.salvarEndereco(eventoCtrl.endereco, function(msg){ eventoCtrl.msgEnd = msg;}, callbackErro);	
 				} 
 
-				if(eventoCtrl.configuracoes){
+				/*if(eventoCtrl.configuracoes){
 					for (i = 0; i < eventoCtrl.configuracoes.length; i++){
 						console.log('Vai salvar: ', eventoCtrl.configuracoes[i]);
 						ingressoService.salvarConfiguracao(eventoCtrl.configuracoes[i], function(msg){ alert(msg);}, function(msg){alert(msg);});
 					}
-				}
+				}*/
 
 			};
 
@@ -169,6 +219,7 @@ eventoApp.controller('EventoCadastroController',
 			var callback = function(configs){ 
 				if(configs){
 					eventoCtrl.configuracoes = configs;  
+					console.log('Recuperou as configuracoes: ',eventoCtrl.configuracoes);
 				} 
 			};
 
@@ -190,6 +241,32 @@ eventoApp.controller('EventoCadastroController',
 		};
 
 
+		
+		var callbackDistrubuicaoIngressosPorConfig = function(dados){
+		 	eventoCtrl.ingressosDistribuidosPorConfig = {};
+
+		 	if(dados && dados.length > 0){
+
+			 	for (i = 0; i < dados.length; i++) { 
+		        	var dado = dados[i];
+
+		        	if(dado._id){
+		        		eventoCtrl.ingressosDistribuidosPorConfig[dado._id] = dado.total;
+		        	}
+		        }
+		    }
+
+		    console.log('distribuicao dos ingressos por categoria: ', eventoCtrl.ingressosDistribuidosPorConfig);
+
+	    };
+
+
+	    var loadDistrubuicaoIngressosPorConfig = function(){
+	    	relatorioIngressoService.getDistribuicaoIngressosPorConfiguracao(callbackDistrubuicaoIngressosPorConfig);
+	    };
+
+
+
 
 		// init
 		if(eventoSelecionado){
@@ -197,15 +274,101 @@ eventoApp.controller('EventoCadastroController',
 
 			recuperarEnderecoEvento(eventoSelecionado._id);
 		
-			if(!eventoCtrl.configuracoes){
+			//if(!eventoCtrl.configuracoes){
 				recuperarConfigEvento(eventoSelecionado._id);
-			}
+		//	}
 
 			recuperarQtdIngressos(eventoSelecionado._id);
+
+			loadDistrubuicaoIngressosPorConfig();
 
 		} else {
 			$scope.novoEvento();
 		}
 
+
+
+
+		$scope.alterarQtdIngresso = function(idConfig) {
+			eventoCtrl.idConfiguracaoAlterarQtd = idConfig;
+
+			$mdDialog.show({
+	      		controller: AlterarQtdIngressosDialogController,
+	      		templateUrl: '/view/dialogs/alterarQtdMaxIngrassoConfiguracao.tmpl.html',
+	      		parent: angular.element(document.body),
+	      		//targetEvent: ev,
+	      		clickOutsideToClose:true,
+	      		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	    	})
+	    	.then(function(qtd) {
+	    		console.log('quantidade: ', qtd);
+	    		
+	    		var fcCallbackSucesso = function(configSalva){
+					$.notify({message: "Quantidade de ingressos alterada com sucesso. "  },{type: 'success',timer: 4000});
+				};
+
+	    		var configSalvar = null;
+	    		for (i = 0; i < eventoCtrl.configuracoes.length; i++){
+					var c =  eventoCtrl.configuracoes[i];
+					if(eventoCtrl.idConfiguracaoAlterarQtd == c._id){
+						c.quantidadeTotal = qtd;
+						configSalvar = c;
+					}
+				}
+				if(configSalvar){
+					ingressoService.salvarConfiguracao(configSalvar, fcCallbackSucesso, callbackErroConfiguracao );
+				}
+
+				eventoCtrl.idConfiguracaoAlterarQtd = null;
+
+
+
+	    	//	criarNovoIngresso(dados.codigo, dados.idConfig);
+
+	    	}, function() {
+	    		// TODO :  executar alguma ação ao cancelar
+	    		eventoCtrl.idConfiguracaoAlterarQtd = null;
+	    	});
+	  	};
+
+
+		function AlterarQtdIngressosDialogController($scope, $mdDialog) {
+
+			$scope.msgErro = null;
+			$scope.qtdMaximoIngresso = null;
+
+		
+			var qtd = eventoCtrl.ingressosDistribuidosPorConfig[eventoCtrl.idConfiguracaoAlterarQtd];
+			if(!qtd){
+				qtd = 0;
+			}
+
+			$scope.qtdMinino = qtd;
+			$scope.qtdMaximoIngresso = $scope.qtdMinino;
+
+				
+		    $scope.cancelar = function() {
+		    	$scope.qtdMaximoIngresso = '';
+		    	$scope.msgErro = '';
+		      	$mdDialog.cancel();
+		    };
+
+		    $scope.alterar = function() {
+		    	if($scope.qtdMaximoIngresso){
+		    		if($scope.qtdMaximoIngresso < $scope.qtdMinino){
+						$scope.msgErro = "A quantidade não pode ser inferior a "+$scope.qtdMinino;
+		    		} else {
+		    			$mdDialog.hide($scope.qtdMaximoIngresso);		
+		    		}
+		    	} else {
+		    		$scope.msgErro = "Você não inseriu a nova quantidade.";
+		    	}
+		    };
+
+
+		};
+
+
 	}
 );
+

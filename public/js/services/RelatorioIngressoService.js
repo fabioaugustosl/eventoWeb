@@ -22,6 +22,21 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 	};
 
 
+	var getDistribuicaoIngressosPorConfiguracao = function(fcCallback){
+		$http.get(urlIngressoUtil+'/distribuicaoPorConfiguracao/produminas')
+			.then(
+				function(data, status, headers, config){
+					console.log('voltou para o callback service relatorio distribuicao por configuracao ',data);
+					fcCallback(data.data);
+				},
+				function(data, status, headers, config){
+					
+				}
+			);
+
+	};
+
+
 	var getTotalIngressosEvento = function(idEvento, fcCallback){
 		$http({method:'GET', url:urlIngressoUtil+'quantidade/'+idEvento})
 			.then(
@@ -35,7 +50,8 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 
 	return {
 		getTotalIngressosEvento : getTotalIngressosEvento,
-		getDistribuicaoIngressosPorDia : getDistribuicaoIngressosPorDia
+		getDistribuicaoIngressosPorDia : getDistribuicaoIngressosPorDia,
+		getDistribuicaoIngressosPorConfiguracao :getDistribuicaoIngressosPorConfiguracao
 	};
 
 

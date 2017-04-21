@@ -55,12 +55,12 @@ eventoApp.factory('ingressoService', function($http, $log){
 	};
 
 
-	var removerIngresso = function(idIngresso, fcCallback){
+	var removerIngresso = function(idIngresso, idConfiguracao, fcCallback){
 		$http.delete(urlIngresso+idIngresso)
 				.then(
 					function(status){
-						alert('call back service remover ingresso');
-						fcCallback(idIngresso);
+						console.log('call back service remover ingresso');
+						fcCallback(idIngresso, idConfiguracao);
 					}
 				);	
 			
@@ -72,11 +72,13 @@ eventoApp.factory('ingressoService', function($http, $log){
 		if(configuracao._id){
 			$http.patch(urlConfiguracaoIngresso+configuracao._id, configuracao).
 				then(
-					function(status){
-						fcCallback("Configuração de ingressos atualizada com sucesso.");
+					function(data, status){
+						console.log('service callback sucesso configuracao', data);
+						fcCallback(data.data);
 					},
-					function(){
-						fcCallbackError("Ocorreu um erro ao atualizar o configuração de ingressos.");
+					function(data){
+						console.log('service callback ERRO configuracao', data);
+						fcCallbackError(data.data);
 					}
 				);
 				
@@ -84,11 +86,13 @@ eventoApp.factory('ingressoService', function($http, $log){
 			console.log(configuracao);
 			$http.post(urlConfiguracaoIngresso, configuracao)
 				.then(
-					function(status){
-						fcCallback("Configuração de ingressos salva com sucesso.");
+					function(data, status){
+						console.log('service callback sucesso configuracao', data);
+						fcCallback(data.data);
 					},
-					function(){
-						fcCallbackError("Ocorreu um erro ao salvar nova configuração de ingressos.");
+					function(data){
+						console.log('service callback ERRO configuracao', data);
+						fcCallbackError(data.data);
 					}
 				);	
 		}
@@ -96,15 +100,15 @@ eventoApp.factory('ingressoService', function($http, $log){
 	};
 
 
-	var removerConfiguracao = function(idConfiguracao, fcCallback, fcCallbackError){
+	var removerConfiguracao = function(configuracao, fcCallback, fcCallbackError){
 		
-		$http.delete(urlConfiguracaoIngresso+idConfiguracao).
+		$http.delete(urlConfiguracaoIngresso+configuracao._id).
 				then(
-					function(status){
-						fcCallback("Configuração de ingressos removida com sucesso.");
+					function(data, status){
+						fcCallback(configuracao);
 					},
-					function(){
-						fcCallbackError("Ocorreu um erro ao remover a configuração de ingressos.");
+					function(data){
+						fcCallbackError(data.data);
 					}
 				);
 		
@@ -113,7 +117,6 @@ eventoApp.factory('ingressoService', function($http, $log){
 
 
 	var getConfiguracoes = function(idEvento, fcCallback){
-		alert(urlConfiguracaoIngresso+'?idEvento='+idEvento);
 		$http.get(urlConfiguracaoIngresso+'?idEvento='+idEvento)
 			.then(
 				function(data){

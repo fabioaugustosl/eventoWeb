@@ -85,13 +85,17 @@
                                 <button type="button" ng-disabled="formIngresso.$invalid"  class="btn btn-default btn-lg" ng-click="adicionarIngresso()">
                                     <span class="glyphicon glyphicon-tag" aria-hidden="true"> Adicionar ingresso
                                 </button>
+
+                                <button type="button" ng-show="ingressoCtrl.ingressos.length > 0"  class="btn btn-default btn-lg" ng-click="iniciarCadastro()">
+                                    <span class="glyphicon glyphicon-tag" aria-hidden="true"> Nova distribuição
+                                </button>
                             </div>
                             <div class="clearfix"></div>
 
 
 
 
-                            <table class="table table-striped" ng-show="ingressoCtrl.ingressos">
+                            <table class="table table-striped" ng-show="ingressoCtrl.ingressos" style="margin-top: 20px;">
                             
                                 <tbody>
 
@@ -105,7 +109,7 @@
 
                                         <p>Ingresso gerado em {{ ing.dataGeracao | date: 'dd/MM/yyyy'}}</p>
                                         
-                                        <button type="button" class="btn btn-danger btn-lg" ng-click="removerIngresso(ing._id)">
+                                        <button type="button" class="btn btn-danger btn-lg" ng-click="removerIngresso(ing._id, ing.idConfiguracao)">
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"> Remover
                                         </button>
                                         

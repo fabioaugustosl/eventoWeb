@@ -50,7 +50,6 @@ eventoApp.controller('IngressoCadastroController',
 
 
 		var novoCadastro = function(){
-
 			ingressoCtrl.novoIngresso = {};
 			ingressoCtrl.novoIngresso.dono = dono;
 			ingressoCtrl.novoIngresso.idEvento = ingressoCtrl.evento._id;
@@ -61,10 +60,13 @@ eventoApp.controller('IngressoCadastroController',
 			ingressoCtrl.novoIngresso.docCliente1 = null;
 			ingressoCtrl.novoIngresso.docCliente2 = null;
 			ingressoCtrl.novoIngresso.docCliente3 = null;
-			
 		};
 
-		var iniciarCadastro = function(){
+
+		$scope.iniciarCadastro = function(){
+			ingressoCtrl.msg = '';
+			ingressoCtrl.msgErro = '';
+
 			novoCadastro();
 			
 			ingressoCtrl.ingressos = [];
@@ -93,6 +95,11 @@ eventoApp.controller('IngressoCadastroController',
 
 			novoCadastro();
 
+			ingressoCtrl.novoIngresso.nomeCliente = ingressoGerado.nomeCliente;
+			ingressoCtrl.novoIngresso.docCliente1 = ingressoGerado.docCliente1;
+			ingressoCtrl.novoIngresso.docCliente2 = ingressoGerado.docCliente2;
+			ingressoCtrl.novoIngresso.docCliente3 = ingressoGerado.docCliente3;
+
 			ingressoCtrl.msg = msg;
 			ingressoCtrl.msgErro = '';
 			$.notify({ message: msg },{ type: 'success', timer: 4000 });
@@ -117,12 +124,6 @@ eventoApp.controller('IngressoCadastroController',
 				$.notify({ message: msg },{ type: 'error', timer: 4000 });
 
 			} else {
-				//var novoIngresso = {};
-				//novoIngresso.dono = dono;
-				//novoIngresso.idEvento = ingressoCtrl.evento._id;
-				//novoIngresso.nomeEvento = ingressoCtrl.evento.titulo;	
-				//novoIngresso.nomeCliente = ingressoCtrl.nomeCliente;
-
 				if(ingressoCtrl.novoIngresso.docCliente1){
 					ingressoCtrl.novoIngresso.idCliente = ingressoCtrl.novoIngresso.docCliente1;	
 				} else {
@@ -138,16 +139,19 @@ eventoApp.controller('IngressoCadastroController',
 		};
 
 
-		var callbackRemoverIngresso = function(idIngressoRemovido) {
+		var callbackRemoverIngresso = function(idIngressoRemovido, idConfiguracao) {
 			var msg = 'Ingresso removido com sucesso. ';
 			
-			var totalIngressos = qtdIngressosPessoa[ingressoGerado.idConfiguracao];
+
+			console.log('ingressos antes: ', ingressoCtrl.ingressos);
+
+			var totalIngressos = qtdIngressosPessoa[idConfiguracao];
 			if(!totalIngressos){
 				totalIngressos = 0;
 			} else {
 				totalIngressos = totalIngressos-1;
 			}
-			qtdIngressosPessoa[ingressoGerado.idConfiguracao] = totalIngressos;
+			qtdIngressosPessoa[idConfiguracao] = totalIngressos;
 			
 			if(ingressoCtrl.ingressos){
 				var indiceRemover;
@@ -156,12 +160,14 @@ eventoApp.controller('IngressoCadastroController',
 						indiceRemover = i;
 					}
 				}
-				alert('INdice remover '+indiceRemover);
-				if(indiceRemover){
-					ingressoCtrl.ingressos.splice(i, 1);
+				console.log('Indice remover '+indiceRemover);
+				if(indiceRemover >= 0){
+					ingressoCtrl.ingressos.splice(indiceRemover, 1);
 				}
 			}
 
+
+			console.log('depois : ',ingressoCtrl.ingressos);
 			ingressoCtrl.msg = msg;
 			ingressoCtrl.msgErro = '';
 			$.notify({ message: msg },{ type: 'success', timer: 4000 });
@@ -169,9 +175,9 @@ eventoApp.controller('IngressoCadastroController',
 
 
 
-		var removerIngresso = function(idIngresso){
+		$scope.removerIngresso = function(idIngresso, idConfiguracao){
 			console.log('Remover ingresso ',idIngresso);
-   			ingressoService.removerIngresso(idIngresso, callbackRemoverIngresso);
+   			ingressoService.removerIngresso(idIngresso, idConfiguracao, callbackRemoverIngresso);
 		};
 		
 
@@ -197,7 +203,9 @@ eventoApp.controller('IngressoCadastroController',
 
 
 	  	monstarListaTiposIngressosDisponiveis(configuracoes);
-		iniciarCadastro();
+		$scope.iniciarCadastro();
+
+
 
 
 
