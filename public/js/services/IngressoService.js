@@ -30,6 +30,7 @@ eventoApp.factory('ingressoService', function($http, $log){
 						fcCallback(data.data);
 					},
 					function(data, status, headers, config){
+						console.log(data);
 						
 					}
 				);
@@ -38,7 +39,7 @@ eventoApp.factory('ingressoService', function($http, $log){
 
 
 
-	var novoIngresso = function(novoIngresso, fcCallback){
+	var novoIngresso = function(novoIngresso, fcCallback, fcError){
 		console.log("Ingresso novo: ", novoIngresso);
 		$http.post(urlIngresso, novoIngresso)
 				.then(
@@ -46,7 +47,8 @@ eventoApp.factory('ingressoService', function($http, $log){
 						fcCallback(data.data);
 					},
 					function(data, status, headers, config){
-						
+						console.log(data);
+						fcError(data.data);
 					}
 				);	
 			

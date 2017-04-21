@@ -1,5 +1,5 @@
 
-var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial','angularMoment', '720kb.datepicker'])
+var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial','angularMoment', '720kb.datepicker', 'ngMask'])
 		.config(function($routeProvider, $locationProvider, $logProvider) {
 			$routeProvider.when('/index', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
 						  .when('/dashboard', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})

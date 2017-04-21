@@ -27,21 +27,56 @@
                                 </div>
                             </div>
 
+
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="inputIdCliente">Documento (apenas números)</label>
-                                        <input type="number" name="inputIdCliente" id="inputIdCliente" class="form-control border-input"  
-                                        ng-model="ingressoCtrl.idCliente" required>
-                                        
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
+                                <div class="col-md-12">
+                                   <div class="form-group">
                                         <label for="inputNomeCliente">Nome cliente</label>
-                                        <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input" placeholder="ex.: Samuel" ng-model="ingressoCtrl.nomeCliente" required>
+                                        <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input" placeholder="ex.: Samuel" ng-model="ingressoCtrl.novoIngresso.nomeCliente" required>
                                        
                                     </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ingressoCtrl.documentoPrincipal}} <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                            <li><a href="#" ng-click="trocarDocumento('CPF')">CPF</a></li>
+                                            <li><a href="#" ng-click="trocarDocumento('CNPJ')">CNPJ</a></li>
+                                            </ul>
+                                        </div>
+                                        <input type="text"  id="inputCpf" ng-show="ingressoCtrl.documentoPrincipal == 'CPF'" mask="999.999.999-99" 
+                                        ng-model="ingressoCtrl.novoIngresso.docCliente1" class="form-control border-input" >
+                                        <input type="text"   id="inputCnpj" ng-hide="ingressoCtrl.documentoPrincipal == 'CPF'" mask="99.999.999/9999-99" 
+                                        ng-model="ingressoCtrl.novoIngresso.docCliente1" class="form-control border-input" >
+                                    </div><!-- /input-group -->
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">Rg</button>
+                                        </span>
+                                        <input type="text" name="inputRG" id="inputRG" class="form-control border-input"  
+                                        ng-model="ingressoCtrl.novoIngresso.docCliente2" >
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Matricula</button>
+                                        </div>
+                                        <input type="text" name="inputMatricula" id="inputMatricula" class="form-control border-input"  
+                                        ng-model="ingressoCtrl.novoIngresso.docCliente3" >
+                                    </div>
+                                    
                                 </div>
                             </div>
 

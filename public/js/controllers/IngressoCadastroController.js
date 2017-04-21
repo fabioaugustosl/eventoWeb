@@ -6,9 +6,11 @@ eventoApp.controller('IngressoCadastroController',
 		ingressoCtrl.msg = '';
 		ingressoCtrl.msgErro = '';
 
+		ingressoCtrl.documentoPrincipal = '';  /// poderá ser cpf ou cnpj
+
 		$scope.tituloPagina = 'Novo Ingresso';
-		ingressoCtrl.nomeCliente = null;
-		ingressoCtrl.idCliente= null;
+		//ingressoCtrl.nomeCliente = null;
+		//ingressoCtrl.idCliente= null;
 		ingressoCtrl.novoIngresso = {};
 		ingressoCtrl.ingressos = [];
 
@@ -48,12 +50,32 @@ eventoApp.controller('IngressoCadastroController',
 
 
 		var novoCadastro = function(){
-			ingressoCtrl.nomeCliente = '';
-			ingressoCtrl.idCliente = '';
-			ingressoCtrl.ingressos = [];
-			qtdIngressosPessoa = {};
+
+			ingressoCtrl.novoIngresso = {};
+			ingressoCtrl.novoIngresso.dono = dono;
+			ingressoCtrl.novoIngresso.idEvento = ingressoCtrl.evento._id;
+			ingressoCtrl.novoIngresso.nomeEvento = ingressoCtrl.evento.titulo;	
+			ingressoCtrl.novoIngresso.idCliente = null;
+
+			ingressoCtrl.novoIngresso.nomeCliente = '';
+			ingressoCtrl.novoIngresso.docCliente1 = null;
+			ingressoCtrl.novoIngresso.docCliente2 = null;
+			ingressoCtrl.novoIngresso.docCliente3 = null;
+			
 		};
 
+		var iniciarCadastro = function(){
+			novoCadastro();
+			
+			ingressoCtrl.ingressos = [];
+			qtdIngressosPessoa = {};
+			ingressoCtrl.documentoPrincipal = 'CPF'; 
+		};
+
+
+		$scope.trocarDocumento = function(nomeDoc) {
+			ingressoCtrl.documentoPrincipal = nomeDoc;
+	  	};
 
 
 		var callbackSucessoAdicionarIngresso  = function(ingressoGerado) {
@@ -69,9 +91,17 @@ eventoApp.controller('IngressoCadastroController',
 			
 			ingressoCtrl.ingressos.push(ingressoGerado);
 
+			novoCadastro();
+
 			ingressoCtrl.msg = msg;
 			ingressoCtrl.msgErro = '';
 			$.notify({ message: msg },{ type: 'success', timer: 4000 });
+		};
+
+		var callbackErroAdicionarIngresso  = function(msg) {
+			
+			ingressoCtrl.msgErro = msg;
+			$.notify({ message: msg },{ type: 'error', timer: 4000 });
 		};
 
 
@@ -87,16 +117,22 @@ eventoApp.controller('IngressoCadastroController',
 				$.notify({ message: msg },{ type: 'error', timer: 4000 });
 
 			} else {
-				var novoIngresso = {};
-				novoIngresso.dono = dono;
-				novoIngresso.idEvento = ingressoCtrl.evento._id;
-				novoIngresso.nomeEvento = ingressoCtrl.evento.titulo;	
-				novoIngresso.idCliente = ingressoCtrl.idCliente;
-				novoIngresso.nomeCliente = ingressoCtrl.nomeCliente;
-				novoIngresso.idConfiguracao = idConfiguracao;
-				novoIngresso.chave = codigoIngresso;
-				console.log('vai salvar ', novoIngresso);
-    			ingressoService.novoIngresso(novoIngresso, callbackSucessoAdicionarIngresso);
+				//var novoIngresso = {};
+				//novoIngresso.dono = dono;
+				//novoIngresso.idEvento = ingressoCtrl.evento._id;
+				//novoIngresso.nomeEvento = ingressoCtrl.evento.titulo;	
+				//novoIngresso.nomeCliente = ingressoCtrl.nomeCliente;
+
+				if(ingressoCtrl.novoIngresso.docCliente1){
+					ingressoCtrl.novoIngresso.idCliente = ingressoCtrl.novoIngresso.docCliente1;	
+				} else {
+					ingressoCtrl.novoIngresso.idCliente = ingressoCtrl.novoIngresso.nomeCliente;	
+				}
+				
+				ingressoCtrl.novoIngresso.idConfiguracao = idConfiguracao;
+				ingressoCtrl.novoIngresso.chave = codigoIngresso;
+				console.log('vai salvar ', ingressoCtrl.novoIngresso);
+    			ingressoService.novoIngresso(ingressoCtrl.novoIngresso, callbackSucessoAdicionarIngresso, callbackErroAdicionarIngresso);
 			}
 			
 		};
@@ -161,7 +197,7 @@ eventoApp.controller('IngressoCadastroController',
 
 
 	  	monstarListaTiposIngressosDisponiveis(configuracoes);
-		novoCadastro();
+		iniciarCadastro();
 
 
 
