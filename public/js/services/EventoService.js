@@ -2,7 +2,8 @@
 eventoApp.factory('eventoService', function($http, $log){
 	
 	var urlPadrao = 'http://localhost:3000';
-
+	//var urlPadrao = 'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81'
+	
 	var urlEndereco = urlPadrao+'/api/endereco/v1/';
 	var urlEnderecoEvento = urlPadrao+'/api/enderecoEvento/v1/';
 	var urlEvento = urlPadrao+'/api/evento/v1/';
