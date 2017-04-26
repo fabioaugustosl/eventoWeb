@@ -1,6 +1,6 @@
 <md-dialog aria-label="ingresso">
   <form ng-cloak>
-    <md-toolbar>
+    <md-toolbar class="topoDialog">
       <div class="md-toolbar-tools">
         <h2>Novo Ingresso</h2>
         <span flex></span>
@@ -15,7 +15,8 @@
         <label>Identificador do ingresso</label>
         <input type="text" name="inputCodigoIngresso" id="inputCodigoIngresso" class="form-control border-input" ng-model="codigoIngresso" focus="true">
 
-        <div ng-show="selecionarTipoIngresso"> 
+        <div ng-show="selecionarTipoIngresso" style="margin-top: 10px;"> 
+            <label>Categoria do ingresso</label>
             <select name="tipoIngresso" id="tipoIngresso" class="form-control border-input" ng-model="idConfiguracao" ng-disabled="desabilitar" style="width: 100%">
                 <option value="">Selecione ...</option> 
                 <option ng-repeat="tipo in tiposDeIngressos" value="{{tipo.id}}">{{tipo.nome}}</option>

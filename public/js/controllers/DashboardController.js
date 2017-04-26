@@ -7,6 +7,7 @@ eventoApp.controller('DashboardController',
 		$scope.atualizacaoGraficoDistribuicaoDia = null;
 		$scope.atualizacaoGraficoIngressoPorCategoria = null;
 		$scope.atualizacaoGraficoDistrubuicaoPorCategoria = null;
+		$scope.atualizacaoGraficoEntradaEvento = null;
 
 		var dono = $sessionStorage.dono;
 		var eventoSelecionado = $sessionStorage.eventoSelecionado;
@@ -16,36 +17,30 @@ eventoApp.controller('DashboardController',
 		//$scope.resumeData = statsService.resumeData;
 
 		$scope.resumeData = [
-			/*{
-				name : 'Ingressos',
-				classImg : 'ti-server',
-				classImgStatus : 'icon-warning',
-				value : '1045',
-				infoUpdate : 'Atualizado agora',
-				classIcon: 'ti-reload'
-			}*//*,
-			{
-				name : 'Arrecadação',
-				classImg : 'ti-wallet',
-				classImgStatus : 'icon-success',
-				value : 'R$1,345',
-				infoUpdate : 'Ultimo dia',
-				classIcon: 'ti-calendar'
-			}*/
-			/*,
-			{
-				name : 'Reclamações',
-				classImg : 'ti-pulse',
-				classImgStatus : 'icon-danger',
-				value : '23',
-				infoUpdate : 'No último dia',
-				classIcon: 'ti-timer'
-			}*/
 		];
 
 		
 
-		var gerarEstatisticasConfiguracao = function(config){
+		var recuperarConfiguracaoEvento = function(idEvento){
+			
+			var callback = function(config){ 
+				//alert('call back Dashboard config');
+				console.log('Vai setar o config no storage',config);
+				$sessionStorage.configuracoesEvento = config;
+				configuracoes = config;
+
+				montarDashboardTotalIngressos(config);
+				montarDashboardRecuperarQtdIngressos(idEvento, config);
+
+				loadGraficoIngressosPorCategoria(config);
+			};
+
+			ingressoService.getConfiguracoes(idEvento, callback);
+		};
+
+
+
+		var montarDashboardTotalIngressos = function(config){
 
 			var total = 0;
 
@@ -53,7 +48,7 @@ eventoApp.controller('DashboardController',
 
 		    	var c =  config[i];
 		    	if(c.quantidadeTotal){
-		    		total += c.quantidadeTotal;
+		    		total += Number(c.quantidadeTotal);
 		    	}
 			}
 
@@ -71,24 +66,7 @@ eventoApp.controller('DashboardController',
 		};
 
 
-	
-
-		var recuperarConfiguracaoEvento = function(idEvento){
-			
-			var callback = function(config){ 
-				//alert('call back Dashboard config');
-				console.log('Vai setar o config no storage',config);
-				$sessionStorage.configuracoesEvento = config;
-				configuracoes = config;
-				gerarEstatisticasConfiguracao(config);
-				loadGraficoIngressosPorCategoria(config);
-			};
-
-			ingressoService.getConfiguracoes(idEvento, callback);
-		};
-
-
-		var recuperarQtdIngressos = function(idEvento){
+		var montarDashboardRecuperarQtdIngressos = function(idEvento, config){
 			
 			var callback = function(qtd){ 
 				$scope.resumeData.push(
@@ -102,13 +80,11 @@ eventoApp.controller('DashboardController',
 					}
 				);
 
-
-				
 				var total = 0;
-				for (i = 0; i < configuracoes.length; i++) { 
-			    	var c =  configuracoes[i];
+				for (i = 0; i < config.length; i++) { 
+			    	var c =  config[i];
 			    	if(c.quantidadeTotal){
-			    		total += c.quantidadeTotal;
+			    		total += Number(c.quantidadeTotal);
 			    	}
 				}
 
@@ -129,11 +105,111 @@ eventoApp.controller('DashboardController',
 
 
 
+		var montarDashboardTotalEntradasEvento = function(dados){
+	    	var total = 0;
+			for (i = 0; i < dados.length; i++) { 
+	        	var dado = dados[i];
 
-		// funções graficos
+	        	if(dado._id){
+	        		total += dado.total;
+	        	}
+	        }
+
+			$scope.resumeData.push(
+				{
+					name : 'Entradas no evento',
+					classImg : 'ti-arrow-up',
+					classImgStatus : 'icon-info',
+					value : total,
+					infoUpdate : moment().format('D MMMM YYYY, hh:mm'),
+					classIcon: 'ti-reload'
+				}
+			);
+	    };
+
+
+	    /********************/
+		/* funções graficos */
+
+
+		var callbackGraficoEntradaPessoas = function(dados){
+			if(dados && dados.length > 0){
+
+				console.log('vamos acompanhar as entradas ', dados);
+
+				montarDashboardTotalEntradasEvento(dados);
+
+				$scope.atualizacaoGraficoEntradaEvento =  moment().format('D MMMM YYYY, hh:mm');
+
+				var rotulos = [];
+		        var serieX = [];
+
+		        for (i = 0; i < dados.length; i++) { 
+		        	var dado = dados[i];
+		        	
+		        	rotulos.push(dado._id.hour+' ('+dado._id.day+')');
+		        	//serieX.push(dado.total);
+
+		        	serieX.push({meta:dado._id.hour +'PM ', value :dado.total});
+
+		        }
+
+		        var dadosVendas = {
+		          labels: rotulos,
+		          series: [serieX]
+		        };
+
+		      /*  var plug = {
+					  plugins: [
+					    Chartist.plugins.tooltip()
+					  ]
+					};*/
+
+
+				/*var dadosVendas = {
+		          labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
+		          series: [
+		             [287, 385, 490, 562, 594, 626, 698, 895, 952],
+		            [67, 152, 193, 240, 387, 435, 535, 642, 744],
+		            [23, 113, 67, 108, 190, 239, 307, 410, 410]
+		          ]
+		        };*/
+
+		        var opcoesGraficosEntradas = {
+		          lineSmooth: false,
+		          low: 0,
+		          high: 1000,
+		          showArea: true,
+		          height: "245px",
+		          axisX: {
+		            showGrid: true,
+		          },
+		          lineSmooth: Chartist.Interpolation.simple({
+		            divisor: 3
+		          }),
+		          showLine: true,
+		          showPoint: true,
+		        };
+
+		        var responsiveEntrada = [
+		          ['screen and (max-width: 640px)', {
+		            axisX: {
+		              labelInterpolationFnc: function (value) {
+		                return value[0];
+		              }
+		            }
+		          }]
+		        ];
+
+		        Chartist.Line('#graficoEntradaPessoas', dadosVendas, opcoesGraficosEntradas, responsiveEntrada);
+	    	}
+	    };
+
+
+
 		var callbackGraficoDistrubuicaoIngressos = function(dados){
 
-		 	console.log('chegou no callback distrubuicao ingresso por dia ',dados);
+		 	//console.log('chegou no callback distrubuicao ingresso por dia ',dados);
 
 		 	if(dados && dados.length > 0){
 				$scope.atualizacaoGraficoDistribuicaoDia =  moment().format('D MMMM YYYY, hh:mm');
@@ -145,7 +221,6 @@ eventoApp.controller('DashboardController',
 		        	var dado = dados[i];
 		        	
 		        	rotulos.push(dado._id.day+'/'+dado._id.month);
-
 		        	serieX.push(dado.count);
 		        }
 
@@ -154,7 +229,7 @@ eventoApp.controller('DashboardController',
 		          series: [serieX]
 		        };
 
-		        console.log('obj grafico distrubuicao ingressos: ', dadoDistribuicao);
+		      //  console.log('obj grafico distrubuicao ingressos: ', dadoDistribuicao);
 
 		        var options = {
 				  seriesBarDistance: 10
@@ -182,6 +257,12 @@ eventoApp.controller('DashboardController',
 	    };
 
 
+		var loadGraficoEntradaPessoas = function(idEvento){
+	    	relatorioIngressoService.getEntradasEventoPorHora(idEvento, callbackGraficoEntradaPessoas);
+	    };
+
+
+
 	    var recuperarConfiguracaoPorId = function(idConfig){
 	    	for (i = 0; i < configuracoes.length; i++) { 
 		    	var c =  configuracoes[i];
@@ -195,6 +276,8 @@ eventoApp.controller('DashboardController',
 		var callbackGraficoDistrubuicaoIngressosCategoria = function(dados){
 
 		 	console.log('chegou no callback dados ingressos por categoria',dados);
+
+		 	// montar grafico
 
 		 	if(dados && dados.length > 0){
 				$scope.atualizacaoGraficoDistrubuicaoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
@@ -362,15 +445,17 @@ eventoApp.controller('DashboardController',
 		// init
 		if(eventoSelecionado){
 			if(configuracoes){
-				gerarEstatisticasConfiguracao(configuracoes);
+				montarDashboardTotalIngressos(configuracoes);
+				montarDashboardRecuperarQtdIngressos(eventoSelecionado._id, configuracoes);
+
 				loadGraficoIngressosPorCategoria(configuracoes);
 			} else {
 				recuperarConfiguracaoEvento(eventoSelecionado._id);
 			}
 
-			recuperarQtdIngressos(eventoSelecionado._id);
 			loadGraficoDistrubuicaoIngressos();
 			loadGraficoDistrubuicaoIngressosPorCategoria();
+			loadGraficoEntradaPessoas(eventoSelecionado._id);
 						
 		}
 		

@@ -3,7 +3,8 @@ var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial
 		.config(function($routeProvider, $locationProvider, $logProvider) {
 			$routeProvider.when('/index', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
 						  .when('/dashboard', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
-						  .when('/user', {templateUrl:'/view/user.html', controller: 'UserController'})
+						  //.when('/user', {templateUrl:'/view/user.html', controller: 'UserController'})
+						  .when('/user', {templateUrl:'/view/pessoas.html', controller: 'UserController'})
 						  .when('/ingressos', {templateUrl:'/view/table.html', controller: 'IngressoController'})
 						  .when('/novoIngresso', {templateUrl:'/view/novoIngresso.html', controller: 'IngressoCadastroController'})
 						  .when('/configurarEvento', {templateUrl:'/view/eventoCadastro.html', controller: 'EventoCadastroController'})

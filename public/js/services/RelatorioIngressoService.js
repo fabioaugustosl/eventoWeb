@@ -48,10 +48,22 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 	};
 
 
+	var getEntradasEventoPorHora = function(idEvento, fcCallback){
+		$http({method:'GET', url:urlIngressoUtil+'entradasEvento/'+idEvento})
+			.then(
+				function(data){
+					fcCallback(data.data);
+				}
+			);	
+
+	};
+
+
 	return {
 		getTotalIngressosEvento : getTotalIngressosEvento,
 		getDistribuicaoIngressosPorDia : getDistribuicaoIngressosPorDia,
-		getDistribuicaoIngressosPorConfiguracao :getDistribuicaoIngressosPorConfiguracao
+		getDistribuicaoIngressosPorConfiguracao :getDistribuicaoIngressosPorConfiguracao,
+		getEntradasEventoPorHora : getEntradasEventoPorHora
 	};
 
 

@@ -1,6 +1,6 @@
 <md-dialog aria-label="teste">
   <form ng-cloak>
-    <md-toolbar>
+    <md-toolbar class="topoDialog">
       <div class="md-toolbar-tools">
         <h2>Qual evento você está trabalhando?</h2>
         <span flex></span>
@@ -13,7 +13,7 @@
 
         <div class="bs-callout bs-callout-warning" id="callout-btn-group-tooltips" ng-repeat="ev in eventos"> 
           <h4>{{ev.titulo}}   
-              <button type="button" class="btn btn-default" aria-label="Selecionar" ng-click="selecionarEvento(ev)">
+              <button type="button" class="btn btn-success" aria-label="Selecionar" ng-click="selecionarEvento(ev)">
                   <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true">  Selecionar</span>
               </button>
           </h4> 

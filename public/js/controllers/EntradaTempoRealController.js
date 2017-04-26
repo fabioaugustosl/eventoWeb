@@ -17,17 +17,28 @@ eventoApp.controller('EntradaTempoRealController',
 		var callbackTempoReal = function(novasEntradas) {
 			
 			if(novasEntradas){
+				console.log(entradaCtrl.entradas.length);
+				console.log(novasEntradas);
+
+				if(novasEntradas.length > 3){
+					for (i = novasEntradas.length; i > 3; i--){
+						entradaCtrl.ultimasEntradas.push(entradaCtrl.entradas[i]);
+					}		
+					novasEntradas = novasEntradas.splice(0,3);
+				}
 
 				if(entradaCtrl.entradas){
 					for (i = 0; i < entradaCtrl.entradas.length; i++){
+						console.log(entradaCtrl.ultimasEntradas);
 						entradaCtrl.ultimasEntradas.push(entradaCtrl.entradas[i]);
-					}	
+					}		
+					
 				}
 				
 				entradaCtrl.entradas = novasEntradas;
 
-				if(entradaCtrl.entradas.length > 20){
-					entradaCtrl.entradas = entradaCtrl.entradas.splice(0, 20);	
+				if(entradaCtrl.ultimasEntradas.length > 20){
+					entradaCtrl.ultimasEntradas = entradaCtrl.ultimasEntradas.splice(0, 20);	
 				}
 				
 			}

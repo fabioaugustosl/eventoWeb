@@ -19,21 +19,6 @@ eventoApp.controller('IngressoCadastroController',
 		ingressoCtrl.evento = $sessionStorage.eventoSelecionado;
 		var configuracoes = $sessionStorage.configuracoesEvento;
 
-		$scope.tiposDeIngressos =  [];
-
-
-	    var monstarListaTiposIngressosDisponiveis = function(configuracoes){
-	    	$scope.tiposDeIngressos =  [];
-
-	    	if(configuracoes){
-				for (i = 0; i < configuracoes.length; i++) { 
-			    	var c =  configuracoes[i];
-			    	$scope.tiposDeIngressos.push({id: c._id, nome: c.tipoIngresso});
-				}
-	    	}
-	    };
-
-
 
 	    var recuperarConfiguracao = function(idConfiguracao){
 	    	var config = null ;
@@ -177,7 +162,19 @@ eventoApp.controller('IngressoCadastroController',
 
 		$scope.removerIngresso = function(idIngresso, idConfiguracao){
 			console.log('Remover ingresso ',idIngresso);
-   			ingressoService.removerIngresso(idIngresso, idConfiguracao, callbackRemoverIngresso);
+			var confirm = $mdDialog.confirm()
+	          .title('Você tem certeza que deseja remover o ingresso desta pessoa?')
+	          .textContent('Caso o ingresso esteja impresso favor conferir se o mesmo foi devolvido.')
+	          .ariaLabel('Lucky day')
+	         // .targetEvent(ev)
+	          .ok('Sim')
+	          .cancel('Não');
+
+		    $mdDialog.show(confirm).then(function() {
+		      ingressoService.removerIngresso(idIngresso, idConfiguracao, callbackRemoverIngresso);
+		    }, function() {
+		      //
+		    });   			
 		};
 		
 
@@ -202,7 +199,7 @@ eventoApp.controller('IngressoCadastroController',
 	  	};
 
 
-	  	monstarListaTiposIngressosDisponiveis(configuracoes);
+	  	//monstarListaTiposIngressosDisponiveis(configuracoes);
 		$scope.iniciarCadastro();
 
 
@@ -218,6 +215,20 @@ eventoApp.controller('IngressoCadastroController',
 			$scope.selecionarTipoIngresso = false;
 
 			var configuracoes = $sessionStorage.configuracoesEvento;
+
+			$scope.tiposDeIngressos =  [];
+
+		    var monstarListaTiposIngressosDisponiveis = function(configuracoes){
+		    	$scope.tiposDeIngressos =  [];
+
+		    	if(configuracoes){
+					for (i = 0; i < configuracoes.length; i++) { 
+				    	var c =  configuracoes[i];
+				    	$scope.tiposDeIngressos.push({id: c._id, nome: c.tipoIngresso});
+					}
+		    	}
+		    };
+
 	  		
 			if(configuracoes && configuracoes.length > 1){
 				$scope.selecionarTipoIngresso = true;
@@ -233,7 +244,7 @@ eventoApp.controller('IngressoCadastroController',
 
 		    $scope.adicionar = function() {
 		    	if($scope.codigoIngresso && $scope.idConfiguracao){
-		    		var dados = {'codigo' : $scope.idConfiguracao , 'idConfig':$scope.idConfiguracao}
+		    		var dados = {'codigo' : $scope.codigoIngresso , 'idConfig':$scope.idConfiguracao}
 		    		$mdDialog.hide(dados);	
 		    	} else {
 		    		if($scope.idConfiguracao){
@@ -245,6 +256,7 @@ eventoApp.controller('IngressoCadastroController',
 	      	
 		    };
 
+			monstarListaTiposIngressosDisponiveis(configuracoes);
 		    $('#inputCodigoIngresso').focus();
 
 		}

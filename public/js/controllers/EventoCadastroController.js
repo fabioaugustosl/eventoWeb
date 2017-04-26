@@ -17,8 +17,6 @@ eventoApp.controller('EventoCadastroController',
 		eventoCtrl.configuracoes = $sessionStorage.configuracoesEvento;
 
 
-		// eventoCtrl.configuracoes = [{tipoIngresso: 'Único', quantidadeTotal: 20}];
-
 		var dono = $sessionStorage.dono;
 		var eventoSelecionado = $sessionStorage.eventoSelecionado;
 
@@ -133,11 +131,27 @@ eventoApp.controller('EventoCadastroController',
 		$scope.removerConfig = function(config) {
 			console.log('vai remover: ', config);
 			var qtd = eventoCtrl.ingressosDistribuidosPorConfig[config._id];
+			
 			console.log(' ha: ',qtd);
+
+			
+
 			if(qtd > 0){
-				$.notify({message: "Não permitido a exclusão! Já foram distribuidos ingresso."  },{type: 'error',timer: 4000});
+				$.notify({message: "Não permitido a exclusão! Já foram distribuidos ingresso dessa categoria."  },{type: 'danger',timer: 40000});
 			} else {
-				ingressoService.removerConfiguracao(config, callbackRemoverConfiguracao, callbackErroConfiguracao);
+				var confirm = $mdDialog.confirm()
+		          .title('Você tem certeza que deseja remover essa categoria de ingressos?')
+		          .textContent('Verifique com cuidado se realmente deseja excluir a categoria '+config.tipoIngresso+'.')
+		          .ariaLabel('Lucky day')
+		         // .targetEvent(ev)
+		          .ok('Sim')
+		          .cancel('Não');
+
+			    $mdDialog.show(confirm).then(function() {
+			      ingressoService.removerConfiguracao(config, callbackRemoverConfiguracao, callbackErroConfiguracao);
+			    }, function() {
+			      //
+			    });
 			}
 
 			
@@ -203,9 +217,10 @@ eventoApp.controller('EventoCadastroController',
 
 
 		var recuperarEnderecoEvento = function(idEvento){
+			console.log('vai recuperar o endereco');
 			eventoCtrl.endereco = {};  
 			var callback = function(endereco){ 
-				//alert(endereco);
+				console.log('recuperou: ',endereco);
 				enderecoEdicao = endereco;  
 				eventoCtrl.endereco = endereco;  
 			};
@@ -217,7 +232,7 @@ eventoApp.controller('EventoCadastroController',
 		var recuperarConfigEvento = function(idEvento){
 			eventoCtrl.configuracoes = [];  
 			var callback = function(configs){ 
-				if(configs){
+			if(configs){
 					eventoCtrl.configuracoes = configs;  
 					console.log('Recuperou as configuracoes: ',eventoCtrl.configuracoes);
 				} 
@@ -285,6 +300,8 @@ eventoApp.controller('EventoCadastroController',
 		} else {
 			$scope.novoEvento();
 		}
+
+
 
 
 

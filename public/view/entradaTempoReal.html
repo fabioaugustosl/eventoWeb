@@ -24,7 +24,8 @@
                                        
                                        <div class="panel panel-default" ng-repeat="ult in entradaCtrl.ultimasEntradas | orderBy : 'dataBaixa':true">
                                           <div class="panel-body">
-                                            {{nomeCliente}}
+                                            <p>{{ult.nomeCliente}} </p>
+                                            <label ng-show="ult.guicheBaixa">{{ult.guicheBaixa}}</label>
                                           </div>
                                         </div>
 
@@ -44,7 +45,9 @@
                                     
                                         <div class="well well-lg" ng-repeat="ent in entradaCtrl.entradas | orderBy : 'dataBaixa':true">
                                           <h1>{{ent.nomeCliente}} </h1>
-                                          <p>{{ent.dataBaixa | date: 'dd/MM/yyyy hh:mm'}}</p>
+                                          <p ng-show="ent.guicheBaixa">{{ent.guicheBaixa}}</p>
+                                          <label>{{ent.dataBaixa | date: 'dd/MM/yyyy hh:mm'}}</label>
+                                          
                                         </div>
 
                                     </div>

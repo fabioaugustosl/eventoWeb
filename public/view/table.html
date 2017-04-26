@@ -10,28 +10,30 @@
                         <p class="category">Todos ingressos gerados para o evento</p>
                     </div>
 
-                        <div class="content table-responsive table-full-width">
-                        <table class="table table-striped" ng-controller="IngressoController">
-                            
-                            <tbody>
-
-                                <tr ng-repeat="ing in ingressos | orderBy : 'dataGeracao':true">
-                                <td> <img ng-src="{{ing.qrcodeImg}}" title="Código de   identificação do ingresso" /></td>
-                                <td>
+                    <div class="content table-responsive table-full-width" ng-controller="IngressoController">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6" ng-repeat="ing in ingressos | orderBy : 'dataGeracao':true" style="border: 1px solid #F3F3F3;">
+                                <div class="pull-left">
+                                    <img ng-src="{{ing.qrcodeImg}}" title="Código de   identificação do ingresso" />
+                                    
+                                </div>
+                                <div class="clearfix pull-left" >
                                     <h3>{{ ing.nomeCliente }} </h3>
                                     <p>Evento: {{ ing.nomeEvento }} </p>
                                     <p ng-show="{{ing.acompanhante != null}}"> Ingresso para acompanhante: {{ing.acompanhante}}</p>
-                                   
 
                                     <p>Ingresso gerado em {{ ing.dataGeracao | date: 'dd/MM/yyyy'}}</p>
+                                    <p>{{ing.chave}}</p>
                                     <div ng-show="{{ing.dataBaixa != null}}" class="alert alert-success">
                                         <p >Entrada no evento: {{ ing.dataBaixa | date: 'dd/MM/yyyy HH:mm'}}</p>
                                     </div>
-                                    
-                                </td>
-                            </tbody>
-                        </table>
 
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+
+                       
                     </div>
                 </div>
             </div>

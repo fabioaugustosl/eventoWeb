@@ -17,12 +17,15 @@
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="/lib/angular-material/angular-material.css" />
     <link rel="stylesheet" href="/lib/angularjs-datepicker/dist/angular-datepicker.css" />
+    <link rel="stylesheet" href="/lib/chartist/dist/chartist.min.css" />
+    <link rel="stylesheet" href="/lib/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.css" />
     <!-- endbower -->
 
 
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/animate.min.css">
     <link rel="stylesheet" href="/css/demo.css">
+    <link rel="stylesheet" href="/css/evento.css">
     <link rel="stylesheet" href="/css/paper-dashboard.css">
     <link rel="stylesheet" href="/css/themify-icons.css">
     <!-- endinject -->
@@ -47,11 +50,11 @@
 
     	<div id="menuLateral" class="sidebar-wrapper" ng-show="evento">
             <div class="logo" >
-                    <span  class="simple-text">Meu Evento</span>
+                    <span  class="simple-text fonteVerdeEscuro">Meu Evento</span>
             </div>
 
-            <div class="logo" >
-                <a href="#" ng-show="evento" ng-click="goToDashboard()" style="margin: 5px; font-weight: bold;">{{evento.titulo}}</a>
+            <div class="logo" style="text-align: center;" >
+                <a href="#" ng-show="evento" ng-click="goToDashboard()" style="margin: 5px; font-weight: bold;" class="fonteVerdeClaro">{{evento.titulo}}</a>
             </div>
 
             <ul class="nav">
@@ -71,7 +74,7 @@
                 <li>
                     <a href="#" ng-click="goToUser()">
                         <i class="glyphicon glyphicon-user"></i>
-                        <p>Pessoas</p>
+                        <p>Clientes</p>
                     </a>
                 </li>
                 <li>
@@ -98,7 +101,7 @@
     </div>
 
     <div class="main-panel" id="painelPrincipal"  ng-show="evento">
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default backgroundPadrao" style="margin-bottom: 5px;">
             <div class="container-fluid">
 
                 <div class="navbar-header">
@@ -172,6 +175,8 @@
     <script src="/lib/angular-moment/angular-moment.js"></script>
     <script src="/lib/angularjs-datepicker/dist/angular-datepicker.js"></script>
     <script src="/lib/ngMask/dist/ngMask.js"></script>
+    <script src="/lib/chartist/dist/chartist.min.js"></script>
+    <script src="/lib/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.js"></script>
     <!-- endbower -->
     
     <!--custons -->

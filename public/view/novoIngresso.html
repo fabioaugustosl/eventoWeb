@@ -41,6 +41,18 @@
 
                             <div class="row">
                                 <div class="col-md-4">
+
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Matricula</button>
+                                        </div>
+                                        <input type="text" name="inputMatricula" id="inputMatricula" class="form-control border-input"  
+                                        ng-model="ingressoCtrl.novoIngresso.docCliente3" >
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ingressoCtrl.documentoPrincipal}} <span class="caret"></span></button>
@@ -67,17 +79,7 @@
                                     </div>
                                     
                                 </div>
-                                <div class="col-md-4">
-
-                                    <div class="input-group">
-                                        <div class="input-group-btn">
-                                        <button class="btn btn-default" type="button">Matricula</button>
-                                        </div>
-                                        <input type="text" name="inputMatricula" id="inputMatricula" class="form-control border-input"  
-                                        ng-model="ingressoCtrl.novoIngresso.docCliente3" >
-                                    </div>
-                                    
-                                </div>
+                               
                             </div>
 
                            
@@ -104,6 +106,7 @@
                                     <td style="width: 70%">
                                         <h4>{{ ing.nomeEvento }} </h4>
                                         <h3 ng-show="ing.nomeCliente">Ingresso destinado a {{ing.nomeCliente}} </h3>
+                                        <p> {{ing.chave}} </p>
                                         <p ng-show="{{ing.acompanhante != null}}"> Ingresso destinado a acompanhante</p>
                                         <br />
 

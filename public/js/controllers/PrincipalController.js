@@ -20,7 +20,7 @@ eventoApp.controller('PrincipalController',
 		$scope.goToUser = function(){
 			$location.replace();
 			$location.url('/user');
-			$scope.tituloPagina = 'Usuário';
+			$scope.tituloPagina = 'Clientes';
 		};
 		
 		$scope.irParaIngressos = function(){
@@ -60,7 +60,6 @@ eventoApp.controller('PrincipalController',
 	    	})
 	    	.then(function(evento) {
 	    		$sessionStorage.eventoSelecionado = evento;
-	    		//$scope.goToDashboard();
 	    		
 	    		$.notify({
 	            	icon: 'ti-gift',
@@ -70,10 +69,13 @@ eventoApp.controller('PrincipalController',
 	                timer: 4000
 	            });
 
-	    		$location.url('/');
+	            $scope.evento = $sessionStorage.eventoSelecionado;
+
+	    		//$location.url('/');
 	    		$("#menuLateral").show();
 	    		$("#painelPrincipal").show();
-	    		
+
+	    		$scope.goToDashboard();
 
 	    	}, function() {
 	    		
