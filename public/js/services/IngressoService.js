@@ -25,9 +25,9 @@ eventoApp.factory('ingressoService', function($http, $log){
 
 	/*recupera as ultimas entradas a partir de uma data*/
 	var getIngressosEntrada = function(dataReferencia, fcCallback){
-		var e = [{'nomeCliente': 'Fabio', 'dataBaixa': new Date(), 'guicheBaixa':'guiche 01'}];
-		fcCallback(e);
-		/*$http({method:'GET', url:urlIngresso+'?dataBaixa='+dataReferencia})
+		//var e = [{'nomeCliente': 'Fabio', 'dataBaixa': new Date(), 'guicheBaixa':'guiche 01'}];
+		//fcCallback(e);
+		$http({method:'GET', url:urlIngresso+'?dataBaixa='+dataReferencia})
 			.then(
 					function(data, status, headers, config){
 						console.log('voltou para o callback service ',data);
@@ -37,7 +37,7 @@ eventoApp.factory('ingressoService', function($http, $log){
 						console.log(data);
 						
 					}
-				);*/
+				);
 
 	};
 
