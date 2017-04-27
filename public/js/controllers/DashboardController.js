@@ -146,16 +146,17 @@ eventoApp.controller('DashboardController',
 
 				$scope.atualizacaoGraficoEntradaEvento =  moment().format('D MMMM YYYY, hh:mm');
 
-				var rotulos = [];
-		        var serieX = [];
+				var rotulos = ['10 AM','11 AM','12 pM','13 PM','14 PM','15 PM','16 PM','17 PM','18 PM','19 PM','20 PM','21 PM','22 PM','23 PM','00 AM','1 AM','2 AM','3 AM','4 AM','5 AM','6 AM','7 AM','8 AM','9 AM'];
+		        var serieX = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 		        for (i = 0; i < dados.length; i++) { 
 		        	var dado = dados[i];
 		        	
-		        	rotulos.push(dado._id.hour+' ('+dado._id.day+')');
+		        	//rotulos.push(dado._id.hour+' ('+dado._id.day+')');
 		        	//serieX.push(dado.total);
 
-		        	serieX.push(dado.total);
+		        	//serieX.push(dado.total);
+		        	serieX[dado._id.hour] = dado.total;
 
 		        }
 
