@@ -22,7 +22,7 @@
     "angular-moment": "^1.0.1",
     "angularjs-datepicker": "^2.1.17",
     "ngMask": "angular-mask#^3.1.1",
-    "chartist-plugin-tooltip": "^0.0.17"
+    "chart.js": "^2.5.0"
   },
   "overrides": {
     "bootstrap": {

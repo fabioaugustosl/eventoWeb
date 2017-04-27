@@ -33,6 +33,7 @@ eventoApp.controller('DashboardController',
 				montarDashboardRecuperarQtdIngressos(idEvento, config);
 
 				loadGraficoIngressosPorCategoria(config);
+				loadGraficoDistrubuicaoIngressosPorCategoria();
 			};
 
 			ingressoService.getConfiguracoes(idEvento, callback);
@@ -107,12 +108,14 @@ eventoApp.controller('DashboardController',
 
 		var montarDashboardTotalEntradasEvento = function(dados){
 	    	var total = 0;
-			for (i = 0; i < dados.length; i++) { 
-	        	var dado = dados[i];
+	    	if(dados){
+				for (i = 0; i < dados.length; i++) { 
+		        	var dado = dados[i];
 
-	        	if(dado._id){
-	        		total += dado.total;
-	        	}
+		        	if(dado._id){
+		        		total += dado.total;
+		        	}
+		        }
 	        }
 
 			$scope.resumeData.push(
@@ -133,11 +136,13 @@ eventoApp.controller('DashboardController',
 
 
 		var callbackGraficoEntradaPessoas = function(dados){
+
+			montarDashboardTotalEntradasEvento(dados);
+
+
 			if(dados && dados.length > 0){
 
 				console.log('vamos acompanhar as entradas ', dados);
-
-				montarDashboardTotalEntradasEvento(dados);
 
 				$scope.atualizacaoGraficoEntradaEvento =  moment().format('D MMMM YYYY, hh:mm');
 
@@ -150,58 +155,40 @@ eventoApp.controller('DashboardController',
 		        	rotulos.push(dado._id.hour+' ('+dado._id.day+')');
 		        	//serieX.push(dado.total);
 
-		        	serieX.push({meta:dado._id.hour +'PM ', value :dado.total});
+		        	serieX.push(dado.total);
 
 		        }
 
-		        var dadosVendas = {
-		          labels: rotulos,
-		          series: [serieX]
-		        };
+		        var data ={
+		       		labels: rotulos,
+			       	datasets: [{
+			            label: 'Entradas por hora',
+			            pointRadius: 10,
+            			pointHitRadius: 30,
+            			lineTension: 0.1,
+			            backgroundColor: "rgba(75,192,192,0.4)",
+			            borderColor: "rgba(75,192,192,1)",
+			            borderCapStyle: 'butt',
+			            borderDash: [],
+			            borderDashOffset: 0.0,
+			            borderJoinStyle: 'miter',
+			            pointBorderColor: "rgba(75,192,192,1)",
+			            pointBackgroundColor: "#fff",
+			            pointBorderWidth: 1,
+			            pointHoverRadius: 5,
+			            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+			            pointHoverBorderColor: "rgba(220,220,220,1)",
+			            data: serieX
+			        }]
+			    };
 
-		      /*  var plug = {
-					  plugins: [
-					    Chartist.plugins.tooltip()
-					  ]
-					};*/
 
+		        var myLineChart = new Chart($('#graficoEntradaPessoasNovo'), {
+				    type: 'line',
+				    data: data
+				    
+				});
 
-				/*var dadosVendas = {
-		          labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
-		          series: [
-		             [287, 385, 490, 562, 594, 626, 698, 895, 952],
-		            [67, 152, 193, 240, 387, 435, 535, 642, 744],
-		            [23, 113, 67, 108, 190, 239, 307, 410, 410]
-		          ]
-		        };*/
-
-		        var opcoesGraficosEntradas = {
-		          lineSmooth: false,
-		          low: 0,
-		          high: 1000,
-		          showArea: true,
-		          height: "245px",
-		          axisX: {
-		            showGrid: true,
-		          },
-		          lineSmooth: Chartist.Interpolation.simple({
-		            divisor: 3
-		          }),
-		          showLine: true,
-		          showPoint: true,
-		        };
-
-		        var responsiveEntrada = [
-		          ['screen and (max-width: 640px)', {
-		            axisX: {
-		              labelInterpolationFnc: function (value) {
-		                return value[0];
-		              }
-		            }
-		          }]
-		        ];
-
-		        Chartist.Line('#graficoEntradaPessoas', dadosVendas, opcoesGraficosEntradas, responsiveEntrada);
 	    	}
 	    };
 
@@ -224,29 +211,24 @@ eventoApp.controller('DashboardController',
 		        	serieX.push(dado.count);
 		        }
 
-		        var dadoDistribuicao = {
-		          labels: rotulos,
-		          series: [serieX]
-		        };
 
-		      //  console.log('obj grafico distrubuicao ingressos: ', dadoDistribuicao);
+		       var data ={
+		       		labels: rotulos,
+			       	datasets: [{
+			            label: 'Quantidade de ingressos distribuidos',
+			            pointRadius: 10,
+            			pointHitRadius: 30,
+			            data: serieX
+			        }]
+			    };
 
-		        var options = {
-				  seriesBarDistance: 10
-				};
 
-				var responsiveOptions = [
-				  ['screen and (max-width: 640px)', {
-				    seriesBarDistance: 5,
-				    axisX: {
-				      labelInterpolationFnc: function (value) {
-				        return value[0];
-				      }
-				    }
-				  }]
-				];
+		        var myLineChart = new Chart($('#graficoDistribuicaoDiaNovo'), {
+				    type: 'line',
+				    data: data
+				    
+				});
 
-		        Chartist.Line('#graficoDistribuicaoDia', dadoDistribuicao, options, responsiveOptions);
 		    }
 
 	    };
@@ -286,13 +268,15 @@ eventoApp.controller('DashboardController',
 		        var serieVendidos = [];
 		        var serieTotal = [];
 
+		        console.log('dados fodasticos ', dados);
+
 		        for (i = 0; i < dados.length; i++) { 
 		        	var dado = dados[i];
 
 		        	if(dado._id){
 		        		var conf = null;//recuperarConfiguracaoPorId(dado._id);
-		        		for (i = 0; i < configuracoes.length; i++) { 
-					    	var c =  configuracoes[i];
+		        		for (j = 0; j < configuracoes.length; j++) { 
+					    	var c =  configuracoes[j];
 					    	if(dado._id == c._id){
 					    		conf = c;
 					    	}
@@ -303,27 +287,35 @@ eventoApp.controller('DashboardController',
 		        	}
 		        }
 
-		        var dadoDistribuicao = {
-		          labels: rotulos,
-		          series: [serieTotal, serieVendidos]
-		        };
 
-		        var options = {
-				  seriesBarDistance: 10
-				};
+		     	var coresPrimarias = ['#EECFA1','#CDAD00','#8B4726', '#006400', '#FF8C00', '#473C8B'];
+		    	var coresSecundarias = ['#CDB38B','#FFD700','#CD6839','#556B2F', '#FF6347', '#6959CD'];
 
-				var responsiveOptions = [
-				  ['screen and (max-width: 640px)', {
-				    seriesBarDistance: 5,
-				    axisX: {
-				      labelInterpolationFnc: function (value) {
-				        return value[0];
-				      }
-				    }
-				  }]
-				];
+			  	var data ={
+							"labels": rotulos,
+							"datasets": [{
+						      "label": "Ingressos por categoria",
+						      "fill": "false",
+						       "backgroundColor": '#006400',
+						      yAxisID: "y-axis-0",
+						      "data": serieTotal
+						    }, {
+						      "label": "Distribuidos",
+						      "fill": "false",
+						       "backgroundColor": '#556B2F',
+						      yAxisID: "y-axis-0",
+						      "data": serieVendidos
+						    }]
 
-		        Chartist.Bar('#graficoDistribuicaoPorCategoria', dadoDistribuicao, options, responsiveOptions);
+			    };
+
+		
+		        var myBarChart = new Chart($('#graficoDistribuicaoPorCategoriaNovo'), {
+				    type: 'bar',
+				    data: data
+				    
+				});
+
 		    }
 
 	    };
@@ -337,59 +329,8 @@ eventoApp.controller('DashboardController',
 
 	    var loadGraficoIngressosPorCategoria = function(config){
 
-			$scope.atualizacaoGraficoIngressoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
-	    	
-	    	var nomeSeriesGrafico = [];
-	    	var valorSeriesGrafico = [];
-
-			for (i = 0; i < config.length; i++) { 
-
-		    	var c =  config[i];
-		    	if(!c.quantidadeTotal){
-		    		c.quantidadeTotal = 0;
-		    	}
-
-				nomeSeriesGrafico.push(c.tipoIngresso);
-				valorSeriesGrafico.push(c.quantidadeTotal);
-			}
-
-			//console.log('serie do pizza ', valorSeriesGrafico, nomeSeriesGrafico);
-
-	        var dadoGrafico = {
-	          labels: [nomeSeriesGrafico],
-	          series: valorSeriesGrafico
-	        };
-
-//	        console.log(' dados do grafico pizza ',dadoGrafico);
-
-	        var optGrafico = {
-			  labelInterpolationFnc: function(value) {
-			    return value[0]
-			  }
-			};
-
-			var responsiveOptGrafico = [
-			  ['screen and (min-width: 640px)', {
-			    chartPadding: 30,
-			    labelOffset: 100,
-			    labelDirection: 'explode',
-			    labelInterpolationFnc: function(value) {
-			      return value;
-			    }
-			  }],
-			  ['screen and (min-width: 1024px)', {
-			    labelOffset: 80,
-			    chartPadding: 20
-			  }]
-			];
-
-			Chartist.Pie('#chartPreferences', dadoGrafico, optGrafico, responsiveOptGrafico);
-
-	    };
-
-
-
-	     var loadGraficoIngressosDistribuidosPorCategoria = function(config){
+	    	var coresPrimarias = ['#006400', '#FF8C00', '#473C8B','#EECFA1','#CDAD00','#8B4726'];
+	    	var coresSecundarias = ['#556B2F', '#FF6347', '#6959CD', '#CDB38B','#FFD700','#CD6839'];
 
 			$scope.atualizacaoGraficoIngressoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
 	    	
@@ -407,39 +348,24 @@ eventoApp.controller('DashboardController',
 				valorSeriesGrafico.push(c.quantidadeTotal);
 			}
 
-			//console.log('serie do pizza ', valorSeriesGrafico, nomeSeriesGrafico);
+  			var data ={
+		       		labels: nomeSeriesGrafico,
+			       	datasets: [{
+			            data: valorSeriesGrafico,
+			            backgroundColor: coresPrimarias.splice(0,coresPrimarias.length),
+			            hoverBackgroundColor: coresSecundarias.splice(0,coresSecundarias.length)
+			        }]
+		    };
 
-	        var dadoGrafico = {
-	          labels: [nomeSeriesGrafico],
-	          series: valorSeriesGrafico
-	        };
 
-//	        console.log(' dados do grafico pizza ',dadoGrafico);
-
-	        var optGrafico = {
-			  labelInterpolationFnc: function(value) {
-			    return value[0]
-			  }
-			};
-
-			var responsiveOptGrafico = [
-			  ['screen and (min-width: 640px)', {
-			    chartPadding: 30,
-			    labelOffset: 100,
-			    labelDirection: 'explode',
-			    labelInterpolationFnc: function(value) {
-			      return value;
-			    }
-			  }],
-			  ['screen and (min-width: 1024px)', {
-			    labelOffset: 80,
-			    chartPadding: 20
-			  }]
-			];
-
-			Chartist.Pie('#chartPreferences', dadoGrafico, optGrafico, responsiveOptGrafico);
-
+	        var myPieChart = new Chart($('#graficoIngressosPorCategoria'), {
+			    type: 'doughnut',
+			    data: data
+			    
+			});
+			
 	    };
+
 
 
 		// init
@@ -449,12 +375,13 @@ eventoApp.controller('DashboardController',
 				montarDashboardRecuperarQtdIngressos(eventoSelecionado._id, configuracoes);
 
 				loadGraficoIngressosPorCategoria(configuracoes);
+				loadGraficoDistrubuicaoIngressosPorCategoria();
+				
 			} else {
 				recuperarConfiguracaoEvento(eventoSelecionado._id);
 			}
 
 			loadGraficoDistrubuicaoIngressos();
-			loadGraficoDistrubuicaoIngressosPorCategoria();
 			loadGraficoEntradaPessoas(eventoSelecionado._id);
 						
 		}
