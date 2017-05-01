@@ -287,6 +287,8 @@ eventoApp.controller('EventoCadastroController',
 		if(eventoSelecionado){
 			eventoCtrl.evento = eventoSelecionado;
 
+			console.log('eventoooo: ',eventoCtrl.evento);
+
 			recuperarEnderecoEvento(eventoSelecionado._id);
 		
 			//if(!eventoCtrl.configuracoes){

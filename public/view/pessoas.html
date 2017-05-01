@@ -9,18 +9,31 @@
                     <div class="header">
                         <h4 class="title">Lista de todos seus clientes</h4>
                     </div>
-                    <div class="content">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                          <h5 class="title">Seus clientes ainda não foram cadastrados </h5>
-                                    </div>
-                                </div>
-                                
-                            </div>
+                    
+                    <div class="content"  ng-controller="UsuariosController as pessoasCtrl">
 
-                        </form>
+                        <table class="table table-striped"> 
+                           <thead> 
+                               <tr> 
+                                   <th>Nome</th> 
+                                   <th>Conta</th> 
+                                   <th>Cpf</th> 
+                                   <th>RG</th> 
+                               </tr> 
+                           </thead> 
+   
+                           <tbody> 
+   
+                               <tr ng-repeat="pessoa in pessoasCtrl.pessoas | orderBy : 'nome':true"> 
+                                   <td>{{pessoa.nome}}</td> 
+                                   <td>{{pessoa.documento_extra1}}</td> 
+                                   <td>{{pessoa.cpf}}</td> 
+                                   <td>{{pessoa.rg}}</td> 
+                               </tr>
+                               
+                           </tbody> 
+                        </table>
+
                     </div>
                 </div>
             </div>

@@ -156,9 +156,15 @@ eventoApp.controller('DashboardController',
 		        	//serieX.push(dado.total);
 
 		        	//serieX.push(dado.total);
-		        	serieX[dado._id.hour] = dado.total;
+		        	var h = (dado._id.hour-10);
+		        	if(h < 0){
+		        		h =  (23 + h) + 1;
+		        	}
+		        	serieX[h] = dado.total;
 
 		        }
+
+		        console.log('horas compiladas ',serieX);
 
 		        var data ={
 		       		labels: rotulos,
@@ -166,13 +172,13 @@ eventoApp.controller('DashboardController',
 			            label: 'Entradas por hora',
 			            pointRadius: 10,
             			pointHitRadius: 30,
-            			lineTension: 0.1,
+            			//lineTension: 0.1,
 			            backgroundColor: "rgba(75,192,192,0.4)",
 			            borderColor: "rgba(75,192,192,1)",
-			            borderCapStyle: 'butt',
-			            borderDash: [],
-			            borderDashOffset: 0.0,
-			            borderJoinStyle: 'miter',
+			            //borderCapStyle: 'butt',
+			           // borderDash: [],
+			            //borderDashOffset: 0.0,
+			            //borderJoinStyle: 'miter',
 			            pointBorderColor: "rgba(75,192,192,1)",
 			            pointBackgroundColor: "#fff",
 			            pointBorderWidth: 1,
@@ -185,7 +191,7 @@ eventoApp.controller('DashboardController',
 
 
 		        var myLineChart = new Chart($('#graficoEntradaPessoasNovo'), {
-				    type: 'line',
+				    type: 'bar',
 				    data: data
 				    
 				});
@@ -269,7 +275,7 @@ eventoApp.controller('DashboardController',
 		        var serieVendidos = [];
 		        var serieTotal = [];
 
-		        console.log('dados fodasticos ', dados);
+		        console.log('dados fodasticos ', dados, configuracoes);
 
 		        for (i = 0; i < dados.length; i++) { 
 		        	var dado = dados[i];
@@ -282,6 +288,7 @@ eventoApp.controller('DashboardController',
 					    		conf = c;
 					    	}
 						}
+						console.log(conf);
 		        		rotulos.push(conf.tipoIngresso);
 		        		serieTotal.push(conf.quantidadeTotal);
 		        		serieVendidos.push(dado.total);	

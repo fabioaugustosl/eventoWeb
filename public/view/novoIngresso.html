@@ -6,33 +6,67 @@
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="card">
-                    <div class="header">
-                        <h4 class="title">Novo Ingresso</h4>
-                    </div>
+                    
 
                     <div class="content">
                         <form name="formIngresso" ng-controller="IngressoCadastroController as ingressoCtrl" >
-                            
+                            <div class="header">
+                                <h4 class="title">Distribuição de ingresso para {{ingressoCtrl.evento.titulo}}</h4>
+                            </div>
+
                             <div class="alert alert-success" style="margin: 10px;" role="alert" ng-show="ingressoCtrl.msg">{{ingressoCtrl.msg}}</div>
             
                             <div class="alert alert-danger" style="margin: 10px;" role="alert" ng-show="ingressoCtrl.msgErro">{{ingressoCtrl.msgErro}}</div>
 
                            
-                            <div class="row">
+                          <!--   <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Ingresso para o evento:</label>
                                         <input type="text" class="form-control border-input" disabled value="{{ingressoCtrl.evento.titulo}}">
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
+
+                            <br />
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-2"></div>
+
+                                <div class="col-md-4">
+
+                                    <!-- <div class="input-group"> -->
+                                        <!-- <div class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Matricula</button>
+                                        </div> -->
+                                        <label for="inputMatricula">Número Conta</label>
+                                        <input type="text" name="inputMatricula" id="inputMatricula" class="form-control border-input"  ng-blur="recuperarCliente()"
+                                        ng-model="ingressoCtrl.novoIngresso.docCliente3" >
+                                    <!-- </div> -->
+                                    
+                                </div>
+
+                                 <div class="col-md-4">
+                                    <br />
+                                    <div class="progress" ng-show="ingressoCtrl.processando">
+                                      <div class="progress-bar progress-bar-striped active" role="progressbar"  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                      </div>
+                                    </div>
+                                    <label style="font-size:12px; margin-top: 15px;">{{ingressoCtrl.msgPessoaEncontrada}}</label> 
+                                    
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2"></div>
+
+                                <div class="col-md-8">
                                    <div class="form-group">
                                         <label for="inputNomeCliente">Nome cliente</label>
-                                        <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input" placeholder="ex.: Samuel" ng-model="ingressoCtrl.novoIngresso.nomeCliente" required>
+                                        <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input"
+                                        ng-disabled="ingressoCtrl.desabilitarCadPessoa" placeholder="ex.: Samuel" ng-model="ingressoCtrl.novoIngresso.nomeCliente" required>
                                        
                                     </div>
                                 </div>
@@ -40,17 +74,7 @@
 
 
                             <div class="row">
-                                <div class="col-md-4">
-
-                                    <div class="input-group">
-                                        <div class="input-group-btn">
-                                        <button class="btn btn-default" type="button">Matricula</button>
-                                        </div>
-                                        <input type="text" name="inputMatricula" id="inputMatricula" class="form-control border-input"  
-                                        ng-model="ingressoCtrl.novoIngresso.docCliente3" >
-                                    </div>
-                                    
-                                </div>
+                                <div class="col-md-2"></div>
 
                                 <div class="col-md-4">
                                     <div class="input-group">
@@ -61,9 +85,10 @@
                                             <li><a href="#" ng-click="trocarDocumento('CNPJ')">CNPJ</a></li>
                                             </ul>
                                         </div>
-                                        <input type="text"  id="inputCpf" ng-show="ingressoCtrl.documentoPrincipal == 'CPF'" mask="999.999.999-99" 
+                                        <input type="text"  id="inputCpf" ng-show="ingressoCtrl.documentoPrincipal == 'CPF'" mask="999.999.999-99"  ng-disabled="ingressoCtrl.desabilitarCadPessoa"
                                         ng-model="ingressoCtrl.novoIngresso.docCliente1" class="form-control border-input" >
-                                        <input type="text"   id="inputCnpj" ng-hide="ingressoCtrl.documentoPrincipal == 'CPF'" mask="99.999.999/9999-99" 
+                                        <input type="text"   id="inputCnpj" ng-hide="ingressoCtrl.documentoPrincipal == 'CPF'"
+                                        ng-disabled="ingressoCtrl.desabilitarCadPessoa" mask="99.999.999/9999-99" 
                                         ng-model="ingressoCtrl.novoIngresso.docCliente1" class="form-control border-input" >
                                     </div><!-- /input-group -->
 
@@ -74,7 +99,7 @@
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="button">Rg</button>
                                         </span>
-                                        <input type="text" name="inputRG" id="inputRG" class="form-control border-input"  
+                                        <input type="text" name="inputRG" id="inputRG" class="form-control border-input" ng-disabled="ingressoCtrl.desabilitarCadPessoa"
                                         ng-model="ingressoCtrl.novoIngresso.docCliente2" >
                                     </div>
                                     

@@ -9,8 +9,9 @@ eventoApp.factory('ingressoService', function($http, $log){
 	var urlIngressoUtil = urlPadrao+'/api/ingressoUtil/v1/';
 
 
-	var getIngressos = function(fcCallback){
-		$http({method:'GET', url:urlIngresso})
+	var getIngressos = function(parametros, fcCallback){
+		
+		$http({method:'GET', url:urlIngresso+parametros})
 			.then(
 					function(data, status, headers, config){
 						fcCallback(data.data);

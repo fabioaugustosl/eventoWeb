@@ -1,0 +1,84 @@
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Ingressos</h4>
+                        <p class="category">Todos ingressos gerados para o evento {{nomeEvento}}</p>
+                    </div>
+
+                    <div class="content table-responsive table-full-width" ng-controller="IngressoController">
+
+                        <div class="alert alert-success" style="margin: 10px;" role="alert" ng-show="msg">{{msg}}</div>
+                        
+                        <div class="alert alert-danger" style="margin: 10px;" role="alert" ng-show="msgErro">{{msgErro}}</div>
+
+                        <div class="well well-lg" style="margin-bottom: 20px;">
+                            <h4>Filtros</h4>
+                            <div class="row" >
+                                <div class="col-sm-8 col-md-8">
+                                    
+                                    <label for="txtTitulo">Nome </label>
+                                    <input id="txtTitulo" type="text" class="form-control border-input" ng-model="pesquisa.nome"  />
+
+                                </div>
+                                <div class="col-sm-4 col-md-4">
+                                    
+                                    <label for="txtTitulo">Código ingresso </label>
+                                    <input id="txtTitulo" type="text" class="form-control border-input" ng-model="pesquisa.chave" />
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                
+                                <div class="col-sm-12 col-md-12" style="text-align: center">
+                                    
+                                   <button type="submit" class="btn btn-success" ng-click="pesquisar()" style="margin-top: 5px;" >Pesquisar</button>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6" ng-repeat="ing in ingressos | orderBy : 'dataGeracao':true" style="border: 1px solid #F3F3F3;">
+                                <div class="pull-left">
+                                    <img ng-src="{{ing.qrcodeImg}}" title="Código de identificação do ingresso" />     
+                                </div>
+                                <div class="clearfix pull-left" >
+                                    <h3>{{ ing.nomeCliente }} </h3>
+                                    <p ng-show="{{ing.acompanhante != null}}"> Ingresso para acompanhante: {{ing.acompanhante}}</p>
+
+                                    <p style="font-size: 12px; line-height: 1em;">Ingresso entregue em {{ ing.dataGeracao | date: 'dd/MM/yyyy'}}</p>
+                                    <p style="font-size: 12px; line-height: 1em;">Código: {{ing.chave}}</p>
+                                    <div ng-show="{{ing.dataBaixa != null}}" class="alert alert-success">
+                                        <p >Entrada no evento: {{ ing.dataBaixa | date: 'dd/MM/yyyy HH:mm'}}</p>
+                                    </div>
+
+                                    <div ng-show="{{ing.dataBaixa == null}}" >
+                                        <button type="button" class="btn btn-danger btn-lg" ng-click="removerIngresso(ing._id)">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"> Devolver ingresso </span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+
+                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+      

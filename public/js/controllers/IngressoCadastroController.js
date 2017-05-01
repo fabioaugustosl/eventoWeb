@@ -1,7 +1,8 @@
 
 
 eventoApp.controller('IngressoCadastroController',
-	function ($scope, $http, $log, $mdDialog, $sessionStorage, ingressoService){
+	function ($scope, $http, $log, $mdDialog, $sessionStorage, ingressoService, pessoaService){
+		
 		var ingressoCtrl = this;
 		ingressoCtrl.msg = '';
 		ingressoCtrl.msgErro = '';
@@ -13,6 +14,9 @@ eventoApp.controller('IngressoCadastroController',
 		//ingressoCtrl.idCliente= null;
 		ingressoCtrl.novoIngresso = {};
 		ingressoCtrl.ingressos = [];
+
+		ingressoCtrl.desabilitarCadPessoa = false;
+		ingressoCtrl.processando = false;
 
 		var qtdIngressosPessoa = {};
 		var dono = $sessionStorage.dono;
@@ -45,6 +49,7 @@ eventoApp.controller('IngressoCadastroController',
 			ingressoCtrl.novoIngresso.docCliente1 = null;
 			ingressoCtrl.novoIngresso.docCliente2 = null;
 			ingressoCtrl.novoIngresso.docCliente3 = null;
+
 		};
 
 
@@ -57,6 +62,8 @@ eventoApp.controller('IngressoCadastroController',
 			ingressoCtrl.ingressos = [];
 			qtdIngressosPessoa = {};
 			ingressoCtrl.documentoPrincipal = 'CPF'; 
+
+			ingressoCtrl.desabilitarCadPessoa = false;
 		};
 
 
@@ -90,6 +97,7 @@ eventoApp.controller('IngressoCadastroController',
 			$.notify({ message: msg },{ type: 'success', timer: 4000 });
 		};
 
+
 		var callbackErroAdicionarIngresso  = function(msg) {
 			
 			ingressoCtrl.msgErro = msg;
@@ -121,6 +129,44 @@ eventoApp.controller('IngressoCadastroController',
     			ingressoService.novoIngresso(ingressoCtrl.novoIngresso, callbackSucessoAdicionarIngresso, callbackErroAdicionarIngresso);
 			}
 			
+		};
+
+
+		var callbackRecuperarCliente = function(pessoa) {
+
+			console.log('pessoa recuperada: ', pessoa);
+
+			if(pessoa && pessoa.length > 0){
+				ingressoCtrl.novoIngresso.nomeCliente = pessoa[0].nome;
+				ingressoCtrl.novoIngresso.docCliente1 = pessoa[0].cpf;
+				ingressoCtrl.novoIngresso.docCliente2 = pessoa[0].rg;
+
+				ingressoCtrl.desabilitarCadPessoa = true;
+				ingressoCtrl.msgPessoaEncontrada = "";
+				
+			} else {
+				ingressoCtrl.msgPessoaEncontrada = "Pessoa não identificada em na base de dados.";
+				ingressoCtrl.desabilitarCadPessoa = false;
+				ingressoCtrl.novoIngresso.nomeCliente = '';
+				ingressoCtrl.novoIngresso.docCliente1 = '';
+				ingressoCtrl.novoIngresso.docCliente2 = '';
+
+			}
+
+			ingressoCtrl.processando = false;
+
+		};
+
+
+		$scope.recuperarCliente = function(){
+			console.log('Vai recuperar o cliente',ingressoCtrl.novoIngresso.docCliente3);
+
+			if(ingressoCtrl.novoIngresso.docCliente3){
+				ingressoCtrl.msgPessoaEncontrada = "";
+				ingressoCtrl.processando = true;
+				pessoaService.recuperarPessoaPorMatricula(ingressoCtrl.novoIngresso.docCliente3, callbackRecuperarCliente);	
+			}
+			  			
 		};
 
 
