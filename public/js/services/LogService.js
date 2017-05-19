@@ -1,8 +1,8 @@
 
 eventoApp.factory('logService', function($http, $log){
 	
-	//var urlPadrao = 'http://localhost:3000';
-	var urlPadrao = 'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81'
+	var urlPadrao = 'http://localhost:3000';
+	//var urlPadrao = 'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81'
 	
 	var urlLog = urlPadrao+'/api/log/v1/';
 

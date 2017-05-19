@@ -1,14 +1,14 @@
 
 eventoApp.factory('pessoaService', function($http, $log){
 	
-	//var urlPadrao = 'http://localhost:3001';
-	var urlPadrao = 'http://ec2-35-160-247-116.us-west-2.compute.amazonaws.com:81';
+	var urlPadrao = 'http://localhost:3001';
+	//var urlPadrao = 'http://ec2-35-160-247-116.us-west-2.compute.amazonaws.com:81';
 	
 	var urlPessoa = urlPadrao+'/api/pessoa/v1/';
 
 	
 	var getPessoaPorMatricula = function(matricula, fcCallback){
-		$http.get(urlPessoa+"?documento_extra1="+matricula)
+		$http.get(urlPessoa+"?info_extra3="+matricula)
 			.then(
 				function(data){
 					fcCallback(data.data);

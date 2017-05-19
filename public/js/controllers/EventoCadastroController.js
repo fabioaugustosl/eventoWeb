@@ -29,6 +29,7 @@ eventoApp.controller('EventoCadastroController',
 	      {id: 'VIP', nome: 'VIP'},
 	      {id: 'Cortesia', nome: 'Cortesia'},
 	      {id: 'Principal', nome: 'Principal'},
+	      {id: 'Poupador', nome: 'Poupador'},
 	      {id: 'Lote 1', nome: 'Lote 1'},
 	      {id: 'Lote 2', nome: 'Lote 2'},
 	      {id: 'Outro', nome: 'Outro'}

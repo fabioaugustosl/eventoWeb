@@ -19,16 +19,6 @@
                             <div class="alert alert-danger" style="margin: 10px;" role="alert" ng-show="ingressoCtrl.msgErro">{{ingressoCtrl.msgErro}}</div>
 
                            
-                          <!--   <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Ingresso para o evento:</label>
-                                        <input type="text" class="form-control border-input" disabled value="{{ingressoCtrl.evento.titulo}}">
-                                    </div>
-                                </div>
-                            </div> -->
-
-
                             <br />
 
                             <div class="row">
@@ -36,14 +26,8 @@
 
                                 <div class="col-md-4">
 
-                                    <!-- <div class="input-group"> -->
-                                        <!-- <div class="input-group-btn">
-                                        <button class="btn btn-default" type="button">Matricula</button>
-                                        </div> -->
-                                        <label for="inputMatricula">Número Conta</label>
-                                        <input type="text" name="inputMatricula" id="inputMatricula" class="form-control border-input"  ng-blur="recuperarCliente()"
-                                        ng-model="ingressoCtrl.novoIngresso.docCliente3" >
-                                    <!-- </div> -->
+                                    <label for="inputMatricula">Número Conta</label>
+                                    <input type="text" name="inputMatricula" id="inputMatricula" class="form-control border-input"  ng-blur="recuperarCliente()" ng-model="ingressoCtrl.novoIngresso.docCliente3" >
                                     
                                 </div>
 
@@ -53,7 +37,7 @@
                                       <div class="progress-bar progress-bar-striped active" role="progressbar"  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                                       </div>
                                     </div>
-                                    <label style="font-size:12px; margin-top: 15px;">{{ingressoCtrl.msgPessoaEncontrada}}</label> 
+                                    <label style="font-size:14px; margin-top: 15px;">{{ingressoCtrl.msgPessoaEncontrada}}</label> 
                                     
                                 </div>
 
@@ -78,6 +62,29 @@
 
                                 <div class="col-md-4">
                                     <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">{{ingressoCtrl.documentoPrincipal}}</button>
+                                        </span>
+
+                                        <input type="text"  id="inputCpf" ng-show="ingressoCtrl.documentoPrincipal == 'CPF'" mask="999.999.999-99"  ng-disabled="ingressoCtrl.desabilitarCadPessoa"
+                                        ng-model="ingressoCtrl.novoIngresso.docCliente1" class="form-control border-input" >
+                                        <input type="text"   id="inputCnpj" ng-hide="ingressoCtrl.documentoPrincipal == 'CPF'"
+                                        ng-disabled="ingressoCtrl.desabilitarCadPessoa" mask="99.999.999/9999-99" 
+                                        ng-model="ingressoCtrl.novoIngresso.docCliente1" class="form-control border-input" >
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div ng-show="ingressoCtrl.novoIngresso.acompanhante">
+                                        <label style="font-size:12px; ">Responsável: {{ingressoCtrl.novoIngresso.acompanhante}}</label> <br />
+                                        <label style="font-size:14px; margin-top: 15px;">CPF: {{ingressoCtrl.novoIngresso.docCliente2}}</label> 
+                                    </div>
+
+                                </div>
+
+                                <!-- Jeito antigo com cnf/cnpj e RG -->
+                                <!-- <div class="col-md-4">
+                                    <div class="input-group">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ingressoCtrl.documentoPrincipal}} <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
@@ -90,7 +97,7 @@
                                         <input type="text"   id="inputCnpj" ng-hide="ingressoCtrl.documentoPrincipal == 'CPF'"
                                         ng-disabled="ingressoCtrl.desabilitarCadPessoa" mask="99.999.999/9999-99" 
                                         ng-model="ingressoCtrl.novoIngresso.docCliente1" class="form-control border-input" >
-                                    </div><!-- /input-group -->
+                                    </div>
 
                                 </div>
                                 <div class="col-md-4">
@@ -103,7 +110,7 @@
                                         ng-model="ingressoCtrl.novoIngresso.docCliente2" >
                                     </div>
                                     
-                                </div>
+                                </div> -->
                                
                             </div>
 

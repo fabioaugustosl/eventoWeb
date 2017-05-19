@@ -8,9 +8,10 @@
       </div>
     </md-toolbar>
 
-    <md-dialog-content  style="max-width:800px;max-height:810px; ">
+    <md-dialog-content  style="min-width:400px; max-width:800px;max-height:810px; ">
       <div class="md-dialog-content"  >
         
+        <div class="alert alert-danger" style="margin: 10px;" role="alert" ng-show="msgErro">{{msgErro}}</div>
 
         <label>Identificador do ingresso</label>
         <input type="text" name="inputCodigoIngresso" id="inputCodigoIngresso" class="form-control border-input" ng-model="codigoIngresso" md-autofocus>

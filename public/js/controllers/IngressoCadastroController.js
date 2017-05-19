@@ -24,6 +24,9 @@ eventoApp.controller('IngressoCadastroController',
 		var configuracoes = $sessionStorage.configuracoesEvento;
 
 
+		var categoriaIngressoPadraoParaCliente = null;
+
+
 	    var recuperarConfiguracao = function(idConfiguracao){
 	    	var config = null ;
 	    	if(configuracoes){
@@ -63,7 +66,7 @@ eventoApp.controller('IngressoCadastroController',
 			qtdIngressosPessoa = {};
 			ingressoCtrl.documentoPrincipal = 'CPF'; 
 
-			ingressoCtrl.desabilitarCadPessoa = false;
+			ingressoCtrl.desabilitarCadPessoa = true; // depois isso deve ser configurável. Exemplo: se puder cadastrar a pessoa na hora deve ser false. Se for apenas pessoas cadastradas true.
 		};
 
 
@@ -132,29 +135,83 @@ eventoApp.controller('IngressoCadastroController',
 		};
 
 
+		/*
+ 		 * Esse método é bem especifico para credifor. No caso dessa parada virar um produto esse método 
+ 		 * deve ser refeito ou ir pro espaço.
+		 */
+		var recuperarConfiguracaoPadraoPorCategoriaIngresso = function(perfil){
+			console.log('perfil '+perfil);
+			console.log('congiguracoes: ',configuracoes);
+			var conf = null ;
+			if(perfil){
+		    	
+		    	if(configuracoes){
+					for (i = 0; i < configuracoes.length; i++) { 
+						var c =  configuracoes[i];
+						console.log(c);
+						if(c.perfilPadrao){
+							for (j = 0; j < c.perfilPadrao.length; j++) {
+								var p = c.perfilPadrao[j];
+								if(p == perfil){
+									conf = c;
+									break;
+								}
+							}
+						}
+					}
+		    	}
+		    }
+		    console.log('vai retornar essa config: ',conf);
+		    return conf;
+	    };
+
+
 		var callbackRecuperarCliente = function(pessoa) {
 
 			console.log('pessoa recuperada: ', pessoa);
 
 			if(pessoa && pessoa.length > 0){
 				ingressoCtrl.novoIngresso.nomeCliente = pessoa[0].nome;
-				ingressoCtrl.novoIngresso.docCliente1 = pessoa[0].cpf;
-				ingressoCtrl.novoIngresso.docCliente2 = pessoa[0].rg;
+
+				// documento_extra1 é onde está salvo o cnpj no PessoaAPI
+				if(pessoa[0].documento_extra1){
+					ingressoCtrl.novoIngresso.docCliente1 = pessoa[0].documento_extra1;	
+					ingressoCtrl.documentoPrincipal = 'CNPJ';
+					ingressoCtrl.novoIngresso.docCliente2 = pessoa[0].cpf;	// cpf do responsavel
+					ingressoCtrl.novoIngresso.acompanhante = pessoa[0].info_extra2;	 // nome do responsavel
+				} else {
+					ingressoCtrl.novoIngresso.docCliente1 = pessoa[0].cpf;	
+					ingressoCtrl.documentoPrincipal = 'CPF';
+				}
+
+				//ingressoCtrl.novoIngresso.docCliente2 = pessoa[0].rg;
 
 				ingressoCtrl.desabilitarCadPessoa = true;
-				ingressoCtrl.msgPessoaEncontrada = "";
+				categoriaIngressoPadraoParaCliente = null;
+
+				if(pessoa[0].info_extra1){
+					
+					var categPadrao = recuperarConfiguracaoPadraoPorCategoriaIngresso(pessoa[0].info_extra1);
+					console.log('chegou categ ',categPadrao);
+					if(categPadrao){
+						categoriaIngressoPadraoParaCliente = categPadrao._id;
+					}
+				}
+				ingressoCtrl.msgPessoaEncontrada = "Tipo da conta: "+pessoa[0].info_extra1;
+
+				
 				
 			} else {
 				ingressoCtrl.msgPessoaEncontrada = "Pessoa não identificada em na base de dados.";
-				ingressoCtrl.desabilitarCadPessoa = false;
+				// CASO NAO HAJA A TRAVA DE ENTREGAR INGRESSOS APENAS PARA CADASTRADOS ISSO DEVE SER DESCOMENTADO
+				//ingressoCtrl.desabilitarCadPessoa = false;
 				ingressoCtrl.novoIngresso.nomeCliente = '';
 				ingressoCtrl.novoIngresso.docCliente1 = '';
 				ingressoCtrl.novoIngresso.docCliente2 = '';
-
+				categoriaIngressoPadraoParaCliente = null;
 			}
 
 			ingressoCtrl.processando = false;
-
 		};
 
 
@@ -277,7 +334,14 @@ eventoApp.controller('IngressoCadastroController',
 
 	  		
 			if(configuracoes && configuracoes.length > 1){
-				$scope.selecionarTipoIngresso = true;
+				
+				console.log('categoriaIngressoPadraoParaCliente : '+categoriaIngressoPadraoParaCliente );
+				if(categoriaIngressoPadraoParaCliente){
+					$scope.idConfiguracao = categoriaIngressoPadraoParaCliente;
+				} else {
+					$scope.selecionarTipoIngresso = true;
+				}
+
 			} else {
 				$scope.idConfiguracao = configuracoes[0]._id;
 			}
@@ -290,8 +354,22 @@ eventoApp.controller('IngressoCadastroController',
 
 		    $scope.adicionar = function() {
 		    	if($scope.codigoIngresso && $scope.idConfiguracao){
-		    		var dados = {'codigo' : $scope.codigoIngresso , 'idConfig':$scope.idConfiguracao}
-		    		$mdDialog.hide(dados);	
+		    		var dados = {'codigo' : $scope.codigoIngresso , 'idConfig':$scope.idConfiguracao};
+
+		    		var fcCallbackSim = function(){
+		    			$mdDialog.hide(dados);	
+		    		};
+
+		    		var fdCallbackNao = function(){
+		    			$scope.msgErro = "O código do ingresso não é válido. <br />Favor conferir o número impresso no ingresso.";
+		    		};
+
+		    		ingressoService.codigoIngressoEhValido($sessionStorage.dono, 
+		    										$sessionStorage.eventoSelecionado._id, 
+		    										$scope.codigoIngresso, 
+		    										fcCallbackSim, 
+		    										fdCallbackNao);
+
 		    	} else {
 		    		if($scope.idConfiguracao){
 		    			$scope.msgErro = "Você não inseriu o código do ingresso.";
@@ -303,7 +381,7 @@ eventoApp.controller('IngressoCadastroController',
 		    };
 
 			monstarListaTiposIngressosDisponiveis(configuracoes);
-		    $('#inputCodigoIngresso').focus();
+		    //$('#inputCodigoIngresso').focus();
 
 		}
 
