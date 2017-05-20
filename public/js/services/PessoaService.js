@@ -50,8 +50,23 @@ eventoApp.factory('pessoaService', function($http, $log){
 	};
 
 
-	var getPessoas = function(fcCallback){
-		$http.get(urlPessoa)
+	var getPessoaPorLogin = function(login, dono, fcCallback){
+		$http.get(urlPessoa+"?login="+login+"&dono="+dono)
+			.then(
+				function(data){
+					fcCallback(data.data);
+				},
+				function(data){
+					console.log('Erro encontrar pessoa');
+				}
+			);
+
+	};
+
+
+
+	var getPessoas = function(parametros, fcCallback){
+		$http.get(urlPessoa+parametros)
 			.then(
 				function(data){
 					fcCallback(data.data);
@@ -68,6 +83,7 @@ eventoApp.factory('pessoaService', function($http, $log){
 		recuperarPessoaPorMatricula : getPessoaPorMatricula,
 		recuperarPessoaPorCpf	: getPessoaPorCpf,
 		recuperarPessoaPorCnpj 	: getPessoaPorCnpj,
+		recuperarPessoaPorLogin 	: getPessoaPorLogin,
 		listar : getPessoas
 	};
 

@@ -33,19 +33,23 @@
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
-    
+    <style type="text/css">
+        
+
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+              display: none !important;
+        }
+
+
+    </style>
 </head>
 <body>
 
 <div class="wrapper" ng-controller="PrincipalController">
-    <div class="sidebar" data-background-color="white" data-active-color="danger">
+    <div class="sidebar" data-background-color="white" data-active-color="danger" ng-cloak>
 
-    <!--
-		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-	-->
 
-    	<div id="menuLateral" class="sidebar-wrapper" ng-show="evento">
+    	<div id="menuLateral" class="sidebar-wrapper" ng-show="evento" >
             <div class="logo" >
                     <span  class="simple-text fonteVerdeEscuro">Meu Evento</span>
             </div>
@@ -62,7 +66,7 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li>
+                <li ng-show="ehAdmin">
                     <a href="#" ng-click="irParaTempoReal()">
                         <i class="glyphicon glyphicon glyphicon-time"></i>
                         <p>Entradas em Tempo Real</p>
@@ -86,7 +90,7 @@
                         <p>Novo ingresso</p>
                     </a>
                 </li>
-                <li>
+                <li ng-show="ehAdmin()">
                     <a href="#" ng-click="irParaConfigurarEvento()">
                         <i class="glyphicon glyphicon-wrench"></i>
                         <p>Configuração</p>
@@ -97,7 +101,7 @@
     	</div>
     </div>
 
-    <div class="main-panel" id="painelPrincipal"  ng-show="evento">
+    <div class="main-panel" id="painelPrincipal"  ng-show="evento" ng-cloak>
         <nav class="navbar navbar-default backgroundPadrao" style="margin-bottom: 5px;">
             <div class="container-fluid">
 
@@ -107,10 +111,10 @@
                     
                 </div>
                 
-                <!--div class="collapse navbar-collapse">
+                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         
-                        <li class="dropdown">
+                        <!--li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="ti-bell"></i>
                                     <p class="notification">5</p>
@@ -128,10 +132,18 @@
 								<i class="ti-settings"></i>
 								<p>Configurações</p>
                             </a>
+                        </li-->
+
+                        <li>
+                            <a href="#">
+                                <i class="ti-na" ng-click="logout()"></i>
+                                <p>Sair</p>
+                            </a>
                         </li>
+                        
                     </ul>
 
-                </div-->
+                </div>
             </div>
         </nav>
 
@@ -171,6 +183,8 @@
     <script src="/lib/angular-moment/angular-moment.js"></script>
     <script src="/lib/ngMask/dist/ngMask.js"></script>
     <script src="/lib/chart.js/dist/Chart.js"></script>
+    <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/lib/angular-md5/angular-md5.js"></script>
     <!-- endbower -->
     
     <!--custons -->
@@ -189,8 +203,10 @@
     <script src="/js/services/EventoService.js"></script>
     <script src="/js/services/IngressoService.js"></script>
     <script src="/js/services/LogService.js"></script>
+    <script src="/js/services/LoginService.js"></script>
     <script src="/js/services/PessoaService.js"></script>
     <script src="/js/services/RelatorioIngressoService.js"></script>
+    <script src="/js/services/SessaoService.js"></script>
     <script src="/js/services/StatsService.js"></script>
     <script src="/js/services/UserService.js"></script>
     <script src="/js/controllers/DashboardController.js"></script>

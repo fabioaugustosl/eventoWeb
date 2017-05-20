@@ -1,7 +1,7 @@
 
-var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial','angularMoment', 'ngMask'])
+var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial', 'angular-md5', 'angularMoment', 'ngMask'])
 		.config(function($routeProvider, $locationProvider, $logProvider) {
-			$routeProvider.when('/index', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
+			$routeProvider.when('/index', {template:'/view/dashboard.html', controller: 'DashboardController'})
 						  .when('/dashboard', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
 						  //.when('/user', {templateUrl:'/view/user.html', controller: 'UserController'})
 						  .when('/user', {templateUrl:'/view/pessoas.html', controller: 'UsuariosController'})

@@ -1,0 +1,114 @@
+<style type="text/css">
+  
+  @import url("https://fonts.googleapis.com/css?family=Lato");
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    background: #003641;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+}
+
+.form-box {
+    width: 300px;
+    background: #fff;
+    font-family: Lato;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    border-top: 10px solid #1BA39C 
+}
+
+.form-box .form-input {
+    border: none;
+    background: #eee;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: large;
+    margin-bottom: 10px
+}
+
+.form-box .form-btn {
+    border: none;
+    background: #00A091;
+    width: 100%;
+    height: 50px;
+    font-size: large;
+    color: #fff;
+    margin-bottom: 10px
+}
+
+.form-btn:hover {
+    border: none;
+    background: #70A240;
+    width: 100%;
+    height: 50px;
+    font-size: large;
+    color: #fff;
+    margin-bottom: 10px;
+    transition: 1s;
+}
+
+@media screen and (max-width:340px){
+    .form-box {
+        width: 100vw;
+        height: 100vh
+    }
+}
+.form-box h1{color: #70A240;}
+
+
+.md-dialog{
+  max-height:100%!important;
+  max-width:100%!important;
+}
+
+.md-dialog-fullscreen {
+  max-height:100%!important;
+  max-width:100%!important;
+}
+</style>
+
+<md-dialog aria-label="teste">
+  <form ng-cloak>
+
+    <md-dialog-content  style="width:100%;height:100%; ">
+        
+        <div class="container" >
+            <div class="form-box">
+                <form >
+                    <div>
+                        <h1>Gestão Ingressos</h1>
+                    </div>
+
+                    <div class="alert alert-danger" style="margin: 10px;" role="alert" ng-show="msgErro">{{msgErro}}</div>
+
+                    <div>
+                        <input type="text" name="username" placeholder="Informe seu login" class="form-input" ng-model="usuario" required>
+                    </div>
+                    
+                    <div>
+                        <input type="password" name="password" placeholder="Informe sua senha" class="form-input" ng-model="senha" required>
+                    </div>
+
+                    <div>
+                        <input type="button" value="Entrar" class="form-btn" ng-click="login()">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </md-dialog-content>
+ 
+  </form>
+</md-dialog>
