@@ -72,6 +72,7 @@ eventoApp.controller('IngressoCadastroController',
 
 		$scope.trocarDocumento = function(nomeDoc) {
 			ingressoCtrl.documentoPrincipal = nomeDoc;
+			novoCadastro();
 	  	};
 
 
@@ -102,7 +103,7 @@ eventoApp.controller('IngressoCadastroController',
 
 
 		var callbackErroAdicionarIngresso  = function(msg) {
-			
+			ingressoCtrl.msg = '';
 			ingressoCtrl.msgErro = msg;
 			$.notify({ message: msg },{ type: 'error', timer: 4000 });
 		};
@@ -174,32 +175,28 @@ eventoApp.controller('IngressoCadastroController',
 				ingressoCtrl.novoIngresso.nomeCliente = pessoa[0].nome;
 
 				// documento_extra1 é onde está salvo o cnpj no PessoaAPI
-				if(pessoa[0].documento_extra1){
-					ingressoCtrl.novoIngresso.docCliente1 = pessoa[0].documento_extra1;	
-					ingressoCtrl.documentoPrincipal = 'CNPJ';
+				if(ingressoCtrl.documentoPrincipal != 'CPF'){
 					ingressoCtrl.novoIngresso.docCliente2 = pessoa[0].cpf;	// cpf do responsavel
 					ingressoCtrl.novoIngresso.acompanhante = pessoa[0].info_extra2;	 // nome do responsavel
-				} else {
-					ingressoCtrl.novoIngresso.docCliente1 = pessoa[0].cpf;	
-					ingressoCtrl.documentoPrincipal = 'CPF';
-				}
+				} 
+
+				ingressoCtrl.novoIngresso.docCliente3 = pessoa[0].info_extra3;	
 
 				//ingressoCtrl.novoIngresso.docCliente2 = pessoa[0].rg;
 
 				ingressoCtrl.desabilitarCadPessoa = true;
 				categoriaIngressoPadraoParaCliente = null;
 
-				if(pessoa[0].info_extra1){
+				//if(pessoa[0].info_extra1){
 					
 					var categPadrao = recuperarConfiguracaoPadraoPorCategoriaIngresso(pessoa[0].info_extra1);
 					console.log('chegou categ ',categPadrao);
 					if(categPadrao){
 						categoriaIngressoPadraoParaCliente = categPadrao._id;
 					}
-				}
-				ingressoCtrl.msgPessoaEncontrada = "Tipo da conta: "+pessoa[0].info_extra1;
+				//}
 
-				
+				ingressoCtrl.msgPessoaEncontrada = "Tipo da conta: "+pessoa[0].info_extra1;
 				
 			} else {
 				ingressoCtrl.msgPessoaEncontrada = "Pessoa não identificada em na base de dados.";
@@ -216,12 +213,17 @@ eventoApp.controller('IngressoCadastroController',
 
 
 		$scope.recuperarCliente = function(){
-			console.log('Vai recuperar o cliente',ingressoCtrl.novoIngresso.docCliente3);
+			console.log('Vai recuperar o cliente',ingressoCtrl.novoIngresso.docCliente1);
 
-			if(ingressoCtrl.novoIngresso.docCliente3){
+			if(ingressoCtrl.novoIngresso.docCliente1){
 				ingressoCtrl.msgPessoaEncontrada = "";
 				ingressoCtrl.processando = true;
-				pessoaService.recuperarPessoaPorMatricula(ingressoCtrl.novoIngresso.docCliente3, callbackRecuperarCliente);	
+
+				if(ingressoCtrl.documentoPrincipal == 'CPF'){
+					pessoaService.recuperarPessoaPorCpf(ingressoCtrl.novoIngresso.docCliente1, callbackRecuperarCliente);	
+				}else {
+					pessoaService.recuperarPessoaPorCnpj(ingressoCtrl.novoIngresso.docCliente1, callbackRecuperarCliente);	
+				}
 			}
 			  			
 		};
@@ -361,7 +363,7 @@ eventoApp.controller('IngressoCadastroController',
 		    		};
 
 		    		var fdCallbackNao = function(){
-		    			$scope.msgErro = "O código do ingresso não é válido. <br />Favor conferir o número impresso no ingresso.";
+		    			$scope.msgErro = "O código do ingresso não é válido. Favor conferir o número impresso no ingresso.";
 		    		};
 
 		    		ingressoService.codigoIngressoEhValido($sessionStorage.dono, 

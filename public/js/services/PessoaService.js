@@ -6,6 +6,35 @@ eventoApp.factory('pessoaService', function($http, $log){
 	
 	var urlPessoa = urlPadrao+'/api/pessoa/v1/';
 
+
+	var getPessoaPorCnpj = function(cnpj, fcCallback){
+		cnpj = cnpj.match(/\d/g).join(""); // somente os numeros
+		$http.get(urlPessoa+"?documento_extra1="+cnpj)
+			.then(
+				function(data){
+					fcCallback(data.data);
+				},
+				function(data){
+					console.log('Erro encontrar pessoa por cpf');
+				}
+			);
+	};
+
+	
+	var getPessoaPorCpf = function(cpf, fcCallback){
+		cpf = cpf.match(/\d/g).join("");
+		console.log('estou no service e vou fazer busca pelo cpf ',cpf);
+		$http.get(urlPessoa+"?cpf="+cpf)
+			.then(
+				function(data){
+					fcCallback(data.data);
+				},
+				function(data){
+					console.log('Erro encontrar pessoa por cpf');
+				}
+			);
+	};
+
 	
 	var getPessoaPorMatricula = function(matricula, fcCallback){
 		$http.get(urlPessoa+"?info_extra3="+matricula)
@@ -37,6 +66,8 @@ eventoApp.factory('pessoaService', function($http, $log){
 
 	return {
 		recuperarPessoaPorMatricula : getPessoaPorMatricula,
+		recuperarPessoaPorCpf	: getPessoaPorCpf,
+		recuperarPessoaPorCnpj 	: getPessoaPorCnpj,
 		listar : getPessoas
 	};
 
