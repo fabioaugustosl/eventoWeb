@@ -67,7 +67,7 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li ng-show="ehAdmin">
+                <li ng-show="ehAdmin()">
                     <a href="#" ng-click="irParaTempoReal()">
                         <i class="glyphicon glyphicon glyphicon-time"></i>
                         <p>Entradas em Tempo Real</p>
@@ -208,8 +208,6 @@
     <script src="/js/services/PessoaService.js"></script>
     <script src="/js/services/RelatorioIngressoService.js"></script>
     <script src="/js/services/SessaoService.js"></script>
-    <script src="/js/services/StatsService.js"></script>
-    <script src="/js/services/UserService.js"></script>
     <script src="/js/controllers/DashboardController.js"></script>
     <script src="/js/controllers/EntradaTempoRealController.js"></script>
     <script src="/js/controllers/EventoCadastroController.js"></script>

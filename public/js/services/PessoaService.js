@@ -66,6 +66,9 @@ eventoApp.factory('pessoaService', function($http, $log){
 
 
 	var getPessoas = function(parametros, fcCallback){
+		if(!parametros){
+			parametros = '';
+		}
 		$http.get(urlPessoa+parametros)
 			.then(
 				function(data){
