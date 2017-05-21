@@ -119,6 +119,7 @@ eventoApp.controller('PrincipalController',
 					if(resultado && resultado.length  == 1){
 						$sessionStorage.eventoSelecionado = resultado[0];
 						$scope.evento = $sessionStorage.eventoSelecionado;
+						$scope.goToDashboard();
 					} else {
 						mostrarEventos();
 					}
@@ -147,9 +148,6 @@ eventoApp.controller('PrincipalController',
 	    			console.log("vai selecionar o evento");
 			  		$scope.selecionarEvento();
 			  	}
-
-	    		
-	    		$scope.goToDashboard();
 
 	    	}, function() {
 	    		// erro

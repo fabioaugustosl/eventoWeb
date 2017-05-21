@@ -105,7 +105,7 @@ eventoApp.controller('IngressoCadastroController',
 		var callbackErroAdicionarIngresso  = function(msg) {
 			ingressoCtrl.msg = '';
 			ingressoCtrl.msgErro = msg;
-			$.notify({ message: msg },{ type: 'error', timer: 4000 });
+			$.notify({ message: msg },{ type: 'danger', timer: 4000 });
 		};
 
 
@@ -118,7 +118,7 @@ eventoApp.controller('IngressoCadastroController',
 				var msg = 'Limite máximo de '+config.quantidadeMaxPorPessoa+' ingressos por pessoa atingido. ';
 				
 				ingressoCtrl.msgErro = msg;
-				$.notify({ message: msg },{ type: 'error', timer: 4000 });
+				$.notify({ message: msg },{ type: 'danger', timer: 4000 });
 
 			} else {
 				if(ingressoCtrl.novoIngresso.docCliente1){
