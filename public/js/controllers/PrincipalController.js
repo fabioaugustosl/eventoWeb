@@ -2,14 +2,14 @@
  
 
 eventoApp.controller('PrincipalController',
-	function ($scope, $routeParams, $location, $sessionStorage, $mdDialog, md5, eventoService, pessoaService, loginService){
+	function ($scope, $routeParams, $location, $sessionStorage, $mdDialog,$window, md5, eventoService, pessoaService, loginService){
 		
 
 		$scope.currentUser = null;
   		//$scope.isAuthorized = AuthService.isAuthorized;
   		$scope.setCurrentUser = function (user) {
-	    $scope.currentUser = user;
-	  };
+	    	$scope.currentUser = user;
+	  	};
 
 
 		$scope.tituloPagina = 'Bem vindo!';
@@ -61,13 +61,14 @@ eventoApp.controller('PrincipalController',
 			console.log('logout');
 			var cb = function(){
 				console.log('logout cb');
-				//$location.url('/');
-				 $location.path('/');
-    			$scope.$apply();
+				
+				$scope.telaLogin();
+				
 			};
 
 			loginService.logout(cb);
 		};
+
 
 		$scope.ehAdmin = function(){
 			return loginService.isAuthorized('admin');
@@ -76,38 +77,54 @@ eventoApp.controller('PrincipalController',
 
 		$scope.selecionarEvento = function() {
 
-			$mdDialog.show({
-	      		controller: DialogController,
-	      		templateUrl: '/view/dialogs/selecaoEvento.tmpl.html',
-	      		parent: angular.element(document.body),
-	      		//targetEvent: ev,
-	      		clickOutsideToClose:false,
-	      		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-	    	})
-	    	.then(function(evento) {
-	    		$sessionStorage.eventoSelecionado = evento;
-	    		
-	    		$.notify({
-	            	icon: 'ti-gift',
-	            	message: "Evento selecionado <b>"+evento.titulo+"</b> - Produminas"
-	            },{
-	                type: 'success',
-	                timer: 4000
-	            });
+			var mostrarEventos = function(){
 
-	            $scope.evento = $sessionStorage.eventoSelecionado;
+				$mdDialog.show({
+		      		controller: DialogController,
+		      		templateUrl: '/view/dialogs/selecaoEvento.tmpl.html',
+		      		parent: angular.element(document.body),
+		      		//targetEvent: ev,
+		      		clickOutsideToClose:false,
+		      		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+		    	})
+		    	.then(function(evento) {
+		    		$sessionStorage.eventoSelecionado = evento;
+		    		
+		    		$.notify({
+		            	icon: 'ti-gift',
+		            	message: "Evento selecionado <b>"+evento.titulo+"</b> - Produminas"
+		            },{
+		                type: 'success',
+		                timer: 4000
+		            });
 
-	    		//$location.url('/');
-	    		$("#menuLateral").show();
-	    		$("#painelPrincipal").show();
+		            $scope.evento = $sessionStorage.eventoSelecionado;
 
-	    		$scope.goToDashboard();
+		    		//$location.url('/');
+		    		$("#menuLateral").show();
+		    		$("#painelPrincipal").show();
 
-	    	}, function() {
-	    		
-	    		// TODO :  ir para tela de cadastro do evento
-	    		$scope.status = 'You cancelled the dialog.';
-	    	});
+		    		$scope.goToDashboard();
+
+		    	}, function() {
+		    		
+		    		// TODO :  ir para tela de cadastro do evento
+		    		$scope.status = 'You cancelled the dialog.';
+		    	});
+		    };
+
+		    eventoService.getEventos(function(resultado){
+	  				console.log('Eventos: ', resultado);
+					console.log(resultado.length);
+					if(resultado && resultado.length  == 1){
+						$sessionStorage.eventoSelecionado = resultado[0];
+						$scope.evento = $sessionStorage.eventoSelecionado;
+					} else {
+						mostrarEventos();
+					}
+					
+				});	
+
 	  	};
 
 
@@ -119,11 +136,19 @@ eventoApp.controller('PrincipalController',
 	      		parent: angular.element(document.body),
 	      		//targetEvent: ev,
 	      		clickOutsideToClose:false,
+	      		escapeToClose:false,
 	      		fullscreen: true // Only for -xs, -sm breakpoints.
 	    	})
 	    	.then(function(usuario) {
 	    		$sessionStorage.usuarioLogado = usuario;
 
+				console.log("vaiiiii login");
+	    		if(!$scope.evento){
+	    			console.log("vai selecionar o evento");
+			  		$scope.selecionarEvento();
+			  	}
+
+	    		
 	    		$scope.goToDashboard();
 
 	    	}, function() {
@@ -132,16 +157,16 @@ eventoApp.controller('PrincipalController',
 	  	};
 
 
+	  	console.log('is isAuthenticated ',loginService.isAuthenticated());
 	  	if(!loginService.isAuthenticated()){
 	  		$scope.telaLogin();	
 	  	} else {
-	  		if(!$scope.evento){
-	  		$scope.selecionarEvento();
-	  	}
+	  		//if(!$scope.evento){
+		  		$scope.selecionarEvento();
+		  	//}
 	  	}
 
 		
-	
 
 		function LoginController($scope, $mdDialog, loginService) {
 
@@ -166,8 +191,7 @@ eventoApp.controller('PrincipalController',
 					loginService.login($scope.usuario, md5.createHash($scope.senha || '') , $sessionStorage.dono, cbSucesso, cbErro);
 				}
 			};
-
-		  };
+		};
 
 
 	  	function DialogController($scope, $mdDialog, eventoService) {
@@ -176,14 +200,8 @@ eventoApp.controller('PrincipalController',
 	  			eventoService.getEventos(function(resultado){
 	  				console.log(resultado);
 					$scope.eventos = resultado;
-
-					if($scope.eventos && $scope.eventos.lenght == 1){
-						$mdDialog.hide(eventos[0]);
-					}
-					
 				});		
 			};
-
 			
 		    $scope.novoEvento = function() {
 		      $mdDialog.cancel();
@@ -194,7 +212,7 @@ eventoApp.controller('PrincipalController',
 		    };
 
 		    getEventos();
-		  };
+		};
 
 	}
 );

@@ -3,6 +3,7 @@
 eventoApp.controller('DashboardController',
 	function ($scope, $http, $log, $sessionStorage, moment, ingressoService, relatorioIngressoService){
 		
+		console.log("Dashboard");
 		$scope.namePage = 'Dashboard';
 		$scope.atualizacaoGraficoDistribuicaoDia = null;
 		$scope.atualizacaoGraficoIngressoPorCategoria = null;
@@ -376,6 +377,7 @@ eventoApp.controller('DashboardController',
 
 
 
+	    console.log(eventoSelecionado);
 		// init
 		if(eventoSelecionado){
 			if(configuracoes){
