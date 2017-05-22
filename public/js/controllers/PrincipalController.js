@@ -118,7 +118,8 @@ eventoApp.controller('PrincipalController',
 					console.log(resultado.length);
 					if(resultado && resultado.length  == 1){
 						$sessionStorage.eventoSelecionado = resultado[0];
-						$scope.evento = $sessionStorage.eventoSelecionado;
+						$scope.evento = $sessionStorage.eventoSelecionado; 
+						console.log('vai ir pro dashboard');
 						$scope.goToDashboard();
 					} else {
 						mostrarEventos();
@@ -147,6 +148,8 @@ eventoApp.controller('PrincipalController',
 	    		if(!$scope.evento){
 	    			console.log("vai selecionar o evento");
 			  		$scope.selecionarEvento();
+			  	} else {
+			  		$scope.goToDashboard();
 			  	}
 
 	    	}, function() {
