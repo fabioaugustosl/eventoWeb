@@ -11,11 +11,11 @@ eventoApp.controller('UsuariosController',
 
 
 		var getPessoas = function(parametros){
-			processando = true;
+			pessoasCtrl.processando = true;
 			pessoaService.listar(parametros, function(resultado){
 				console.log('res: '+resultado);
-				processando = true;
 				pessoasCtrl.pessoas = resultado;
+				pessoasCtrl.processando  = false;
 			});		
 		};
 
