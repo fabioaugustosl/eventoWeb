@@ -12,8 +12,9 @@ var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial
 						  .otherwise({redirectTo:'/index'});
 
 			$locationProvider.html5Mode(true);
-
+			
 			$logProvider.debugEnabled(true);
+			console.log('ROTA CONFIG');
 		}).directive('focus',
 			function($timeout) {
 				return {

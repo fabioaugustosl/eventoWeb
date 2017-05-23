@@ -4,7 +4,6 @@
 eventoApp.controller('PrincipalController',
 	function ($scope, $routeParams, $location, $sessionStorage, $mdDialog,$window, md5, eventoService, pessoaService, loginService){
 		
-
 		$scope.currentUser = null;
   		//$scope.isAuthorized = AuthService.isAuthorized;
   		$scope.setCurrentUser = function (user) {
@@ -21,6 +20,7 @@ eventoApp.controller('PrincipalController',
 		$scope.evento = $sessionStorage.eventoSelecionado;
 		
 		$scope.goToDashboard = function(){
+			console.log("go to das");
 			$location.replace();
 			$location.url('/dashboard');
 			$scope.tituloPagina = 'Dashboard';
@@ -66,6 +66,7 @@ eventoApp.controller('PrincipalController',
 				
 			};
 
+			$sessionStorage.usuarioLogado = null;
 			loginService.logout(cb);
 		};
 
@@ -160,7 +161,16 @@ eventoApp.controller('PrincipalController',
 
 	  	console.log('is isAuthenticated ',loginService.isAuthenticated());
 	  	if(!loginService.isAuthenticated()){
-	  		$scope.telaLogin();	
+	  		
+	  		if($sessionStorage.usuarioLogado){
+
+	  			console.log("VAI RECONSTRUIR O LOGIN " ,$sessionStorage.usuarioLogado);
+	  			loginService.reconstruirSessao($sessionStorage.usuarioLogado);
+	  			$scope.goToDashboard();
+	  		} else{
+	  			$scope.telaLogin();		
+	  		}
+
 	  	} else {
 	  		//if(!$scope.evento){
 		  		$scope.selecionarEvento();

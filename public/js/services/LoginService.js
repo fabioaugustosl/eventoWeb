@@ -6,7 +6,6 @@ eventoApp.factory('loginService', function($http, $log, pessoaService, Sessao){
  
   	loginService.login = function (usuario, senha, dono, cbSucesso, cbErro) {
   		var cb = function(pessoa){
-  			console.log(pessoa);
   			if(pessoa){
   				if(pessoa[0].senha === senha){
   					Sessao.criar(pessoa[0].id, pessoa[0].id, pessoa[0].nome, pessoa[0].login, pessoa[0].perfil);
@@ -25,9 +24,17 @@ eventoApp.factory('loginService', function($http, $log, pessoaService, Sessao){
   	};
 
 
+    loginService.reconstruirSessao = function (pessoa) {
+      console.log('chegou no rescontruirSessao sevice');
+      if(pessoa){
+        Sessao.criar(pessoa.id, pessoa.id, pessoa.nome, pessoa.login, pessoa.perfil);
+      };
+    }
+
+
   	loginService.logout = function (cbSucesso) {
   		Sessao.destruir();
-		cbSucesso();
+		  cbSucesso();
   	};
 
  
