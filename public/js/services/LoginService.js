@@ -6,7 +6,8 @@ eventoApp.factory('loginService', function($http, $log, pessoaService, Sessao){
  
   	loginService.login = function (usuario, senha, dono, cbSucesso, cbErro) {
   		var cb = function(pessoa){
-  			if(pessoa){
+        
+  			if(pessoa && pessoa.length > 0){
   				if(pessoa[0].senha === senha){
   					Sessao.criar(pessoa[0].id, pessoa[0].id, pessoa[0].nome, pessoa[0].login, pessoa[0].perfil);
   					cbSucesso(pessoa[0]);
