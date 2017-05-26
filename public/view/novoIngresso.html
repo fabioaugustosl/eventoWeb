@@ -60,7 +60,7 @@
                             <div class="row">
                                 <div class="col-md-2"></div>
 
-                                <div class="col-md-8">
+                                <div class="col-md-8" style="padding: 0px">
                                    <div class="form-group">
                                         <label for="inputNomeCliente">Nome cliente</label>
                                         <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input"
@@ -74,15 +74,17 @@
                             <div class="row">
                                 <div class="col-md-2"></div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-4" style="padding: 0px">
                                     <label for="inputMatricula">Número Conta</label>
-                                    <input type="text" name="inputMatricula" id="inputMatricula" ng-disabled="ingressoCtrl.desabilitarCadPessoa" class="form-control border-input"  ng-model="ingressoCtrl.novoIngresso.docCliente3" >
+                                    <input type="text" name="inputMatricula" id="inputMatricula" ng-disabled="ingressoCtrl.desabilitarCadPessoa" class="form-control border-input"  ng-model="ingressoCtrl.novoIngresso.docCliente3" style="width: 90%" >
 
                                 </div>
-                                <div class="col-md-4">
-                                    <div ng-show="ingressoCtrl.novoIngresso.acompanhante">
-                                        <label style="font-size:12px; ">Responsável: {{ingressoCtrl.novoIngresso.acompanhante}}</label> <br />
-                                        <label style="font-size:14px; margin-top: 15px;">CPF: {{ingressoCtrl.novoIngresso.docCliente2}}</label> 
+                                <div class="col-md-4" ng-show="ingressoCtrl.documentoPrincipal != 'CPF'" style="padding: 0px">
+                                    <label for="inputCpfResponsavel">CPF Responsável</label>
+                                    <input type="text" name="inputCpfResponsavel" id="inputCpfResponsavel" ng-blur="limparNomeAcompanhante()"   class="form-control border-input" ng-model="ingressoCtrl.novoIngresso.docCliente2" mask="999.999.999-99"  >
+
+                                    <div ng-show="ingressoCtrl.novoIngresso.acompanhante">  
+                                        <label style="font-size:10px; ">{{ingressoCtrl.novoIngresso.acompanhante}}</label> 
                                     </div>
 
                                 </div>
@@ -121,7 +123,7 @@
 
                            
                             <div class="row text-center">
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="padding-top: 25px;">
                                     
                                     <button type="button" ng-disabled="formIngresso.$invalid"  class="btn   btn-default btn-lg" ng-click="adicionarIngresso()">
                                         <span class="glyphicon glyphicon-tag" aria-hidden="true"> Adicionar ingresso

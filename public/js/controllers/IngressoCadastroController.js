@@ -56,9 +56,15 @@ eventoApp.controller('IngressoCadastroController',
 		};
 
 
+		$scope.limparNomeAcompanhante = function(){
+			ingressoCtrl.novoIngresso.acompanhante= null;
+		};
+
+
 		$scope.iniciarCadastro = function(){
 			ingressoCtrl.msg = '';
 			ingressoCtrl.msgErro = '';
+			ingressoCtrl.msgPessoaEncontrada = '';
 
 			novoCadastro();
 			

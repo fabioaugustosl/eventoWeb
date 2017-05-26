@@ -49,11 +49,13 @@
                         <div class="row">
                             <div class="col-sm-6 col-md-6" ng-repeat="ing in ingressos | orderBy : 'dataGeracao':true" style="border: 1px solid #F3F3F3;">
                                 <div class="pull-left">
-                                    <img ng-src="{{ing.qrcodeImg}}" title="Código de identificação do ingresso" />     
+                                    <img ng-src="{{ing.qrcodeImg}}" title="Código de identificação do ingresso" style="max-width: 120px" />     
                                 </div>
                                 <div class="clearfix pull-left" >
                                     <h3>{{ ing.nomeCliente }} </h3>
-                                    <p ng-show="{{ing.acompanhante != null}}"> Ingresso para acompanhante: {{ing.acompanhante}}</p>
+                                    <!--p ng-show="{{ing.acompanhante != null}}"> Ingresso para acompanhante: {{ing.acompanhante}}</p -->
+                                    <p ng-show="{{ing.docCliente2 != null}}"> Responsável: {{ing.docCliente2}}</p>
+                                    
 
                                     <p style="font-size: 12px; line-height: 1em;">Ingresso entregue em {{ ing.dataGeracao | date: 'dd/MM/yyyy'}}</p>
                                     <p style="font-size: 12px; line-height: 1em;">Código: {{ing.chave}}</p>
@@ -62,7 +64,7 @@
                                     </div>
 
                                     <div ng-show="{{ing.dataBaixa == null}}" >
-                                        <button type="button" class="btn btn-danger btn-lg" ng-click="removerIngresso(ing._id)">
+                                        <button type="button" class="btn btn-danger btn-lg" ng-click="removerIngresso(ing._id)" style="margin-bottom: 5px;">
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"> Devolver ingresso </span>
                                         </button>
                                     </div>
