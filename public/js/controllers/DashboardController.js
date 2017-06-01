@@ -9,6 +9,7 @@ eventoApp.controller('DashboardController',
 		$scope.atualizacaoGraficoIngressoPorCategoria = null;
 		$scope.atualizacaoGraficoDistrubuicaoPorCategoria = null;
 		$scope.atualizacaoGraficoEntradaEvento = null;
+		$scope.atualizacaoGraficoEntradaPorCategoria = null;
 
 		var dono = $sessionStorage.dono;
 		var eventoSelecionado = $sessionStorage.eventoSelecionado;
@@ -35,6 +36,7 @@ eventoApp.controller('DashboardController',
 
 				loadGraficoIngressosPorCategoria(config);
 				loadGraficoDistrubuicaoIngressosPorCategoria();
+				loadGraficoEntradaPorCategoria(idEvento);
 			};
 
 			ingressoService.getConfiguracoes(idEvento, callback);
@@ -136,6 +138,7 @@ eventoApp.controller('DashboardController',
 		/* funções graficos */
 
 
+
 		var callbackGraficoEntradaPessoas = function(dados){
 
 			montarDashboardTotalEntradasEvento(dados);
@@ -201,6 +204,79 @@ eventoApp.controller('DashboardController',
 	    };
 
 
+	    var callbackGraficoEntradaPorCategoria = function(dados){
+
+		 	if(dados && dados.length > 0){
+				$scope.atualizacaoGraficoEntradaPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
+
+			 	var rotulos = [];
+		        var serieAcompanhantes = [];
+		        var serieAssociados = [];
+
+		        console.log('dados entrada por categoria ', dados, configuracoes);
+
+		        for (i = 0; i < dados.length; i++) { 
+		        	var dado = dados[i];
+
+		        	if(dado.categoria){
+		        		var conf = null;//recuperarConfiguracaoPorId(dado._id);
+		        		for (j = 0; j < configuracoes.length; j++) { 
+					    	var c =  configuracoes[j];
+					    	if(dado.categoria == c._id){
+					    		conf = c;
+					    	}
+						}
+						console.log(conf);
+		        		rotulos.push(conf.tipoIngresso);
+		        		serieAssociados.push(dado.totaUnico);
+		        		var totalAcompanhantes = dado.totalIngressos - dado.totaUnico;
+		        		serieAcompanhantes.push(totalAcompanhantes);	
+		        	}
+		        }
+
+
+		     	var coresPrimarias = ['#006400', '#FF8C00','#EECFA1','#CDAD00','#8B4726',  '#473C8B'];
+		    	var coresSecundarias = ['#CDB38B','#FFD700','#CD6839','#556B2F', '#FF6347', '#6959CD'];
+
+			  	var data ={
+							"labels": rotulos,
+							"datasets": [{
+						      "label": "Associados",
+						      "fill": "false",
+						       "backgroundColor": '#006400',
+						      yAxisID: "y-axis-0",
+						      "data": serieAssociados
+						    }, {
+						      "label": "Acompanhantes",
+						      "fill": "false",
+						       "backgroundColor": '#FF8C00',
+						      yAxisID: "y-axis-0",
+						      "data": serieAcompanhantes
+						    }]
+
+			    };
+
+		
+		        var myBarChart = new Chart($('#graficoEntradaPorCategoria'), {
+				    type: 'bar',
+				    data: data,
+				    options: {
+				        scales: {
+				            xAxes: [{
+				                stacked: true
+				            }],
+				            yAxes: [{
+				                stacked: true
+				            }]
+				        }
+				    }
+				    
+				});
+
+		    }
+
+	    };
+
 
 		var callbackGraficoDistrubuicaoIngressos = function(dados){
 
@@ -249,6 +325,11 @@ eventoApp.controller('DashboardController',
 
 		var loadGraficoEntradaPessoas = function(idEvento){
 	    	relatorioIngressoService.getEntradasEventoPorHora(idEvento, callbackGraficoEntradaPessoas);
+	    };
+
+
+		var loadGraficoEntradaPorCategoria= function(idEvento){
+	    	relatorioIngressoService.getEntradasEventoPorCategoria(idEvento, callbackGraficoEntradaPorCategoria);
 	    };
 
 
@@ -303,7 +384,7 @@ eventoApp.controller('DashboardController',
 			  	var data ={
 							"labels": rotulos,
 							"datasets": [{
-						      "label": "Ingressos por categoria",
+						      "label": "Total ingressos",
 						      "fill": "false",
 						       "backgroundColor": '#006400',
 						      yAxisID: "y-axis-0",
@@ -311,7 +392,7 @@ eventoApp.controller('DashboardController',
 						    }, {
 						      "label": "Distribuidos",
 						      "fill": "false",
-						       "backgroundColor": '#556B2F',
+						       "backgroundColor": '#8B4726',
 						      yAxisID: "y-axis-0",
 						      "data": serieVendidos
 						    }]
@@ -338,10 +419,11 @@ eventoApp.controller('DashboardController',
 
 	    var loadGraficoIngressosPorCategoria = function(config){
 
+	    	console.log('CHAMOU O GRAFICO TAL');
 	    	var coresPrimarias = ['#006400', '#FF8C00', '#473C8B','#EECFA1','#CDAD00','#8B4726'];
 	    	var coresSecundarias = ['#556B2F', '#FF6347', '#6959CD', '#CDB38B','#FFD700','#CD6839'];
 
-			$scope.atualizacaoGraficoIngressoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
+			//$scope.atualizacaoGraficoIngressoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
 	    	
 	    	var nomeSeriesGrafico = [];
 	    	var valorSeriesGrafico = [];
@@ -386,6 +468,7 @@ eventoApp.controller('DashboardController',
 
 				loadGraficoIngressosPorCategoria(configuracoes);
 				loadGraficoDistrubuicaoIngressosPorCategoria();
+				loadGraficoEntradaPorCategoria(eventoSelecionado._id);
 				
 			} else {
 				recuperarConfiguracaoEvento(eventoSelecionado._id);
@@ -393,6 +476,7 @@ eventoApp.controller('DashboardController',
 
 			loadGraficoDistrubuicaoIngressos();
 			loadGraficoEntradaPessoas(eventoSelecionado._id);
+
 						
 		}
 		

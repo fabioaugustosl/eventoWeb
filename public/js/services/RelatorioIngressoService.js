@@ -1,8 +1,8 @@
 
 eventoApp.factory('relatorioIngressoService', function($http, $log){
 	
-	//var urlPadrao = 'http://localhost:3000'; //'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81'
-	var urlPadrao = 'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81';
+	var urlPadrao = 'http://localhost:3000'; //'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81'
+	//var urlPadrao = 'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81';
 
 	var urlIngresso = urlPadrao+'/api/ingresso/v1/';
 	var urlIngressoUtil = urlPadrao+'/api/ingressoUtil/v1/';
@@ -49,6 +49,17 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 	};
 
 
+	var getEntradasEventoPorCategoria = function(idEvento, fcCallback){
+		$http({method:'GET', url:urlIngressoUtil+'entradasPorCategoria/'+idEvento})
+			.then(
+				function(data){
+					fcCallback(data.data);
+				}
+			);	
+
+	};
+
+
 	var getEntradasEventoPorHora = function(idEvento, fcCallback){
 		$http({method:'GET', url:urlIngressoUtil+'entradasEvento/'+idEvento})
 			.then(
@@ -64,6 +75,7 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 		getTotalIngressosEvento : getTotalIngressosEvento,
 		getDistribuicaoIngressosPorDia : getDistribuicaoIngressosPorDia,
 		getDistribuicaoIngressosPorConfiguracao :getDistribuicaoIngressosPorConfiguracao,
+		getEntradasEventoPorCategoria : getEntradasEventoPorCategoria,
 		getEntradasEventoPorHora : getEntradasEventoPorHora
 	};
 

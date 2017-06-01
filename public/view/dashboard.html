@@ -73,26 +73,10 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="header">
-                        <h4 class="title">Ingressos por categoria</h4>
-                        <p class="category">Veja a relação de ingressos por tipo de categoria</p>
-                    </div>
-                    <div class="content">
-                        <canvas id="graficoIngressosPorCategoria" width="200" height="200"></canvas>
 
-                        <div class="footer">
-                            <hr>
-                            <div class="stats">
-                                <i class="ti-timer"></i> {{atualizacaoGraficoIngressoPorCategoria}} 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
+        <div class="row">
+            
+            <div class="col-md-4" ng-show="atualizacaoGraficoDistrubuicaoPorCategoria">
                 <div class="card ">
                     <div class="header">
                         <h4 class="title">Distribuição de ingressos por categoria</h4>
@@ -100,7 +84,7 @@
                     </div>
                     <div class="content">
 
-                        <canvas id="graficoDistribuicaoPorCategoriaNovo" width="200" height="200"></canvas>
+                        <canvas id="graficoDistribuicaoPorCategoriaNovo" width="300" height="300"></canvas>
 
                         <div class="footer">
                             <hr>
@@ -111,7 +95,48 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-4" ng-show="atualizacaoGraficoEntradaPorCategoria">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Entrada de associados </h4>
+                        <p class="category">Veja a relação de entradas de associados e acompanhantes por categoria</p>
+                    </div>
+                    <div class="content">
+                        <canvas id="graficoEntradaPorCategoria" width="300" height="300"></canvas>
+
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-timer"></i> {{atualizacaoGraficoEntradaPorCategoria}} 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4" ng-show="atualizacaoGraficoIngressoPorCategoria">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Ingressos por categoria</h4>
+                        <p class="category">Veja a relação de ingressos por tipo de categoria</p>
+                    </div>
+                    <div class="content">
+                        <canvas id="graficoIngressosPorCategoria" width="300" height="300"></canvas>
+
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-timer"></i> {{atualizacaoGraficoIngressoPorCategoria}} 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+        
     </div>
 </div>
 
