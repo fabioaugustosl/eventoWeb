@@ -12,7 +12,7 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 		$http.get(urlIngressoUtil+'/distribuicao/produminas')
 			.then(
 				function(data, status, headers, config){
-					console.log('voltou para o callback service relatorio distribuicao por dia ',data);
+					//console.log('voltou para o callback service relatorio distribuicao por dia ',data);
 					fcCallback(data.data);
 				},
 				function(data, status, headers, config){
@@ -27,7 +27,7 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 		$http.get(urlIngressoUtil+'/distribuicaoPorConfiguracao/produminas')
 			.then(
 				function(data, status, headers, config){
-					console.log('voltou para o callback service relatorio distribuicao por configuracao ',data);
+					//console.log('voltou para o callback service relatorio distribuicao por configuracao ',data);
 					fcCallback(data.data);
 				},
 				function(data, status, headers, config){

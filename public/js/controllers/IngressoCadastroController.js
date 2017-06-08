@@ -57,7 +57,10 @@ eventoApp.controller('IngressoCadastroController',
 
 
 		$scope.limparNomeAcompanhante = function(){
-			ingressoCtrl.novoIngresso.acompanhante= null;
+			if(!ingressoCtrl.novoIngresso.docCliente2){
+				ingressoCtrl.novoIngresso.acompanhante= null;	
+			}
+			
 		};
 
 
@@ -182,8 +185,20 @@ eventoApp.controller('IngressoCadastroController',
 
 				// documento_extra1 é onde está salvo o cnpj no PessoaAPI
 				if(ingressoCtrl.documentoPrincipal != 'CPF'){
-					ingressoCtrl.novoIngresso.docCliente2 = pessoa[0].cpf;	// cpf do responsavel
-					ingressoCtrl.novoIngresso.acompanhante = pessoa[0].info_extra2;	 // nome do responsavel
+					// cpf do responsavel	
+					if(pessoa[0].cpf){
+						ingressoCtrl.novoIngresso.docCliente2 = pessoa[0].cpf;	
+					} else {
+						ingressoCtrl.novoIngresso.docCliente2 = "";	
+					}
+
+					// nome do responsavel
+					if(pessoa[0].info_extra2){
+						ingressoCtrl.novoIngresso.acompanhante = pessoa[0].info_extra2;	
+					} else {
+						ingressoCtrl.novoIngresso.acompanhante = "";	
+					}
+ 
 				} 
 
 				ingressoCtrl.novoIngresso.docCliente3 = pessoa[0].info_extra3;	
@@ -291,22 +306,29 @@ eventoApp.controller('IngressoCadastroController',
 
 
 		$scope.adicionarIngresso = function() {
+			ingressoCtrl.msgErro = "";
+			if(ingressoCtrl.documentoPrincipal != 'CPF' &&
+						!ingressoCtrl.novoIngresso.docCliente2){
+				ingressoCtrl.msgErro = "Favor preencher o CPF do Responsável";
+				$.notify({ message: "Favor preencher o CPF do Responsável" },{ type: 'danger', timer: 3000 });
+			} else{
+				$mdDialog.show({
+		      		controller: IngressoDialogController,
+		      		templateUrl: '/view/dialogs/adicionarIngresso.tmpl.html',
+		      		parent: angular.element(document.body),
+		      		//targetEvent: ev,
+		      		clickOutsideToClose:true,
+		      		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+		    	})
+		    	.then(function(dados) {
+		    		console.log('id config: ', dados);
+		    		criarNovoIngresso(dados.codigo, dados.idConfig);
 
-			$mdDialog.show({
-	      		controller: IngressoDialogController,
-	      		templateUrl: '/view/dialogs/adicionarIngresso.tmpl.html',
-	      		parent: angular.element(document.body),
-	      		//targetEvent: ev,
-	      		clickOutsideToClose:true,
-	      		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-	    	})
-	    	.then(function(dados) {
-	    		console.log('id config: ', dados);
-	    		criarNovoIngresso(dados.codigo, dados.idConfig);
-
-	    	}, function() {
-	    		// TODO :  executar alguma ação ao cancelar
-	    	});
+		    	}, function() {
+		    		// TODO :  executar alguma ação ao cancelar
+		    	});	
+			}
+			
 	  	};
 
 

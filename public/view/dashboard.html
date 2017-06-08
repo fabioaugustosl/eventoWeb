@@ -1,6 +1,6 @@
 
 
-<div id="contentPrincipal" class="content" ng-controller="DashboardController" >
+<div id="contentPrincipal" class="content" ng-controller="DashboardController as dashboardCtrl" >
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-sm-6" ng-repeat="item in resumeData">
@@ -32,7 +32,7 @@
 
         <div class="row">
 
-            <div class="col-md-12" ng-show="atualizacaoGraficoDistribuicaoDia">
+            <div class="col-md-12" ng-show="dashboardCtrl.atualizacaoGraficoDistribuicaoDia">
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Distribuição de ingressos por dia</h4>
@@ -44,7 +44,7 @@
                         <div class="footer">
                             <hr>
                             <div class="stats">
-                                <i class="ti-reload"></i> {{atualizacaoGraficoDistribuicaoDia}}
+                                <i class="ti-reload"></i> {{dashboardCtrl.atualizacaoGraficoDistribuicaoDia}}
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
         </div>
 
 
-        <div class="row" ng-show="atualizacaoGraficoEntradaEvento">
+        <div class="row" ng-show="dashboardCtrl.atualizacaoGraficoEntradaEvento">
 
             <div class="col-md-12">
                 <div class="card">
@@ -66,7 +66,7 @@
                         <div class="footer">
                             <hr>
                             <div class="stats">
-                                <i class="ti-reload"></i> {{atualizacaoGraficoEntradaEvento}}
+                                <i class="ti-reload"></i> {{dashboardCtrl.atualizacaoGraficoEntradaEvento}}
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
 
         <div class="row">
             
-            <div class="col-md-4" ng-show="atualizacaoGraficoDistrubuicaoPorCategoria">
+            <div class="col-md-4" ng-show="dashboardCtrl.atualizacaoGraficoDistrubuicaoPorCategoria">
                 <div class="card ">
                     <div class="header">
                         <h4 class="title">Distribuição de ingressos por categoria</h4>
@@ -89,14 +89,14 @@
                         <div class="footer">
                             <hr>
                             <div class="stats">
-                                <i class="ti-check"></i> {{atualizacaoGraficoDistrubuicaoPorCategoria}} 
+                                <i class="ti-check"></i> {{dashboardCtrl.atualizacaoGraficoDistrubuicaoPorCategoria}} 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4" ng-show="atualizacaoGraficoEntradaPorCategoria">
+            <div class="col-md-4" ng-show="dashboardCtrl.atualizacaoGraficoEntradaPorCategoria">
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Entrada de associados </h4>
@@ -108,14 +108,14 @@
                         <div class="footer">
                             <hr>
                             <div class="stats">
-                                <i class="ti-timer"></i> {{atualizacaoGraficoEntradaPorCategoria}} 
+                                <i class="ti-timer"></i> {{dashboardCtrl.atualizacaoGraficoEntradaPorCategoria}} 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4" ng-show="atualizacaoGraficoIngressoPorCategoria">
+            <div class="col-md-4" ng-show="dashboardCtrl.atualizacaoGraficoIngressoPorCategoria">
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Ingressos por categoria</h4>
@@ -127,7 +127,7 @@
                         <div class="footer">
                             <hr>
                             <div class="stats">
-                                <i class="ti-timer"></i> {{atualizacaoGraficoIngressoPorCategoria}} 
+                                <i class="ti-timer"></i> {{dashboardCtrl.atualizacaoGraficoIngressoPorCategoria}} 
                             </div>
                         </div>
                     </div>

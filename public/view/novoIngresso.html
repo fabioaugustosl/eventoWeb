@@ -64,7 +64,7 @@
                                    <div class="form-group">
                                         <label for="inputNomeCliente">Nome cliente</label>
                                         <input type="text" name="inputNomeCliente" id="inputNomeCliente" class="form-control border-input"
-                                        ng-disabled="ingressoCtrl.desabilitarCadPessoa" placeholder="ex.: Samuel" ng-model="ingressoCtrl.novoIngresso.nomeCliente" required>
+                                        ng-disabled="ingressoCtrl.desabilitarCadPessoa" placeholder="ex.: Samuel" ng-model="ingressoCtrl.novoIngresso.nomeCliente" required />
                                        
                                     </div>
                                 </div>
@@ -76,15 +76,15 @@
 
                                 <div class="col-md-4" style="padding: 0px">
                                     <label for="inputMatricula">Número Conta</label>
-                                    <input type="text" name="inputMatricula" id="inputMatricula" ng-disabled="ingressoCtrl.desabilitarCadPessoa" class="form-control border-input"  ng-model="ingressoCtrl.novoIngresso.docCliente3" style="width: 90%" >
+                                    <input type="text" name="inputMatricula" id="inputMatricula" ng-disabled="ingressoCtrl.desabilitarCadPessoa" class="form-control border-input"  ng-model="ingressoCtrl.novoIngresso.docCliente3" style="width: 90%" />
 
                                 </div>
                                 <div class="col-md-4" ng-show="ingressoCtrl.documentoPrincipal != 'CPF'" style="padding: 0px">
                                     <label for="inputCpfResponsavel">CPF Responsável</label>
-                                    <input type="text" name="inputCpfResponsavel" id="inputCpfResponsavel" ng-blur="limparNomeAcompanhante()"   class="form-control border-input" ng-model="ingressoCtrl.novoIngresso.docCliente2" mask="999.999.999-99"  >
+                                    <input type="text" name="inputCpfResponsavel" id="inputCpfResponsavel" ng-blur="limparNomeAcompanhante()"   class="form-control border-input" ng-model="ingressoCtrl.novoIngresso.docCliente2" mask="999.999.999-99" />
 
-                                    <div ng-show="ingressoCtrl.novoIngresso.acompanhante">  
-                                        <label style="font-size:10px; ">{{ingressoCtrl.novoIngresso.acompanhante}}</label> 
+                                    <div>  
+                                        <input type="text" name="inputNomeResponsavel" id="inputNomeResponsavel"  class="form-control border-input" placeholder="Nome do Responsável" ng-model="ingressoCtrl.novoIngresso.acompanhante"  />
                                     </div>
 
                                 </div>

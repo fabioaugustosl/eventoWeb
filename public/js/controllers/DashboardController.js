@@ -1,15 +1,15 @@
 
 
 eventoApp.controller('DashboardController',
-	function ($scope, $http, $log, $sessionStorage, moment, ingressoService, relatorioIngressoService){
-		
+	function ($scope, $http, $log, $sessionStorage, $timeout, moment, ingressoService, relatorioIngressoService){
+		var dashboardCtrl = this;
 		console.log("Dashboard");
 		$scope.namePage = 'Dashboard';
-		$scope.atualizacaoGraficoDistribuicaoDia = null;
-		$scope.atualizacaoGraficoIngressoPorCategoria = null;
-		$scope.atualizacaoGraficoDistrubuicaoPorCategoria = null;
-		$scope.atualizacaoGraficoEntradaEvento = null;
-		$scope.atualizacaoGraficoEntradaPorCategoria = null;
+		dashboardCtrl.atualizacaoGraficoDistribuicaoDia = null;
+		dashboardCtrl.atualizacaoGraficoIngressoPorCategoria = null;
+		dashboardCtrl.atualizacaoGraficoDistrubuicaoPorCategoria = null;
+		dashboardCtrl.atualizacaoGraficoEntradaEvento = null;
+		dashboardCtrl.atualizacaoGraficoEntradaPorCategoria = null;
 
 		var dono = $sessionStorage.dono;
 		var eventoSelecionado = $sessionStorage.eventoSelecionado;
@@ -27,15 +27,17 @@ eventoApp.controller('DashboardController',
 			
 			var callback = function(config){ 
 				//alert('call back Dashboard config');
-				console.log('Vai setar o config no storage',config);
+				console.log('Vai setar o config no storage: ',config);
 				$sessionStorage.configuracoesEvento = config;
 				configuracoes = config;
 
 				montarDashboardTotalIngressos(config);
 				montarDashboardRecuperarQtdIngressos(idEvento, config);
 
-				loadGraficoIngressosPorCategoria(config);
-				loadGraficoDistrubuicaoIngressosPorCategoria();
+
+
+				$timeout(function(){loadGraficoIngressosPorCategoria(config)},1000);
+				$timeout(function(){loadGraficoDistrubuicaoIngressosPorCategoria()},500);
 				loadGraficoEntradaPorCategoria(idEvento);
 			};
 
@@ -146,9 +148,9 @@ eventoApp.controller('DashboardController',
 
 			if(dados && dados.length > 0){
 
-				console.log('vamos acompanhar as entradas ', dados);
+				//console.log('vamos acompanhar as entradas ', dados);
 
-				$scope.atualizacaoGraficoEntradaEvento =  moment().format('D MMMM YYYY, hh:mm');
+				dashboardCtrl.atualizacaoGraficoEntradaEvento =  moment().format('D MMMM YYYY, hh:mm');
 
 				var rotulos = ['10 AM','11 AM','12 pM','13 PM','14 PM','15 PM','16 PM','17 PM','18 PM','19 PM','20 PM','21 PM','22 PM','23 PM','00 AM','1 AM','2 AM','3 AM','4 AM','5 AM','6 AM','7 AM','8 AM','9 AM'];
 		        var serieX = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -168,7 +170,7 @@ eventoApp.controller('DashboardController',
 
 		        }
 
-		        console.log('horas compiladas ',serieX);
+		        //console.log('horas compiladas ',serieX);
 
 		        var data ={
 		       		labels: rotulos,
@@ -207,13 +209,13 @@ eventoApp.controller('DashboardController',
 	    var callbackGraficoEntradaPorCategoria = function(dados){
 
 		 	if(dados && dados.length > 0){
-				$scope.atualizacaoGraficoEntradaPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
+				dashboardCtrl.atualizacaoGraficoEntradaPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
 
 			 	var rotulos = [];
 		        var serieAcompanhantes = [];
 		        var serieAssociados = [];
 
-		        console.log('dados entrada por categoria ', dados, configuracoes);
+		        //console.log('dados entrada por categoria ', dados, configuracoes);
 
 		        for (i = 0; i < dados.length; i++) { 
 		        	var dado = dados[i];
@@ -226,7 +228,7 @@ eventoApp.controller('DashboardController',
 					    		conf = c;
 					    	}
 						}
-						console.log(conf);
+						//console.log(conf);
 		        		rotulos.push(conf.tipoIngresso);
 		        		serieAssociados.push(dado.totaUnico);
 		        		var totalAcompanhantes = dado.totalIngressos - dado.totaUnico;
@@ -283,7 +285,7 @@ eventoApp.controller('DashboardController',
 		 	//console.log('chegou no callback distrubuicao ingresso por dia ',dados);
 
 		 	if(dados && dados.length > 0){
-				$scope.atualizacaoGraficoDistribuicaoDia =  moment().format('D MMMM YYYY, hh:mm');
+				dashboardCtrl.atualizacaoGraficoDistribuicaoDia =  moment().format('D MMMM YYYY, hh:mm');
 
 			 	var rotulos = [];
 		        var serieX = [];
@@ -351,13 +353,13 @@ eventoApp.controller('DashboardController',
 		 	// montar grafico
 
 		 	if(dados && dados.length > 0){
-				$scope.atualizacaoGraficoDistrubuicaoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
+				dashboardCtrl.atualizacaoGraficoDistrubuicaoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
 
 			 	var rotulos = [];
 		        var serieVendidos = [];
 		        var serieTotal = [];
 
-		        console.log('dados fodasticos ', dados, configuracoes);
+		        //console.log('dados fodasticos ', dados, configuracoes);
 
 		        for (i = 0; i < dados.length; i++) { 
 		        	var dado = dados[i];
@@ -370,7 +372,7 @@ eventoApp.controller('DashboardController',
 					    		conf = c;
 					    	}
 						}
-						console.log(conf);
+						//console.log(conf);
 		        		rotulos.push(conf.tipoIngresso);
 		        		serieTotal.push(conf.quantidadeTotal);
 		        		serieVendidos.push(dado.total);	
@@ -419,11 +421,11 @@ eventoApp.controller('DashboardController',
 
 	    var loadGraficoIngressosPorCategoria = function(config){
 
-	    	console.log('CHAMOU O GRAFICO TAL');
+	    	console.log('CHAMOU O GRAFICO TAL',config);
 	    	var coresPrimarias = ['#006400', '#FF8C00', '#473C8B','#EECFA1','#CDAD00','#8B4726'];
 	    	var coresSecundarias = ['#556B2F', '#FF6347', '#6959CD', '#CDB38B','#FFD700','#CD6839'];
 
-			//$scope.atualizacaoGraficoIngressoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
+			
 	    	
 	    	var nomeSeriesGrafico = [];
 	    	var valorSeriesGrafico = [];
@@ -439,7 +441,7 @@ eventoApp.controller('DashboardController',
 				valorSeriesGrafico.push(c.quantidadeTotal);
 			}
 
-  			var data ={
+  			var dataIngCateg ={
 		       		labels: nomeSeriesGrafico,
 			       	datasets: [{
 			            data: valorSeriesGrafico,
@@ -448,26 +450,27 @@ eventoApp.controller('DashboardController',
 			        }]
 		    };
 
-
 	        var myPieChart = new Chart($('#graficoIngressosPorCategoria'), {
 			    type: 'doughnut',
-			    data: data
-			    
+			    data: dataIngCateg
 			});
+
+			dashboardCtrl.atualizacaoGraficoIngressoPorCategoria =  moment().format('D MMMM YYYY, hh:mm');
 			
 	    };
 
 
 
-	    console.log(eventoSelecionado);
+	    //console.log(eventoSelecionado);
+	    //console.log('USUARIO LOGADO: ',$sessionStorage.usuarioLogado);
 		// init
 		if(eventoSelecionado){
 			if(configuracoes){
 				montarDashboardTotalIngressos(configuracoes);
 				montarDashboardRecuperarQtdIngressos(eventoSelecionado._id, configuracoes);
 
-				loadGraficoIngressosPorCategoria(configuracoes);
-				loadGraficoDistrubuicaoIngressosPorCategoria();
+				$timeout(function(){loadGraficoIngressosPorCategoria(configuracoes)}, 1000);
+				$timeout(function(){loadGraficoDistrubuicaoIngressosPorCategoria()}, 500);
 				loadGraficoEntradaPorCategoria(eventoSelecionado._id);
 				
 			} else {
