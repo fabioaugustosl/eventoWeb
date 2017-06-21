@@ -47,6 +47,7 @@ eventoApp.controller('IngressoCadastroController',
 			ingressoCtrl.novoIngresso.idEvento = ingressoCtrl.evento._id;
 			ingressoCtrl.novoIngresso.nomeEvento = ingressoCtrl.evento.titulo;	
 			ingressoCtrl.novoIngresso.idCliente = null;
+			ingressoCtrl.novoIngresso.responsavelDistribuicao = $sessionStorage.usuarioLogado.login;
 
 			ingressoCtrl.novoIngresso.nomeCliente = '';
 			ingressoCtrl.novoIngresso.docCliente1 = null;
