@@ -27,7 +27,7 @@ eventoApp.controller('DashboardController',
 			
 			var callback = function(config){ 
 				//alert('call back Dashboard config');
-				console.log('Vai setar o config no storage: ',config);
+				//console.log('Vai setar o config no storage: ',config);
 				$sessionStorage.configuracoesEvento = config;
 				configuracoes = config;
 
@@ -290,7 +290,12 @@ eventoApp.controller('DashboardController',
 			 	var rotulos = [];
 		        var serieX = [];
 
-		        for (i = 0; i < dados.length; i++) { 
+		        var indiceInicio = 0;
+		        if(dados && dados.length > 45){
+		        	indiceInicio = dados.length - 45;
+		        }
+
+		        for (i = indiceInicio; i < dados.length; i++) { 
 		        	var dado = dados[i];
 		        	
 		        	rotulos.push(dado._id.day+'/'+dado._id.month);
@@ -348,7 +353,7 @@ eventoApp.controller('DashboardController',
 
 		var callbackGraficoDistrubuicaoIngressosCategoria = function(dados){
 
-		 	console.log('chegou no callback dados ingressos por categoria',dados);
+		 	//console.log('chegou no callback dados ingressos por categoria',dados);
 
 		 	// montar grafico
 
@@ -421,7 +426,7 @@ eventoApp.controller('DashboardController',
 
 	    var loadGraficoIngressosPorCategoria = function(config){
 
-	    	console.log('CHAMOU O GRAFICO TAL',config);
+	    	//console.log('CHAMOU O GRAFICO TAL',config);
 	    	var coresPrimarias = ['#006400', '#FF8C00', '#473C8B','#EECFA1','#CDAD00','#8B4726'];
 	    	var coresSecundarias = ['#556B2F', '#FF6347', '#6959CD', '#CDB38B','#FFD700','#CD6839'];
 

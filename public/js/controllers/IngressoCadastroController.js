@@ -172,7 +172,7 @@ eventoApp.controller('IngressoCadastroController',
 					}
 		    	}
 		    }
-		    console.log('vai retornar essa config: ',conf);
+		   // console.log('vai retornar essa config: ',conf);
 		    return conf;
 	    };
 
@@ -212,7 +212,7 @@ eventoApp.controller('IngressoCadastroController',
 				//if(pessoa[0].info_extra1){
 					
 					var categPadrao = recuperarConfiguracaoPadraoPorCategoriaIngresso(pessoa[0].info_extra1);
-					console.log('chegou categ ',categPadrao);
+					//console.log('chegou categ ',categPadrao);
 					if(categPadrao){
 						categoriaIngressoPadraoParaCliente = categPadrao._id;
 					}
@@ -235,7 +235,7 @@ eventoApp.controller('IngressoCadastroController',
 
 
 		$scope.recuperarCliente = function(){
-			console.log('Vai recuperar o cliente',ingressoCtrl.novoIngresso.docCliente1);
+			//console.log('Vai recuperar o cliente',ingressoCtrl.novoIngresso.docCliente1);
 
 			if(ingressoCtrl.novoIngresso.docCliente1){
 				ingressoCtrl.msgPessoaEncontrada = "";
@@ -255,7 +255,7 @@ eventoApp.controller('IngressoCadastroController',
 			var msg = 'Ingresso removido com sucesso. ';
 			
 
-			console.log('ingressos antes: ', ingressoCtrl.ingressos);
+			//console.log('ingressos antes: ', ingressoCtrl.ingressos);
 
 			var totalIngressos = qtdIngressosPessoa[idConfiguracao];
 			if(!totalIngressos){
@@ -272,14 +272,14 @@ eventoApp.controller('IngressoCadastroController',
 						indiceRemover = i;
 					}
 				}
-				console.log('Indice remover '+indiceRemover);
+				//console.log('Indice remover '+indiceRemover);
 				if(indiceRemover >= 0){
 					ingressoCtrl.ingressos.splice(indiceRemover, 1);
 				}
 			}
 
 
-			console.log('depois : ',ingressoCtrl.ingressos);
+			//console.log('depois : ',ingressoCtrl.ingressos);
 			ingressoCtrl.msg = msg;
 			ingressoCtrl.msgErro = '';
 			$.notify({ message: msg },{ type: 'success', timer: 4000 });
@@ -288,7 +288,7 @@ eventoApp.controller('IngressoCadastroController',
 
 
 		$scope.removerIngresso = function(idIngresso, idConfiguracao){
-			console.log('Remover ingresso ',idIngresso);
+			//console.log('Remover ingresso ',idIngresso);
 			var confirm = $mdDialog.confirm()
 	          .title('Você tem certeza que deseja remover o ingresso desta pessoa?')
 	          .textContent('Caso o ingresso esteja impresso favor conferir se o mesmo foi devolvido.')
@@ -366,7 +366,7 @@ eventoApp.controller('IngressoCadastroController',
 	  		
 			if(configuracoes && configuracoes.length > 1){
 				
-				console.log('categoriaIngressoPadraoParaCliente : '+categoriaIngressoPadraoParaCliente );
+				//console.log('categoriaIngressoPadraoParaCliente : '+categoriaIngressoPadraoParaCliente );
 				if(categoriaIngressoPadraoParaCliente){
 					$scope.idConfiguracao = categoriaIngressoPadraoParaCliente;
 				} else {

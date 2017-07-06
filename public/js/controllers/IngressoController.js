@@ -8,20 +8,25 @@ eventoApp.controller('IngressoController',
 		$scope.msg = null;
 		$scope.msgErro = null;
 
+		$scope.processando = false;
+
 		$scope.pesquisa = {};
 		//$scope.pesquisa.nome = '';
 		//$scope.pesquisa.chave = '';
 		
 		var getIngressos = function(parametros){
+			$scope.processando = true;
 			ingressoService.getIngressos(parametros, function(resultado){
-				console.log('res: '+resultado);
+				//console.log('res: '+resultado);
 				$scope.ingressos = resultado;
+				$scope.processando = false;
 			});		
 		};
 
 
 		$scope.pesquisar = function(){
-				
+			
+			$scope.processando = true;	
 			var p = '';
 				if($scope.pesquisa.nome){
 					p += 'nomeCliente='+$scope.pesquisa.nome;
@@ -37,7 +42,7 @@ eventoApp.controller('IngressoController',
 				p = '?'+p;
 			}
 
-			console.log(p);
+			//console.log(p);
 			getIngressos(p);
 		};
 
@@ -53,13 +58,15 @@ eventoApp.controller('IngressoController',
 
 					}
 				}
-				console.log('Indice remover '+indiceRemover);
+				//console.log('Indice remover '+indiceRemover);
 				if(indiceRemover >= 0){
 					$scope.ingressos.splice(indiceRemover, 1);
 				}
 			}
 
 			logService.novo('DEVOLUCAO_INGRESSO', $sessionStorage.eventoSelecionado._id, 'Devolução do ingresso. Id do ingresso: '+idIngressoRemovido);
+
+			$scope.processando = false;
 
 			$scope.msg = msg;
 			$scope.msgErro = '';
@@ -68,7 +75,8 @@ eventoApp.controller('IngressoController',
 
 
 		$scope.removerIngresso = function(idIngresso){
-			console.log('Remover ingresso ',idIngresso);
+
+			//console.log('Remover ingresso ',idIngresso);
 			$scope.msg = '';
 			$scope.msgErro = '';
 
@@ -83,9 +91,10 @@ eventoApp.controller('IngressoController',
 	          .cancel('Não');
 
 		    $mdDialog.show(confirm).then(function() {
+		    	$scope.processando = true;
 		      ingressoService.removerIngresso(idIngresso, null,  callbackRemoverIngresso);
 		    }, function() {
-		      //
+		      $scope.processando = false;
 		    });   			
 		};
 
