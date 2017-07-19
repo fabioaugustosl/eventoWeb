@@ -162,7 +162,7 @@ eventoApp.controller('DashboardController',
 		        	//serieX.push(dado.total);
 
 		        	//serieX.push(dado.total);
-		        	var h = (dado._id.hour-10);
+		        	var h = (dado._id.hour-13); // antes era  -10.. coloquei -3 tbm para ajustar o fuso
 		        	if(h < 0){
 		        		h =  (23 + h) + 1;
 		        	}

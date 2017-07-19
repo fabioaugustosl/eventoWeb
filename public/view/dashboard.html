@@ -30,6 +30,28 @@
             </div>
         </div>
 
+         <div class="row" ng-show="dashboardCtrl.atualizacaoGraficoEntradaEvento">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Fluxo de entrada de pessoas por hora</h4>
+                        <p class="category">Performance nas últimas horas</p>
+                    </div>
+                    <div class="content">
+                         <canvas id="graficoEntradaPessoasNovo" width="400" height="200"></canvas>
+                        <div class="footer">
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-reload"></i> {{dashboardCtrl.atualizacaoGraficoEntradaEvento}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
         <div class="row">
 
             <div class="col-md-12" ng-show="dashboardCtrl.atualizacaoGraficoDistribuicaoDia">
@@ -52,27 +74,6 @@
             </div>
         </div>
 
-
-        <div class="row" ng-show="dashboardCtrl.atualizacaoGraficoEntradaEvento">
-
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="header">
-                        <h4 class="title">Fluxo de entrada de pessoas por hora</h4>
-                        <p class="category">Performance nas últimas horas</p>
-                    </div>
-                    <div class="content">
-                         <canvas id="graficoEntradaPessoasNovo" width="400" height="200"></canvas>
-                        <div class="footer">
-                            <hr>
-                            <div class="stats">
-                                <i class="ti-reload"></i> {{dashboardCtrl.atualizacaoGraficoEntradaEvento}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="row">
             
