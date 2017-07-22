@@ -126,27 +126,31 @@ eventoApp.controller('DashboardController',
 	        var indiceEntrada;
 	        for(var i =0; i < $scope.resumeData.length; i++){
 	        	var r = $scope.resumeData[i];
-//	        	console.log('resume data: ',r);
+	        	console.log('resume data: ',r);
 	        	if(r.name == 'Entradas no evento'){
 					indiceEntrada = i;
 					break;
 	        	}
 	        }
-	        //console.log('indiceEntrada : ', indiceEntrada );
+	        console.log('indiceEntrada : ', indiceEntrada );
+
+
 	        if(indiceEntrada){
-				$scope.resumeData.splice(indiceEntrada, 1);
+				$scope.resumeData[indiceEntrada].value = total;
+				$scope.resumeData[indiceEntrada].infoUpdate = moment().format('D MMMM YYYY, hh:mm');
+	        } else {
+		        $scope.resumeData.push({
+						name : 'Entradas no evento',
+						classImg : 'ti-arrow-up',
+						classImgStatus : 'icon-info',
+						value : total,
+						infoUpdate : moment().format('D MMMM YYYY, hh:mm'),
+						classIcon: 'ti-reload'
+					}
+				);	
 	        }
 
-			$scope.resumeData.push(
-				{
-					name : 'Entradas no evento',
-					classImg : 'ti-arrow-up',
-					classImgStatus : 'icon-info',
-					value : total,
-					infoUpdate : moment().format('D MMMM YYYY, hh:mm'),
-					classIcon: 'ti-reload'
-				}
-			);
+			
 	    };
 
 
@@ -500,7 +504,7 @@ eventoApp.controller('DashboardController',
 			loadGraficoEntradaPessoas(eventoSelecionado._id);
 
 
-			$interval( function(){ loadGraficoEntradaPessoas(); }, 120000);
+			$interval( function(){ loadGraficoEntradaPessoas(eventoSelecionado._id); }, 60000);
 						
 		}
 		
