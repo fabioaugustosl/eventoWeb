@@ -123,6 +123,20 @@ eventoApp.controller('DashboardController',
 		        }
 	        }
 
+	        var indiceEntrada;
+	        for(var i =0; i < $scope.resumeData.length; i++){
+	        	var r = $scope.resumeData[i];
+//	        	console.log('resume data: ',r);
+	        	if(r.name == 'Entradas no evento'){
+					indiceEntrada = i;
+					break;
+	        	}
+	        }
+	        //console.log('indiceEntrada : ', indiceEntrada );
+	        if(indiceEntrada){
+				$scope.resumeData.splice(indiceEntrada, 1);
+	        }
+
 			$scope.resumeData.push(
 				{
 					name : 'Entradas no evento',
