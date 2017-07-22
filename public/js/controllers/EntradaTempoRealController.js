@@ -17,7 +17,7 @@ eventoApp.controller('EntradaTempoRealController',
 		var callbackTempoReal = function(novasEntradas) {
 			
 			if(novasEntradas && novasEntradas.length > 0){
-				console.log(entradaCtrl.entradas.length);
+				//console.log(entradaCtrl.entradas.length);
 				//console.log(novasEntradas);
 
 				if(novasEntradas.length > 3){
@@ -29,8 +29,19 @@ eventoApp.controller('EntradaTempoRealController',
 
 				if(entradaCtrl.entradas && novasEntradas && novasEntradas.length > 0){
 					for (i = 0; i < entradaCtrl.entradas.length; i++){
+						var e = entradaCtrl.entradas[i];
+						var ja = false;
 						//console.log(entradaCtrl.ultimasEntradas);
-						entradaCtrl.ultimasEntradas.push(entradaCtrl.entradas[i]);
+						for(var j = entradaCtrl.ultimasEntradas.length; j > 0 ; j--){
+							var u = entradaCtrl.ultimasEntradas[(j-1)];
+							if(u.chave == e.chave){
+								ja = true;
+								break;
+							}
+						}
+						if(!ja){
+							entradaCtrl.ultimasEntradas.push(e);
+						}
 					}
 					entradaCtrl.entradas = [];		
 				
@@ -39,8 +50,8 @@ eventoApp.controller('EntradaTempoRealController',
 				entradaCtrl.entradas = novasEntradas;
 								
 
-				if(entradaCtrl.ultimasEntradas.length > 20){
-					entradaCtrl.ultimasEntradas = entradaCtrl.ultimasEntradas.splice(0, 20);	
+				if(entradaCtrl.ultimasEntradas.length > 15){
+					entradaCtrl.ultimasEntradas = entradaCtrl.ultimasEntradas.splice(0, 15);	
 				}
 				
 			}
@@ -51,7 +62,7 @@ eventoApp.controller('EntradaTempoRealController',
 
 
 		var recuperarNovasEntradas = function(idIngresso){
-			var data = moment().add(-1, 'minute').format();
+			var data = moment().add(-1, 'hour').format();
 			console.log('data moment ', data);
 			if(entradaCtrl.entradas && entradaCtrl.entradas.length > 0){
 				var ing = entradaCtrl.entradas[0];
