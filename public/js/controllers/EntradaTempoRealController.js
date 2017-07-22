@@ -62,7 +62,7 @@ eventoApp.controller('EntradaTempoRealController',
 		};
 
 
-		$interval( function(){ recuperarNovasEntradas(); }, 5000);
+		$interval( function(){ recuperarNovasEntradas(); }, 8000);
 
 
 		//recuperarNovasEntradas();

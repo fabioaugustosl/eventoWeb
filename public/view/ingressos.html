@@ -56,6 +56,9 @@
                                     <img ng-src="{{ing.qrcodeImg}}" title="Código de identificação do ingresso" style="max-width: 120px" />     
                                 </div>
                                 <div class="clearfix pull-left" >
+                                    <div ng-show="{{ing.bloqueado == true}}" class="alert alert-danger">
+                                        <p >Ingresso bloqueado!</p>
+                                    </div>
                                     <h3>{{ ing.nomeCliente }} </h3>
                                     <!--p ng-show="{{ing.acompanhante != null}}"> Ingresso para acompanhante: {{ing.acompanhante}}</p -->
                                     <p ng-show="{{ing.docCliente2 != null}}"> Responsável: {{ing.docCliente2}}</p>

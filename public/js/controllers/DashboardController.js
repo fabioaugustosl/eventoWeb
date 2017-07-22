@@ -1,7 +1,7 @@
 
 
 eventoApp.controller('DashboardController',
-	function ($scope, $http, $log, $sessionStorage, $timeout, moment, ingressoService, relatorioIngressoService){
+	function ($scope, $http, $log, $sessionStorage, $timeout, $interval, moment, ingressoService, relatorioIngressoService){
 		var dashboardCtrl = this;
 		console.log("Dashboard");
 		$scope.namePage = 'Dashboard';
@@ -485,6 +485,8 @@ eventoApp.controller('DashboardController',
 			loadGraficoDistrubuicaoIngressos();
 			loadGraficoEntradaPessoas(eventoSelecionado._id);
 
+
+			$interval( function(){ loadGraficoEntradaPessoas(); }, 120000);
 						
 		}
 		
