@@ -16,9 +16,9 @@ eventoApp.controller('EntradaTempoRealController',
 
 		var callbackTempoReal = function(novasEntradas) {
 			
-			if(novasEntradas){
+			if(novasEntradas && novasEntradas.length > 0){
 				console.log(entradaCtrl.entradas.length);
-				console.log(novasEntradas);
+				//console.log(novasEntradas);
 
 				if(novasEntradas.length > 3){
 					for (i = novasEntradas.length; i > 3; i--){
@@ -27,15 +27,17 @@ eventoApp.controller('EntradaTempoRealController',
 					novasEntradas = novasEntradas.splice(0,3);
 				}
 
-				if(entradaCtrl.entradas){
+				if(entradaCtrl.entradas && novasEntradas && novasEntradas.length > 0){
 					for (i = 0; i < entradaCtrl.entradas.length; i++){
-						console.log(entradaCtrl.ultimasEntradas);
+						//console.log(entradaCtrl.ultimasEntradas);
 						entradaCtrl.ultimasEntradas.push(entradaCtrl.entradas[i]);
-					}		
-					
-				}
+					}
+					entradaCtrl.entradas = [];		
 				
+				} 
+
 				entradaCtrl.entradas = novasEntradas;
+								
 
 				if(entradaCtrl.ultimasEntradas.length > 20){
 					entradaCtrl.ultimasEntradas = entradaCtrl.ultimasEntradas.splice(0, 20);	
@@ -49,11 +51,14 @@ eventoApp.controller('EntradaTempoRealController',
 
 
 		var recuperarNovasEntradas = function(idIngresso){
-			var data = moment().add(-1, 'days');
+			var data = moment().add(-1, 'minute').format();
 			console.log('data moment ', data);
 			if(entradaCtrl.entradas && entradaCtrl.entradas.length > 0){
 				var ing = entradaCtrl.entradas[0];
-				data = ing.dataBaixa;
+				if(ing.dataBaixa){
+					data = moment(ing.dataBaixa).format();
+				}
+
 			}
 
 			console.log('data apos entrada ', data);
