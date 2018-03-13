@@ -1,8 +1,8 @@
 
 eventoApp.factory('logService', function($http, $log){
 	
-	var urlPadrao = 'http://localhost:3000';
-	//var urlPadrao = 'http://34.218.156.195:3000'
+	//var urlPadrao = 'http://localhost:3000';
+	var urlPadrao = 'http://34.218.156.195:3000'
 	
 	var urlLog = urlPadrao+'/api/log/v1/';
 

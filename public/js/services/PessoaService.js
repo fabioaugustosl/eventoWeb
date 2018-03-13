@@ -1,8 +1,8 @@
 
 eventoApp.factory('pessoaService', function($http, $log){
 	
-	var urlPadrao = 'http://localhost:3001';
-	//var urlPadrao = 'http://34.218.156.195:3001';
+	//var urlPadrao = 'http://localhost:3001';
+	var urlPadrao = 'http://34.218.156.195:3001';
 	
 	var urlPessoa = urlPadrao+'/api/pessoa/v1/';
 

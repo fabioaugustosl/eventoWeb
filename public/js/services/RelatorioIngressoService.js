@@ -1,8 +1,8 @@
 
 eventoApp.factory('relatorioIngressoService', function($http, $log){
 	
-	var urlPadrao = 'http://localhost:3000'; //'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81'
-	//var urlPadrao = 'http://34.218.156.195:3000';
+	//var urlPadrao = 'http://localhost:3000'; //'http://ec2-52-11-115-221.us-west-2.compute.amazonaws.com:81'
+	var urlPadrao = 'http://34.218.156.195:3000';
 
 	var urlIngresso = urlPadrao+'/api/ingresso/v1/';
 	var urlIngressoUtil = urlPadrao+'/api/ingressoUtil/v1/';
