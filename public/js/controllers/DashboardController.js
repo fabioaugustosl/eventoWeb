@@ -233,7 +233,7 @@ eventoApp.controller('DashboardController',
 		        var serieAcompanhantes = [];
 		        var serieAssociados = [];
 
-		        //console.log('dados entrada por categoria ', dados, configuracoes);
+		        console.log('dados entrada por categoria ', dados, configuracoes);
 
 		        for (i = 0; i < dados.length; i++) { 
 		        	var dado = dados[i];
@@ -300,7 +300,7 @@ eventoApp.controller('DashboardController',
 
 		var callbackGraficoDistrubuicaoIngressos = function(dados){
 
-		 	//console.log('chegou no callback distrubuicao ingresso por dia ',dados);
+		 	console.log('chegou no callback distrubuicao ingresso por dia ',dados);
 
 		 	if(dados && dados.length > 0){
 				dashboardCtrl.atualizacaoGraficoDistribuicaoDia =  moment().format('D MMMM YYYY, hh:mm');
@@ -504,7 +504,7 @@ eventoApp.controller('DashboardController',
 			loadGraficoEntradaPessoas(eventoSelecionado._id);
 
 
-			$interval( function(){ loadGraficoEntradaPessoas(eventoSelecionado._id); }, 60000);
+			//$interval( function(){ loadGraficoEntradaPessoas(eventoSelecionado._id); }, 60000);
 						
 		}
 		
