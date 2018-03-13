@@ -2,7 +2,7 @@
 eventoApp.factory('eventoService', function($http, $log){
 	
 	//var urlPadrao = 'http://localhost:3000';
-	var urlPadrao = 'http://172.31.37.210:3000'
+	var urlPadrao = 'http://34.218.156.195:3000'
 	
 	var urlEndereco = urlPadrao+'/api/endereco/v1/';
 	var urlEnderecoEvento = urlPadrao+'/api/enderecoEvento/v1/';
