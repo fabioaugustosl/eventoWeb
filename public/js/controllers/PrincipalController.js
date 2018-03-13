@@ -13,7 +13,7 @@ eventoApp.controller('PrincipalController',
 
 		$scope.tituloPagina = 'Bem vindo!';
 
-		$sessionStorage.dono = "produminas";
+		$sessionStorage.dono = "credibom";
 		//$sessionStorage.eventoSelecionado = {'idEvento':'ev01', 'nome':'Show Teste'};
 
 
