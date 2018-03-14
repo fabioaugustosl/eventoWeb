@@ -5,9 +5,9 @@ eventoApp.factory('ingressoService', function($http, $log){
 	var urlPadrao = 'http://34.218.156.195:3000';
 
 	var urlIngresso = urlPadrao+'/api/ingresso/v1/';
-	var urlConfiguracaoIngresso = urlPadrao+'/api/configuracaoIngresso/v1/';
-	var urlIngressoUtil = urlPadrao+'/api/ingressoUtil/v1/';
-	var urlIngressoValido = urlPadrao+'/api/ingressoValido/v1/';
+	var urlConfiguracaoIngresso = urlPadrao+'/api/configuracaoingresso/v1/';
+	var urlIngressoUtil = urlPadrao+'/api/ingressoutil/v1/';
+	var urlIngressoValido = urlPadrao+'/api/ingressovalido/v1/';
 	
 
 

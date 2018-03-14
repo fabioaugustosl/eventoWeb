@@ -5,7 +5,7 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 	var urlPadrao = 'http://34.218.156.195:3000';
 
 	var urlIngresso = urlPadrao+'/api/ingresso/v1/';
-	var urlIngressoUtil = urlPadrao+'/api/ingressoUtil/v1/';
+	var urlIngressoUtil = urlPadrao+'/api/ingressoutil/v1/';
 
 
 	var getDistribuicaoIngressosPorDia = function(fcCallback){
