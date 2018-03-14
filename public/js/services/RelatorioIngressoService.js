@@ -9,7 +9,7 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 
 
 	var getDistribuicaoIngressosPorDia = function(fcCallback){
-		$http.get(urlIngressoUtil+'/distribuicao/produminas')
+		$http.get(urlIngressoUtil+'/distribuicao/credibom')
 			.then(
 				function(data, status, headers, config){
 					//console.log('voltou para o callback service relatorio distribuicao por dia ',data);
@@ -24,7 +24,7 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 
 
 	var getDistribuicaoIngressosPorConfiguracao = function(fcCallback){
-		$http.get(urlIngressoUtil+'/distribuicaoPorConfiguracao/produminas')
+		$http.get(urlIngressoUtil+'/distribuicaoporconfiguracao/credibom')
 			.then(
 				function(data, status, headers, config){
 					//console.log('voltou para o callback service relatorio distribuicao por configuracao ',data);
@@ -50,7 +50,7 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 
 
 	var getEntradasEventoPorCategoria = function(idEvento, fcCallback){
-		$http({method:'GET', url:urlIngressoUtil+'entradasPorCategoria/'+idEvento})
+		$http({method:'GET', url:urlIngressoUtil+'entradasporcategoria/'+idEvento})
 			.then(
 				function(data){
 					fcCallback(data.data);
@@ -61,7 +61,7 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 
 
 	var getEntradasEventoPorHora = function(idEvento, fcCallback){
-		$http({method:'GET', url:urlIngressoUtil+'entradasEvento/'+idEvento})
+		$http({method:'GET', url:urlIngressoUtil+'entradasevento/'+idEvento})
 			.then(
 				function(data){
 					fcCallback(data.data);
