@@ -7,6 +7,35 @@ eventoApp.factory('pessoaService', function($http, $log){
 	var urlPessoa = urlPadrao+'/api/pessoa/v1/';
 
 
+	var salvar = function(pessoa, fcCallback, fcError){
+		console.log("pessoa novo: ", pessoa);
+		if(pessoa._id){
+			$http.patch(urlPessoa+pessoa._id, pessoa).
+				then(
+					function(data, status){
+						console.log('service callback sucesso pessoa', data);
+						fcCallback(data.data);
+					},
+					function(data){
+						console.log('service callback ERRO pessoa', data);
+						fcCallbackError(data.data);
+					}
+				);
+
+		} else {
+			$http.post(urlPessoa, pessoa)
+				.then(
+					function(data, status, headers, config){
+						fcCallback(data.data);
+					},
+					function(data, status, headers, config){
+						console.log(data);
+						fcError(data.data);
+					}
+				);	
+		}
+	};
+
 	var getPessoaPorCnpj = function(cnpj, fcCallback){
 		cnpj = cnpj.match(/\d/g).join(""); // somente os numeros
 		$http.get(urlPessoa+"?documento_extra1="+cnpj)
@@ -83,6 +112,7 @@ eventoApp.factory('pessoaService', function($http, $log){
 	
 
 	return {
+		salvar  :  salvar,
 		recuperarPessoaPorMatricula : getPessoaPorMatricula,
 		recuperarPessoaPorCpf	: getPessoaPorCpf,
 		recuperarPessoaPorCnpj 	: getPessoaPorCnpj,

@@ -1,0 +1,121 @@
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Cadastrar nova pessoa</h4>
+                    </div>
+                    
+                    <div class="content"  ng-controller="CadastrarPessoaController as pessoaCtrl">
+
+                      <div class="row">
+                          <div class="alert alert-success" style="margin: 10px;" role="alert" ng-show="pessoaCtrl.msg">{{pessoaCtrl.msg}}</div>
+                          <div class="alert alert-danger" style="margin: 10px;" role="alert" ng-show="pessoaCtrl.msgErro">{{pessoaCtrl.msgErro}}</div>
+                      </div>
+
+                      <div class="row">
+                          <div class="progress" ng-show="pessoaCtrl.processando">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                          </div>
+                      </div>
+
+
+
+                      <form id="salvarPessoaForm" class="hidden-sm hidden-xs" ng-submit="pessoaCtrl.salvar()" novalidate>
+
+                          <div class="row">
+                            
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="inputName" class="control-label">Nome: *</label>
+                                      <div class="input-icon right">
+                                          <input id="inputName" type="text" placeholder="" class="form-control" ng-model="pessoaCtrl.pessoa.nome"  required/>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="selectEmpresa" class="control-label">Tipo: *</label>
+                                      <div class="input-icon right">
+                                         <select name="selectEmpresa" ng-model="pessoaCtrl.pessoa.info_extra1" class="form-control border-input"  required>
+                                            <option value="{{emp}}" ng-repeat="emp in pessoaCtrl.tipos">{{emp}}</option>
+                                          </select>
+
+                                      </div>
+                                  </div>
+                              </div>
+
+                          </div>
+
+                           <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group" ng-show="pessoaCtrl.pessoa.info_extra1 == 'PF'">
+                                      <label for="inputLogin" class="control-label">Cpf: *</label>
+                                     
+                                       <input id="inputLogin" type="text" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.cpf" maxlength="20"  required />
+                                  </div>
+
+                                   <div class="form-group" ng-show="pessoaCtrl.pessoa.info_extra1 == 'PJ'">
+                                      <label for="inputCnpj" class="control-label">Cnpf: *</label>
+                                      <div class="input-icon right">
+                                          <input id="inputCnpj" type="text" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.documento_extra1" maxlength="20"  required />
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6" ng-show="pessoaCtrl.pessoa.info_extra1 == 'PJ'">
+                                  <div class="form-group">
+                                      <label for="inputResp" class="control-label">Responsável: </label>
+                                        <input id="inputResp" type="text" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.info_extra2" maxlength="20"   />
+                                  </div>
+                              </div>
+                          </div>
+
+
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="inputEmail" class="control-label">Conta: </label>
+
+                                          <input id="inputEmail" type="text" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.info_extra3"  required />
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="inputTelefone" class="control-label">Celular: </label>
+
+                                          <i class="fa fa-phone"></i>
+                                          <input id="inputTelefone" type="text" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.celular"   />
+                                  </div>
+                              </div>
+                          </div>
+
+                         
+
+                           <div class="row">
+                              <div class="col-md-12">             
+                                  <div class="form-actions text-right pal">
+                                      <button type="button" class="btn btn-primary" ng-click="pessoaCtrl.voltar()">Voltar</button>
+
+                                      <button type="submit" class="btn btn-primary" >Salvar</button>
+                                  </div>
+                              </div>
+                          </div>
+
+
+                      </form>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+      

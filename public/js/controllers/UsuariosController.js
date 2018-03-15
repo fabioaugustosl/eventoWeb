@@ -1,6 +1,6 @@
 
 eventoApp.controller('UsuariosController', 
-	function ($scope, $routeParams, pessoaService){
+	function ($scope, $location, $routeParams, pessoaService){
 		
 		var pessoasCtrl = this;
 
@@ -18,6 +18,15 @@ eventoApp.controller('UsuariosController',
 				pessoasCtrl.processando  = false;
 			});		
 		};
+
+
+		pessoasCtrl.cadastrar = function(){
+			console.log('vai pro cad');
+			$location.replace();
+			$location.url('/cadastrarPessoa');
+			$scope.tituloPagina = 'Cadastrar Pessoa';	
+		};
+
 
 
 		$scope.pesquisar = function(){

@@ -5,11 +5,13 @@ var eventoApp = angular.module('eventoApp', ['ngRoute', 'ngStorage', 'ngMaterial
 						  .when('/dashboard', {templateUrl:'/view/dashboard.html', controller: 'DashboardController'})
 						  //.when('/user', {templateUrl:'/view/user.html', controller: 'UserController'})
 						  .when('/user', {templateUrl:'/view/pessoas.html', controller: 'UsuariosController'})
+						  .when('/cadastrarPessoa', {templateUrl:'/view/cadastrarPessoa.html', controller: 'CadastrarPessoaController'})
 						  .when('/ingressos', {templateUrl:'/view/ingressos.html', controller: 'IngressoController'})
 						  .when('/novoIngresso', {templateUrl:'/view/novoIngresso.html', controller: 'IngressoCadastroController'})
 						  .when('/configurarEvento', {templateUrl:'/view/eventoCadastro.html', controller: 'EventoCadastroController'})
 						  .when('/tempoReal', {templateUrl:'/view/entradaTempoReal.html', controller: 'EntradaTempoRealController'})
 						  .otherwise({redirectTo:'/index'});
+
 
 			$locationProvider.html5Mode(true);
 			
