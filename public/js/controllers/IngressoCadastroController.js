@@ -305,6 +305,62 @@ eventoApp.controller('IngressoCadastroController',
 		};
 		
 
+		var callbackSucessoAdicionarIngressoCortesia  = function(ingressoGerado) {
+			var msg = 'Ingresso cortesia gerado com sucesso. ';
+			
+
+			novoCadastro();
+
+
+			ingressoCtrl.msg = msg;
+			ingressoCtrl.msgErro = '';
+			$.notify({ message: msg },{ type: 'success', timer: 4000 });
+		};
+
+
+		$scope.adicionarIngressoCortesia = function() {
+			ingressoCtrl.msgErro = "";
+			novoCadastro();
+
+			var categPadrao = recuperarConfiguracaoPadraoPorCategoriaIngresso('CORTESIA');
+			//console.log('chegou categ ',categPadrao);
+			if(categPadrao){
+				categoriaIngressoPadraoParaCliente = categPadrao._id;
+
+				$mdDialog.show({
+	      			controller: IngressoDialogController,
+		      		templateUrl: '/view/dialogs/adicionarIngresso.tmpl.html',
+		      		parent: angular.element(document.body),
+		      		//targetEvent: ev,
+		      		clickOutsideToClose:true,
+		      		fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+		    	})
+		    	.then(function(dados) {
+		    		console.log('id config: ', dados);
+
+		    		dados.codigo, dados.idConfig
+		    		var config = recuperarConfiguracao(dados.idConfig);
+					console.log('cofiguração para salvar', config);
+						
+					ingressoCtrl.novoIngresso.idCliente = 'CORTESIA';
+					ingressoCtrl.novoIngresso.nomeCliente = 'CORTESIA';
+					
+					ingressoCtrl.novoIngresso.idConfiguracao = dados.idConfig;
+					ingressoCtrl.novoIngresso.chave = dados.codigo;
+					console.log('vai salvar ', ingressoCtrl.novoIngresso);
+	    			ingressoService.novoIngresso(ingressoCtrl.novoIngresso, callbackSucessoAdicionarIngressoCortesia, callbackErroAdicionarIngresso);
+
+		    	}, function() {
+		    		// TODO :  executar alguma ação ao cancelar
+		    	});	
+			} else {
+				ingressoCtrl.msgErro = 'Não está habilitado a função de distribuir ingressos cortesias.';
+				$.notify({ message: ingressoCtrl.msgErro },{ type: 'danger', timer: 4000 });
+			}
+			
+			
+	  	};
+
 
 		$scope.adicionarIngresso = function() {
 			ingressoCtrl.msgErro = "";
@@ -362,7 +418,6 @@ eventoApp.controller('IngressoCadastroController',
 					}
 		    	}
 		    };
-
 	  		
 			if(configuracoes && configuracoes.length > 1){
 				

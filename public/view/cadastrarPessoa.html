@@ -56,13 +56,13 @@
                                   <div class="form-group" ng-show="pessoaCtrl.pessoa.info_extra1 == 'PF'">
                                       <label for="inputLogin" class="control-label">Cpf: *</label>
                                      
-                                       <input id="inputLogin" type="text" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.cpf" maxlength="20"  required />
+                                       <input id="inputLogin" type="number" placeholder=""  class="form-control"  ng-model="pessoaCtrl.pessoa.cpf" maxlength="20"  required />
                                   </div>
 
                                    <div class="form-group" ng-show="pessoaCtrl.pessoa.info_extra1 == 'PJ'">
                                       <label for="inputCnpj" class="control-label">Cnpf: *</label>
                                       <div class="input-icon right">
-                                          <input id="inputCnpj" type="text" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.documento_extra1" maxlength="20"  required />
+                                          <input id="inputCnpj" type="number" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.documento_extra1" maxlength="20"  required />
                                       </div>
                                   </div>
                               </div>
@@ -78,7 +78,7 @@
                           <div class="row">
                               <div class="col-md-6">
                                   <div class="form-group">
-                                      <label for="inputEmail" class="control-label">Conta: </label>
+                                      <label for="inputEmail" class="control-label">Matrícula: </label>
 
                                           <input id="inputEmail" type="text" placeholder="" class="form-control"  ng-model="pessoaCtrl.pessoa.info_extra3"  required />
                                   </div>

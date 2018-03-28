@@ -12,6 +12,10 @@
                         <form name="formIngresso" ng-controller="IngressoCadastroController as ingressoCtrl" >
                             <div class="header">
                                 <h4 class="title">Distribuição de ingresso para {{ingressoCtrl.evento.titulo}}</h4>
+
+                                <button type="button"  class="btn   btn-default" style="float: right" ng-click="adicionarIngressoCortesia()">
+                                    Distribuir Cortesia
+                                </button>
                             </div>
 
                             <div class="alert alert-success" style="margin: 10px;" role="alert" ng-show="ingressoCtrl.msg">{{ingressoCtrl.msg}}</div>
