@@ -29,7 +29,7 @@ eventoApp.controller('PrincipalController',
 		$scope.goToUser = function(){
 			$location.replace();
 			$location.url('/user');
-			$scope.tituloPagina = 'Clientes';
+			$scope.tituloPagina = 'Associados';
 		};
 		
 		$scope.irParaIngressos = function(){

@@ -77,7 +77,7 @@ eventoApp.controller('DashboardController',
 			var callback = function(qtd){ 
 				$scope.resumeData.push(
 					{
-						name : 'Ingressos Distruidos',
+						name : 'Ingressos Distribuídos',
 						classImg : 'ti-ticket',
 						classImgStatus : 'icon-success',
 						value : qtd,
@@ -127,7 +127,7 @@ eventoApp.controller('DashboardController',
 	        for(var i =0; i < $scope.resumeData.length; i++){
 	        	var r = $scope.resumeData[i];
 	        	console.log('resume data: ',r);
-	        	if(r.name == 'Entradas no evento'){
+	        	if(r.name == 'Entradas no Evento'){
 					indiceEntrada = i;
 					break;
 	        	}
@@ -140,7 +140,7 @@ eventoApp.controller('DashboardController',
 				$scope.resumeData[indiceEntrada].infoUpdate = moment().format('D MMMM YYYY, hh:mm');
 	        } else {
 		        $scope.resumeData.push({
-						name : 'Entradas no evento',
+						name : 'Entradas no Evento',
 						classImg : 'ti-arrow-up',
 						classImgStatus : 'icon-info',
 						value : total,
@@ -193,7 +193,7 @@ eventoApp.controller('DashboardController',
 		        var data ={
 		       		labels: rotulos,
 			       	datasets: [{
-			            label: 'Entradas por hora',
+			            label: 'Entradas por Hora',
 			            pointRadius: 10,
             			pointHitRadius: 30,
             			//lineTension: 0.1,
