@@ -8,6 +8,7 @@ eventoApp.controller('DashboardController',
 		dashboardCtrl.atualizacaoGraficoDistribuicaoDia = null;
 		dashboardCtrl.atualizacaoGraficoIngressoPorCategoria = null;
 		dashboardCtrl.atualizacaoGraficoDistrubuicaoPorCategoria = null;
+		dashboardCtrl.atualizacaoGraficoDistrubuicaoPorUsuario = null;
 		dashboardCtrl.atualizacaoGraficoEntradaEvento = null;
 		dashboardCtrl.atualizacaoGraficoEntradaPorCategoria = null;
 
@@ -357,8 +358,7 @@ eventoApp.controller('DashboardController',
 	    	relatorioIngressoService.getEntradasEventoPorCategoria(idEvento, callbackGraficoEntradaPorCategoria);
 	    };
 
-
-
+	
 	    var recuperarConfiguracaoPorId = function(idConfig){
 	    	for (i = 0; i < configuracoes.length; i++) { 
 		    	var c =  configuracoes[i];
@@ -442,6 +442,59 @@ eventoApp.controller('DashboardController',
 
 
 
+
+	    var callbackGraficoDistrubuicaoIngressosUsuario = function(dados){
+
+	    	console.log('grafico distribuidao por usuairo : ',dados);
+
+			var coresPrimarias = ['#EECFA1','#CDAD00','#8B4726', '#006400', '#FF8C00', '#473C8B'];
+		    var coresSecundarias = ['#CDB38B','#FFD700','#CD6839','#556B2F', '#FF6347', '#6959CD'];
+
+		 	if(dados && dados.length > 0){
+				dashboardCtrl.atualizacaoGraficoIngressoPorUsuario =  moment().format('D MMMM YYYY, hh:mm');
+
+			 	var nomeSeriesGrafico = [];
+		    	var valorSeriesGrafico = [];
+
+				for (i = 0; i < dados.length; i++) { 
+
+			    	var c =  dados[i];
+			    	if(!c.total){
+			    		c.total = 0;
+			    	}
+
+					nomeSeriesGrafico.push(c._id);
+					valorSeriesGrafico.push(c.total);
+				}
+
+	  			var dataIngUsuario ={
+			       		labels: nomeSeriesGrafico,
+				       	datasets: [{
+				            data: valorSeriesGrafico,
+				            backgroundColor: coresPrimarias.splice(0,coresPrimarias.length),
+				            hoverBackgroundColor: coresSecundarias.splice(0,coresSecundarias.length)
+				        }]
+			    };
+
+		        var myPieChart = new Chart($('#graficoIngressosPorUsuario'), {
+				    type: 'pie',
+				    data: dataIngUsuario
+				});
+
+		    }
+
+	    };
+
+
+	    var loadGraficoDistrubuicaoIngressosPorUsuario = function(){
+	    	console.log('loadGraficoDistrubuicaoIngressosPorUsuario');
+	    	relatorioIngressoService.getDistribuicaoIngressosPorUsuario(eventoSelecionado._id, callbackGraficoDistrubuicaoIngressosUsuario);
+	    };
+
+
+
+
+
 	    var loadGraficoIngressosPorCategoria = function(config){
 
 	    	//console.log('CHAMOU O GRAFICO TAL',config);
@@ -493,7 +546,8 @@ eventoApp.controller('DashboardController',
 				montarDashboardRecuperarQtdIngressos(eventoSelecionado._id, configuracoes);
 
 				$timeout(function(){loadGraficoIngressosPorCategoria(configuracoes)}, 1000);
-				$timeout(function(){loadGraficoDistrubuicaoIngressosPorCategoria()}, 500);
+				$timeout(function(){loadGraficoDistrubuicaoIngressosPorCategoria()}, 400);
+				$timeout(function(){loadGraficoDistrubuicaoIngressosPorUsuario()}, 700);
 				loadGraficoEntradaPorCategoria(eventoSelecionado._id);
 				
 			} else {

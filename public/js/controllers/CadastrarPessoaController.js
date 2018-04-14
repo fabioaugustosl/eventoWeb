@@ -26,8 +26,6 @@ eventoApp.controller('CadastrarPessoaController',
 
 
 		
-
-		
 		var callbackSalvar = function(resultado){
 			console.log("call back salvar", resultado);
 			
@@ -49,7 +47,26 @@ eventoApp.controller('CadastrarPessoaController',
 			notificarErro(pessoaCtrl.msgErro);
 		};
 
+		
+		var preencheZerosEsquerda =  function (texto,tamanho)  {  
+		    var contador = texto.length;  
+		      
+		    if (texto.length != tamanho)  {  
+		        do {  
+		            texto = "0" + texto;  
+		            contador += 1;  
+		              
+		        } while (contador <tamanho)  
+		    }  
+		    return texto;
+		}; 
+
 		pessoaCtrl.salvar = function(){
+			if(pessoaCtrl.pessoa.info_extra1 == "PF"){
+				pessoaCtrl.pessoa.cpf = preencheZerosEsquerda(pessoaCtrl.pessoa.cpf,11);
+			} else {
+				pessoaCtrl.pessoa.documento_extra1 = preencheZerosEsquerda(pessoaCtrl.pessoa.documento_extra1,14);
+			}
 			console.log('vai cadastrar: ',pessoaCtrl.pessoa);
 			pessoaCtrl.processando = true;
 				

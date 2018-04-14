@@ -38,6 +38,22 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 	};
 
 
+	var getDistribuicaoIngressosPorUsuario = function(idEvento, fcCallback){
+		console.log('getDistribuicaoIngressosPorUsuario');
+		$http.get(urlIngressoUtil+'/distribuicaoporusuario/'+idEvento)
+			.then(
+				function(data, status, headers, config){
+					//console.log('voltou para o callback service relatorio distribuicao por configuracao ',data);
+					fcCallback(data.data);
+				},
+				function(data, status, headers, config){
+					
+				}
+			);
+
+	};
+
+
 	var getTotalIngressosEvento = function(idEvento, fcCallback){
 		$http({method:'GET', url:urlIngressoUtil+'quantidade/'+idEvento})
 			.then(
@@ -76,7 +92,9 @@ eventoApp.factory('relatorioIngressoService', function($http, $log){
 		getDistribuicaoIngressosPorDia : getDistribuicaoIngressosPorDia,
 		getDistribuicaoIngressosPorConfiguracao :getDistribuicaoIngressosPorConfiguracao,
 		getEntradasEventoPorCategoria : getEntradasEventoPorCategoria,
-		getEntradasEventoPorHora : getEntradasEventoPorHora
+		getEntradasEventoPorHora : getEntradasEventoPorHora,
+		getDistribuicaoIngressosPorUsuario : getDistribuicaoIngressosPorUsuario
+
 	};
 
 
