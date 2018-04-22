@@ -47,6 +47,22 @@ eventoApp.controller('IngressoController',
 		};
 
 
+		$scope.exportar = function(){
+			
+			$scope.processando = true;	
+
+			console.log('id evento: ',$sessionStorage.eventoSelecionado);
+
+			ingressoService.exportarIngressos($sessionStorage.eventoSelecionado.id, 
+					function(data){
+						$scope.processando = false;
+					});
+			
+		};
+
+
+
+
 		var callbackRemoverIngresso = function(idIngressoRemovido, idConfiguracao) {
 			var msg = 'Devolução de ingresso realizada com sucesso. ';
 			

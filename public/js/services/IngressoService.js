@@ -41,6 +41,21 @@ eventoApp.factory('ingressoService', function($http, $log){
 	};
 
 
+	var exportarIngressos = function(idEvento, fcCallback){
+		
+		$http({method:'GET', url:urlIngressoUtil+"?idEvento="+idEvento})
+			.then(
+					function(data, status, headers, config){
+						fcCallback(data.data);
+					},
+					function(data, status, headers, config){
+						
+					}
+				);
+
+	};
+
+
 	/*recupera as ultimas entradas a partir de uma data*/
 	var getIngressosEntrada = function(dataReferencia, fcCallback){
 		//var e = [{'nomeCliente': 'Fabio', 'dataBaixa': new Date(), 'guicheBaixa':'guiche 01'}];
@@ -170,7 +185,8 @@ eventoApp.factory('ingressoService', function($http, $log){
 		getIngressosEntrada : getIngressosEntrada,
 		novoIngresso : novoIngresso,
 		removerIngresso :removerIngresso,
-		codigoIngressoEhValido : codigoIngressoEhValido
+		codigoIngressoEhValido : codigoIngressoEhValido,
+		exportarIngressos : exportarIngressos
 	};
 
 

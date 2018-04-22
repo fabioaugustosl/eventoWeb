@@ -52,11 +52,10 @@ eventoApp.controller('CadastrarPessoaController',
 		    var contador = texto.length;  
 		      
 		    if (texto.length != tamanho)  {  
-		        do {  
+		         while (contador < tamanho)  {  
 		            texto = "0" + texto;  
 		            contador += 1;  
-		              
-		        } while (contador <tamanho)  
+		        }
 		    }  
 		    return texto;
 		}; 

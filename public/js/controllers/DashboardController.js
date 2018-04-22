@@ -545,9 +545,9 @@ eventoApp.controller('DashboardController',
 				montarDashboardTotalIngressos(configuracoes);
 				montarDashboardRecuperarQtdIngressos(eventoSelecionado._id, configuracoes);
 
-				$timeout(function(){loadGraficoIngressosPorCategoria(configuracoes)}, 1000);
 				$timeout(function(){loadGraficoDistrubuicaoIngressosPorCategoria()}, 400);
-				$timeout(function(){loadGraficoDistrubuicaoIngressosPorUsuario()}, 700);
+				$timeout(function(){loadGraficoIngressosPorCategoria(configuracoes)}, 800);
+				$timeout(function(){loadGraficoDistrubuicaoIngressosPorUsuario()}, 1200);
 				loadGraficoEntradaPorCategoria(eventoSelecionado._id);
 				
 			} else {
