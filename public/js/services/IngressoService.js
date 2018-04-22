@@ -43,7 +43,7 @@ eventoApp.factory('ingressoService', function($http, $log){
 
 	var exportarIngressos = function(idEvento, fcCallback){
 		
-		$http({method:'GET', url:urlIngressoUtil+"?idEvento="+idEvento})
+		$http({method:'GET', url:urlIngressoUtil+"xls/"+idEvento})
 			.then(
 					function(data, status, headers, config){
 						fcCallback(data.data);
