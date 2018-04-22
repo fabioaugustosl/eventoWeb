@@ -53,7 +53,7 @@ eventoApp.controller('IngressoController',
 
 			console.log('id evento: ',$sessionStorage.eventoSelecionado);
 
-			ingressoService.exportarIngressos($sessionStorage.eventoSelecionado.id, 
+			ingressoService.exportarIngressos($sessionStorage.eventoSelecionado._id, 
 					function(data){
 						$scope.processando = false;
 					});
