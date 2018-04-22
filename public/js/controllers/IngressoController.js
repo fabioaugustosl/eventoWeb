@@ -1,7 +1,7 @@
 
 
 eventoApp.controller('IngressoController',
-	function ($scope, $mdDialog, $sessionStorage, ingressoService, logService){
+	function ($scope, $window, $mdDialog, $sessionStorage, ingressoService, logService){
 		
 		$scope.tituloPagina = 'Ingressos';
 		$scope.nomeEvento = $sessionStorage.eventoSelecionado.titulo;
@@ -48,7 +48,9 @@ eventoApp.controller('IngressoController',
 
 
 		$scope.exportar = function(){
-			
+
+			$window.open("http://34.218.156.195:3000/api/ingressoutil/v1/xls/"+$sessionStorage.eventoSelecionado._id)
+			/*
 			$scope.processando = true;	
 
 			console.log('id evento: ',$sessionStorage.eventoSelecionado);
@@ -57,6 +59,7 @@ eventoApp.controller('IngressoController',
 					function(data){
 						$scope.processando = false;
 					});
+					*/
 			
 		};
 

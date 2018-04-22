@@ -46,7 +46,14 @@ eventoApp.factory('ingressoService', function($http, $log){
 		$http({method:'GET', url:urlIngressoUtil+"xls/"+idEvento})
 			.then(
 					function(data, status, headers, config){
-						fcCallback(data.data);
+						//console.log(data.data);
+
+						var blob = new Blob([data.data], {
+						type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+						});
+						var objectUrl = URL.createObjectURL(blob);
+						window.open(objectUrl);
+//						fcCallback(data.data);
 					},
 					function(data, status, headers, config){
 						
