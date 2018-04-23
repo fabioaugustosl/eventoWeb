@@ -459,12 +459,12 @@ eventoApp.controller('DashboardController',
 				for (i = 0; i < dados.length; i++) { 
 
 			    	var c =  dados[i];
-			    	if(!c.total){
-			    		c.total = 0;
+			    	if(!c.count){
+			    		c.count = 0;
 			    	}
 
 					nomeSeriesGrafico.push(c._id);
-					valorSeriesGrafico.push(c.total);
+					valorSeriesGrafico.push(c.count);
 				}
 
 	  			var dataIngUsuario ={
