@@ -547,7 +547,7 @@ eventoApp.controller('DashboardController',
 
 				$timeout(function(){loadGraficoDistrubuicaoIngressosPorCategoria()}, 400);
 				$timeout(function(){loadGraficoIngressosPorCategoria(configuracoes)}, 800);
-				$timeout(function(){loadGraficoDistrubuicaoIngressosPorUsuario()}, 1200);
+				
 				loadGraficoEntradaPorCategoria(eventoSelecionado._id);
 				
 			} else {
@@ -557,6 +557,7 @@ eventoApp.controller('DashboardController',
 			loadGraficoDistrubuicaoIngressos();
 			loadGraficoEntradaPessoas(eventoSelecionado._id);
 
+			$timeout(function(){loadGraficoDistrubuicaoIngressosPorUsuario()}, 600);
 
 			//$interval( function(){ loadGraficoEntradaPessoas(eventoSelecionado._id); }, 60000);
 						
